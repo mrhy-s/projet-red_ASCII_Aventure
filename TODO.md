@@ -9,7 +9,7 @@ Créez une structure Character avec les attributs suivants :
 Créez une fonction initCharacter permettant d’initialiser un personnage en
 utilisant la structure Character.
 
-Dans votre fonction Main, initialisez un personnage c1 à l’aide de la
+Dans votre fonction Main, initialisez un personnage characters.c1 à l’aide de la
 fonction initCharacter avec les valeurs suivantes :
 - Nom : votre nom
 - Classe: Elfe
