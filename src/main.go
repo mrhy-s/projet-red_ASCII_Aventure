@@ -1,9 +1,9 @@
 package main
 
 import (
-	characters "ASCII_Aventure/characters"
+	"ASCII_Aventure/characters"
 	functionshelper "ASCII_Aventure/functions_helper"
-	menus "ASCII_Aventure/menus"
+	"ASCII_Aventure/menus"
 	"fmt"
 )
 
