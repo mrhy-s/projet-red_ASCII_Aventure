@@ -9,7 +9,7 @@ import (
 
 func main() {
 	IsFirst := true
-	characters.C1 = characters.InitCharacter("Zinrel", "Elfe", 1, 100, 40, []string{"potions de soin", "potions de soin", "potions de soin"})
+	characters.C1 = characters.InitCharacter("Zinrel", "Elfe", 1, 100, 40, []string{"potion de soin", "potion de soin", "potion de soin"})
 
 	if IsFirst {
 		min_pt_vie_rand, max_pt_vie_rand := 95, 105
@@ -17,7 +17,8 @@ func main() {
 		characters.DisplayCharacterTable(*characters.C1)
 		fmt.Print("\nVotre réponse : ")
 		input := functionshelper.ReadInput()
-		if input == "Oui" || input == "Oui." || input == "oui" || input == "oui." {
+		switch input {
+		case "Oui", "Oui.", "oui", "oui.":
 			fmt.Print("\nVeuillez entrer le nom du personnage : ")
 			characters.C_temp_name = functionshelper.ReadInput()
 			fmt.Print("\nVeuillez entrer la classe du personnage : ")
@@ -28,13 +29,21 @@ func main() {
 			characters.C_temp_points_de_vie_maximum = functionshelper.RandomBetween(min_pt_vie_rand, max_pt_vie_rand)
 			characters.C_temp_points_de_vie_actuels = characters.C_temp_points_de_vie_maximum - functionshelper.RandomBetween(20, 70)
 			fmt.Printf("\nVotre personnage avec %d/%d points de vie.", characters.C_temp_points_de_vie_actuels, characters.C_temp_points_de_vie_maximum)
-			characters.C_temp_inventaire = []string{"potions de soin", "potions de soin", "potions de soin"}
+			characters.C_temp_inventaire = []string{"potion de soin", "potion de soin", "potion de soin"}
 			fmt.Print("\nvous commencez avec 'Potion de soin x3'\n")
 			characters.C2_b = true
 			characters.C2 = characters.InitCharacter(characters.C_temp_name, characters.C_temp_classe, characters.C_temp_niveau, characters.C_temp_points_de_vie_maximum, characters.C_temp_points_de_vie_actuels, characters.C_temp_inventaire)
 			fmt.Println("\nVoici votre nouveau personnage :")
 			characters.DisplayCharacterTable(*characters.C2)
-		} else {
+		case "Non", "Non.", "non", "non.":
+			menus.Menu()
+			/*
+				case "DEBUG:kill": // DEBUG
+					fmt.Print("\nEntrer un personnage a tuer \nVotre réponse : ") // DEBUG
+					input := functionshelper.ReadInput()                          // DEBUG
+					functionshelper.InstaKill(input)
+			*/ // DEBUG
+		default:
 			fmt.Printf("On a dit 'oui' ou 'non' pas : %s (╥﹏╥)\n\n", input)
 			main()
 		}

@@ -1,7 +1,7 @@
 package menus
 
 import (
-	"ASCII_Aventure/characters"
+	characters "ASCII_Aventure/characters"
 	functionsactions "ASCII_Aventure/functions_actions"
 	functionshelper "ASCII_Aventure/functions_helper"
 	"fmt"
@@ -12,6 +12,7 @@ import (
 // ==============
 
 func Menu() {
+	characters.IsDead()
 	fmt.Printf("\n")
 	fmt.Printf("┌─────────────────────────────────────────────────────────────────────────────────────┐\n")
 	fmt.Printf("│                                  MENU PRINCIPAL                                     │\n")

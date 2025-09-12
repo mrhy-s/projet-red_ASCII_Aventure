@@ -1,7 +1,7 @@
 package functionshelper
 
 import (
-	"ASCII_Aventure/characters"
+	characters "ASCII_Aventure/characters"
 	"bufio"
 	"fmt"
 	"math/rand"
@@ -104,21 +104,46 @@ func Index(s, toFind string) int {
 }
 
 func DisplayItemDetails(itemName string) {
-	fmt.Printf("\n=== Détails de l'item ===\n")
-	fmt.Printf("Nom: %s\n", itemName)
+	fmt.Println("┌──────────────────────────────────────────────────────────────┐")
+	fmt.Println("│                      Détails de l'item                       │")
+	fmt.Println("├──────────────────────────────────────────────────────────────┤")
+	fmt.Printf("│Nom: %-57s│\n", itemName)
 	switch itemName {
-	case "potions de soin":
-		fmt.Printf("Type: Consommable\n")
-		fmt.Printf("Effet: Restaure 50 points de vie\n")
-		fmt.Printf("Description: Une potion magique qui soigne les blessures\n")
+	case "potion de soin":
+		fmt.Println("│Type: Consommable                                             │")
+		fmt.Println("│Effet: Restaure 50 points de vie                              │")
+		fmt.Println("│Description: Une potion magique qui soigne les blessures      │")
 	case "épée en fer":
-		fmt.Printf("Type: Arme\n")
-		fmt.Printf("Dégâts: +10\n")
-		fmt.Printf("Durabilité: 100/100\n")
-		fmt.Printf("Description: Une épée solide en fer forgé\n")
+		fmt.Println("│Type: Arme                                                    │")
+		fmt.Println("│Dégâts: +10                                                   │")
+		fmt.Println("│Durabilité: 100/100                                           │")
+		fmt.Println("│Description: Une épée solide en fer forgé                     │")
 	default:
-		fmt.Printf("Type: Objet\n")
-		fmt.Printf("Description: Un objet mystérieux\n")
+		fmt.Println("│Type: Objet                                                   │")
+		fmt.Println("│Description: Un objet mystérieux                              │")
 	}
-	fmt.Printf("========================\n")
+	fmt.Println("└──────────────────────────────────────────────────────────────┘")
+
+}
+
+/// =====
+/// Debug
+/// =====
+
+func InstaKill(characterName string) {
+	var character *characters.Character
+	if characters.C2_b {
+		switch characterName {
+		case characters.C1.Nom:
+			character = characters.C1
+		case characters.C2.Nom:
+			character = characters.C2
+		default:
+			fmt.Println("Personnage non trouvé")
+			return
+		}
+	} else {
+		character = characters.C1
+	}
+	character.PointsDeVieActuels = 0
 }

@@ -2,6 +2,7 @@ package characters
 
 import (
 	"fmt"
+	"math/rand"
 	"strings"
 	"unicode/utf8"
 )
@@ -68,23 +69,39 @@ func DisplayCharacterTable(character Character) {
 	fmt.Println("└─────────────────────────────────────────────────────────────────────────────────────┘")
 }
 
-func Isdead(characterName string) {
-	var character *Character
+func IsDead() {
+	var deadCharacter *Character
 	if C2_b {
-		switch characterName {
-		case C1.Nom:
-			character = C1
-		case C2.Nom:
-			character = C2
-		default:
-			fmt.Println("Personnage non trouvé")
-			return
+		if C1.PointsDeVieActuels <= 0 {
+			deadCharacter = C1
+		} else if C2.PointsDeVieActuels <= 0 {
+			deadCharacter = C2
 		}
 	} else {
-		character = C1
+		if C1.PointsDeVieActuels <= 0 {
+			deadCharacter = C1
+		}
 	}
-	if character.PointsDeVieActuels <= 0 {
-		print("Vous êtes mort ...")
-		character.PointsDeVieActuels = character.PointsDeVieMaximum / 2
+	if deadCharacter != nil {
+		fmt.Printf("\n\nOh snap ! Votre personnage %s est mort (╥﹏╥)\n\n", deadCharacter.Nom)
+		displayWastedMessage()
+		deadCharacter.PointsDeVieMaximum = deadCharacter.PointsDeVieMaximum / 2
+		if deadCharacter.PointsDeVieActuels > deadCharacter.PointsDeVieMaximum {
+			deadCharacter.PointsDeVieActuels = deadCharacter.PointsDeVieMaximum
+		}
+		deadCharacter.PointsDeVieActuels = rand.Intn(deadCharacter.PointsDeVieMaximum-11) + 10
+		fmt.Printf("\n\nVotre personnage est ressuscité avec %v sur %v points de vie... ", deadCharacter.PointsDeVieActuels, deadCharacter.PointsDeVieMaximum)
 	}
+}
+
+func displayWastedMessage() {
+	const wastedArt = `░██       ░██                          ░██                      ░██ 
+░██       ░██                          ░██                      ░██ 
+░██  ░██  ░██  ░██████    ░███████  ░████████  ░███████   ░████████ 
+░██ ░████ ░██       ░██  ░██           ░██    ░██    ░██ ░██    ░██ 
+░██░██ ░██░██  ░███████   ░███████     ░██    ░█████████ ░██    ░██ 
+░████   ░████ ░██   ░██         ░██    ░██    ░██        ░██   ░███ 
+░███     ░███  ░█████░██  ░███████      ░████  ░███████   ░█████░██ `
+
+	fmt.Print(wastedArt)
 }

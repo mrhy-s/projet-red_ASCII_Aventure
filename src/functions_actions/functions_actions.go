@@ -84,7 +84,7 @@ func TakePot(characterName string) {
 	potionType := ""
 	for i, item := range character.Inventaire {
 		itemStr := fmt.Sprintf("%v", item)
-		if itemStr == "potions de soin" || itemStr == "potion de vie" {
+		if itemStr == "potion de soin" || itemStr == "potion de vie" {
 			potionIndex = i
 			potionType = itemStr
 			break
@@ -160,22 +160,20 @@ func ItemView(s string) {
 			fmt.Println("Personnage non trouvé")
 			return
 		}
+	} else {
+		character = characters.C1
 	}
 	input := functionshelper.ReadInput()
 	input = strings.ToLower(strings.TrimSpace(input))
 	if input == "oui" || input == "oui." || input == "o" || input == "yes" {
-		ItemViewOui(*character)
+		ItemViewOui(character)
 	} else {
 		return
 	}
 }
 
-func ItemViewOui(character characters.Character) {
-	character_v := selectCharacter()
-	if character_v == nil {
-		return
-	}
-	displayInventoryForSelection(character_v)
+func ItemViewOui(character *characters.Character) {
+	displayInventoryForSelection(character)
 	fmt.Print("De quel objet souhaitez-vous avoir le détail ? \n(Veuillez mettre le NOM de l'objet) \n") // Sélection de l'item
 	item := strings.TrimSpace(functionshelper.ReadInput())
 	if item == "" {
@@ -183,7 +181,7 @@ func ItemViewOui(character characters.Character) {
 		return
 	}
 	itemFound := false
-	for _, inventoryItem := range character_v.Inventaire { // Recherche de l'item dans l'inventaire
+	for _, inventoryItem := range character.Inventaire { // Recherche de l'item dans l'inventaire
 		itemStr := fmt.Sprintf("%v", inventoryItem)
 		if itemStr == item {
 			functionshelper.DisplayItemDetails(itemStr)
@@ -197,6 +195,7 @@ func ItemViewOui(character characters.Character) {
 	}
 }
 
+/*
 // Fonction helper pour sélectionner un personnage
 func selectCharacter() *characters.Character {
 	fmt.Print("De quel personnage souhaitez-vous voir les objets ?\n")
@@ -222,9 +221,14 @@ func selectCharacter() *characters.Character {
 		return nil
 	}
 }
+*/
 
 // Fonction pour afficher l'inventaire avant sélection
 func displayInventoryForSelection(character *characters.Character) {
+	if character == nil {
+		fmt.Println("Erreur : joueur non initialisé")
+		return
+	}
 	fmt.Printf("\n┌─────────────────────────────────────────────────┐\n")
 	fmt.Printf("│ Inventaire de %-33s │\n", character.Nom)
 	fmt.Printf("├─────────────────────────────────────────────────┤\n")
