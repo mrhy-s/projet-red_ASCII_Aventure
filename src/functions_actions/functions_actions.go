@@ -58,7 +58,8 @@ func AccessInventory(s string) {
 		fmt.Printf("│ Inventaire vide                                 │\n")
 	} else {
 		for i, item := range character.Inventaire {
-			fmt.Printf("│ %d. %-44s │\n", i+1, item)
+			itemName := fmt.Sprintf("%v", item)
+			fmt.Printf("│ %d. %-44s │\n", i+1, itemName)
 		}
 	}
 	fmt.Printf("└─────────────────────────────────────────────────┘\n")
@@ -82,9 +83,10 @@ func TakePot(characterName string) {
 	potionIndex := -1
 	potionType := ""
 	for i, item := range character.Inventaire {
-		if item == "potions de soin" || item == "potion de vie" {
+		itemStr := fmt.Sprintf("%v", item)
+		if itemStr == "potions de soin" || itemStr == "potion de vie" {
 			potionIndex = i
-			potionType = item
+			potionType = itemStr
 			break
 		}
 	}
@@ -108,9 +110,7 @@ func Marchand(tour int) {
 	fmt.Print("1. Potion de vie - GRATUIT\n")
 	fmt.Print("2. Retourner au menu principal\n")
 	fmt.Print("\nVotre choix : ")
-
 	choix := functionshelper.ReadInput()
-
 	switch choix {
 	case "1", "1.":
 		var characterName string
@@ -135,8 +135,8 @@ func Marchand(tour int) {
 		functionshelper.AddInventory(characterName, "potion de vie")
 		fmt.Printf("\nPotion de vie ajoutée à l'inventaire de %s !\n", characterName)
 		fmt.Print("\nVoulez-vous acheter autre chose ? (o/n) : ")
-		continuer := functionshelper.ReadInput()
-		if continuer == "o" || continuer == "oui" || continuer == "O" || continuer == "Oui" {
+		continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+		if continuer == "o" || continuer == "oui" {
 			Marchand(tour)
 		}
 	case "2", "2.":
@@ -145,4 +145,98 @@ func Marchand(tour int) {
 		fmt.Println("Choix invalide")
 		Marchand(tour)
 	}
+}
+
+func ItemView(s string) {
+	fmt.Print("Souhaitez-vous avoir le détail d'un objet ? (Oui/Non): ")
+	var character *characters.Character
+	if characters.C2_b {
+		switch s {
+		case characters.C1.Nom:
+			character = characters.C1
+		case characters.C2.Nom:
+			character = characters.C2
+		default:
+			fmt.Println("Personnage non trouvé")
+			return
+		}
+	}
+	input := functionshelper.ReadInput()
+	input = strings.ToLower(strings.TrimSpace(input))
+	if input == "oui" || input == "oui." || input == "o" || input == "yes" {
+		ItemViewOui(*character)
+	} else {
+		return
+	}
+}
+
+func ItemViewOui(character characters.Character) {
+	character_v := selectCharacter()
+	if character_v == nil {
+		return
+	}
+	displayInventoryForSelection(character_v)
+	fmt.Print("De quel objet souhaitez-vous avoir le détail ? \n(Veuillez mettre le NOM de l'objet) \n") // Sélection de l'item
+	item := strings.TrimSpace(functionshelper.ReadInput())
+	if item == "" {
+		fmt.Print("Aucun item saisi.\n")
+		return
+	}
+	itemFound := false
+	for _, inventoryItem := range character_v.Inventaire { // Recherche de l'item dans l'inventaire
+		itemStr := fmt.Sprintf("%v", inventoryItem)
+		if itemStr == item {
+			functionshelper.DisplayItemDetails(itemStr)
+			itemFound = true
+			break
+		}
+	}
+
+	if !itemFound {
+		fmt.Printf("L'item '%s' n'est pas dans l'inventaire.\n", item)
+	}
+}
+
+// Fonction helper pour sélectionner un personnage
+func selectCharacter() *characters.Character {
+	fmt.Print("De quel personnage souhaitez-vous voir les objets ?\n")
+
+	if characters.C2_b && characters.C2 != nil {
+		fmt.Printf("Personnages disponibles: %s, %s\n", characters.C1.Nom, characters.C2.Nom)
+	} else {
+		fmt.Printf("Personnage disponible: %s\n", characters.C1.Nom)
+	}
+
+	character := strings.TrimSpace(functionshelper.ReadInput())
+
+	switch character {
+	case characters.C1.Nom:
+		return characters.C1
+	case characters.C2.Nom:
+		if characters.C2_b && characters.C2 != nil {
+			return characters.C2
+		}
+		fallthrough // permet de passer au case suivant, ici default:
+	default:
+		fmt.Printf("'%s' n'est pas une entrée valide\n", character)
+		return nil
+	}
+}
+
+// Fonction pour afficher l'inventaire avant sélection
+func displayInventoryForSelection(character *characters.Character) {
+	fmt.Printf("\n┌─────────────────────────────────────────────────┐\n")
+	fmt.Printf("│ Inventaire de %-33s │\n", character.Nom)
+	fmt.Printf("├─────────────────────────────────────────────────┤\n")
+
+	if len(character.Inventaire) == 0 {
+		fmt.Printf("│ Inventaire vide                                 │\n")
+	} else {
+		for i, item := range character.Inventaire {
+			itemStr := fmt.Sprintf("%v", item)
+			fmt.Printf("│ %d. %-44s │\n", i+1, itemStr)
+		}
+	}
+
+	fmt.Printf("└─────────────────────────────────────────────────┘\n")
 }

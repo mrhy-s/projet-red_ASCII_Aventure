@@ -34,6 +34,9 @@ func main() {
 			characters.C2 = characters.InitCharacter(characters.C_temp_name, characters.C_temp_classe, characters.C_temp_niveau, characters.C_temp_points_de_vie_maximum, characters.C_temp_points_de_vie_actuels, characters.C_temp_inventaire)
 			fmt.Println("\nVoici votre nouveau personnage :")
 			characters.DisplayCharacterTable(*characters.C2)
+		} else {
+			fmt.Printf("On a dit 'oui' ou 'non' pas : %s (╥﹏╥)\n\n", input)
+			main()
 		}
 		IsFirst = false
 	}
@@ -41,3 +44,4 @@ func main() {
 }
 
 // faire de sorte a ce que le marchand ne propose la potion gratuite qu'une fois
+// faire de sorte a ce que quand on accède a l'inventaire on puisse avoir accès aux informations de l'item

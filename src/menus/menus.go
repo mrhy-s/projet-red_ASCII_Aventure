@@ -1,6 +1,7 @@
 package menus
 
 import (
+	"ASCII_Aventure/characters"
 	functionsactions "ASCII_Aventure/functions_actions"
 	functionshelper "ASCII_Aventure/functions_helper"
 	"fmt"
@@ -25,16 +26,28 @@ func Menu() {
 	option := functionshelper.ReadInput()
 	switch option {
 	case "1", "1.":
-		fmt.Print("Veuillez sélectionner un personnage de la liste pour afficher ses caractéristiques :\nPour afficher la liste des personnages veuillez entrer 'Liste des personnages'\n")
+		fmt.Print("Veuillez sélectionner un personnage de la liste pour afficher ses caractéristiques :\n")
+
+		if characters.C2_b && characters.C2 != nil {
+			fmt.Printf("Personnages disponibles: %s, %s\n", characters.C1.Nom, characters.C2.Nom)
+		} else {
+			fmt.Printf("Personnage disponible: %s\n", characters.C1.Nom)
+		}
 		fmt.Print("\nVotre réponse : ")
 		commande := functionshelper.ReadInput()
 		functionsactions.DisplayInfo(commande)
 		Menu()
 	case "2", "2.":
-		fmt.Print("Veuillez sélectionner un personnage de la liste pour afficher son inventaire :\nPour afficher la liste des personnages veuillez entrer 'Liste des personnages'\n")
+		fmt.Print("Veuillez sélectionner un personnage de la liste pour afficher son inventaire :\n")
+		if characters.C2_b && characters.C2 != nil {
+			fmt.Printf("Personnages disponibles: %s, %s\n", characters.C1.Nom, characters.C2.Nom)
+		} else {
+			fmt.Printf("Personnage disponible: %s\n", characters.C1.Nom)
+		}
 		fmt.Print("\nVotre réponse : ")
 		commande := functionshelper.ReadInput()
 		functionsactions.AccessInventory(commande)
+		functionsactions.ItemView(commande)
 		Menu()
 	case "3", "3.":
 		fmt.Print("Nom du personnage : ")

@@ -6,4 +6,5 @@ type Item struct {
 	NiveauToUse          int
 	DurabilitéMaximum    int
 	DurabilitéesActuelle int
+	Description          string
 }
