@@ -67,3 +67,24 @@ func DisplayCharacterTable(character Character) {
 	fmt.Printf("│%-85s│\n", "")
 	fmt.Println("└─────────────────────────────────────────────────────────────────────────────────────┘")
 }
+
+func Isdead(characterName string) {
+	var character *Character
+	if C2_b {
+		switch characterName {
+		case C1.Nom:
+			character = C1
+		case C2.Nom:
+			character = C2
+		default:
+			fmt.Println("Personnage non trouvé")
+			return
+		}
+	} else {
+		character = C1
+	}
+	if character.PointsDeVieActuels <= 0 {
+		print("Vous êtes mort ...")
+		character.PointsDeVieActuels = character.PointsDeVieMaximum / 2
+	}
+}

@@ -69,24 +69,3 @@ func AddInventory(characterName string, item string) {
 	}
 	character.Inventaire = append(character.Inventaire, item)
 }
-
-func Isdead(characterName string) {
-	var character *characters.Character
-	if characters.C2_b {
-		switch characterName {
-		case characters.C1.Nom:
-			character = characters.C1
-		case characters.C2.Nom:
-			character = characters.C2
-		default:
-			fmt.Println("Personnage non trouvé")
-			return
-		}
-	} else {
-		character = characters.C1
-	}
-	if character.PointsDeVieActuels <= 0 {
-		print("Vous êtes mort ...")
-		character.PointsDeVieActuels = character.PointsDeVieMaximum / 2
-	}
-}
