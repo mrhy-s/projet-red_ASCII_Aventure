@@ -8,6 +8,7 @@ import (
 )
 
 var Tour int
+var PotionGratuite bool
 
 // ================
 // fonction actions
@@ -104,46 +105,64 @@ func TakePot(characterName string) {
 }
 
 func Marchand(tour int) {
-	fmt.Print("\n=== BOUTIQUE DU MARCHAND ===\n")
-	fmt.Print("Bienvenue dans ma boutique\n")
-	fmt.Print("Voici les items disponibles :\n\n")
-	fmt.Print("1. Potion de vie - GRATUIT\n")
-	fmt.Print("2. Retourner au menu principal\n")
-	fmt.Print("\nVotre choix : ")
-	choix := functionshelper.ReadInput()
-	switch choix {
-	case "1", "1.":
-		var characterName string
-		if characters.C2_b && characters.C2 != nil {
-			fmt.Print("\nQuel personnage souhaite prendre la potion ?\n")
-			fmt.Printf("1. %s\n", characters.C1.Nom)
-			fmt.Printf("2. %s\n", characters.C2.Nom)
-			fmt.Print("Votre choix : ")
-			choixPerso := functionshelper.ReadInput()
-			switch choixPerso {
-			case "1", "1.":
+	const prixBase = 10
+	for {
+		fmt.Println("┌───────────────────────────────────┐")
+		fmt.Print("│       BOUTIQUE DU MARCHAND        │")
+		fmt.Print("\n├───────────────────────────────────┤\n")
+		fmt.Print("│ Bienvenue dans ma boutique        │\n")
+		fmt.Print("│ Voici les items disponibles :     │\n")
+		fmt.Print("│                                   │\n")
+		if PotionGratuite {
+			fmt.Print("│ 1. Potion de vie - GRATUIT        │\n")
+		} else {
+			prixActuel := prixBase * tour
+			if prixActuel == 0 {
+				prixActuel = 10
+			}
+			fmt.Printf("│ 1. Potion de vie - %-3d pièces d'or│\n", prixActuel)
+		}
+		fmt.Print("│ 2. Retourner au menu principal    │\n")
+		fmt.Print("└───────────────────────────────────┘\n\nQue souhaitez vous faire ?\n")
+		choix := functionshelper.ReadInput()
+		switch choix {
+		case "1", "1.":
+			var characterName string
+			if characters.C2_b && characters.C2 != nil {
+				fmt.Print("\nQuel personnage souhaite prendre la potion ?\n")
+				fmt.Printf("1. %s\n", characters.C1.Nom)
+				fmt.Printf("2. %s\n", characters.C2.Nom)
+				fmt.Print("Votre choix : ")
+				choixPerso := functionshelper.ReadInput()
+				switch choixPerso {
+				case "1", "1.":
+					characterName = characters.C1.Nom
+				case "2", "2.":
+					characterName = characters.C2.Nom
+				default:
+					fmt.Println("Choix invalide")
+					continue
+				}
+			} else {
 				characterName = characters.C1.Nom
-			case "2", "2.":
-				characterName = characters.C2.Nom
-			default:
-				fmt.Println("Choix invalide")
+			}
+			functionshelper.AddInventory(characterName, "potion de vie")
+			if PotionGratuite {
+				fmt.Printf("\nPotion de vie GRATUITE ajoutée à l'inventaire de %s !\n", characterName)
+				PotionGratuite = false
+			} else {
+				fmt.Printf("\nPotion de vie ajoutée à l'inventaire de %s !\n", characterName)
+			}
+			fmt.Print("\nVoulez-vous acheter autre chose ? (o/n) : ")
+			continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+			if continuer != "o" && continuer != "oui" {
 				return
 			}
-		} else {
-			characterName = characters.C1.Nom
+		case "2", "2.":
+			return
+		default:
+			fmt.Println("Choix invalide, veuillez réessayer.")
 		}
-		functionshelper.AddInventory(characterName, "potion de vie")
-		fmt.Printf("\nPotion de vie ajoutée à l'inventaire de %s !\n", characterName)
-		fmt.Print("\nVoulez-vous acheter autre chose ? (o/n) : ")
-		continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
-		if continuer == "o" || continuer == "oui" {
-			Marchand(tour)
-		}
-	case "2", "2.":
-		return
-	default:
-		fmt.Println("Choix invalide")
-		Marchand(tour)
 	}
 }
 
@@ -194,34 +213,6 @@ func ItemViewOui(character *characters.Character) {
 		fmt.Printf("L'item '%s' n'est pas dans l'inventaire.\n", item)
 	}
 }
-
-/*
-// Fonction helper pour sélectionner un personnage
-func selectCharacter() *characters.Character {
-	fmt.Print("De quel personnage souhaitez-vous voir les objets ?\n")
-
-	if characters.C2_b && characters.C2 != nil {
-		fmt.Printf("Personnages disponibles: %s, %s\n", characters.C1.Nom, characters.C2.Nom)
-	} else {
-		fmt.Printf("Personnage disponible: %s\n", characters.C1.Nom)
-	}
-
-	character := strings.TrimSpace(functionshelper.ReadInput())
-
-	switch character {
-	case characters.C1.Nom:
-		return characters.C1
-	case characters.C2.Nom:
-		if characters.C2_b && characters.C2 != nil {
-			return characters.C2
-		}
-		fallthrough // permet de passer au case suivant, ici default:
-	default:
-		fmt.Printf("'%s' n'est pas une entrée valide\n", character)
-		return nil
-	}
-}
-*/
 
 // Fonction pour afficher l'inventaire avant sélection
 func displayInventoryForSelection(character *characters.Character) {

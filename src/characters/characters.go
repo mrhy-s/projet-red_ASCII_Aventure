@@ -14,6 +14,7 @@ type Character struct {
 	PointsDeVieMaximum int
 	PointsDeVieActuels int
 	Inventaire         []string
+	Skill              []string
 }
 
 var C1 *Character
@@ -26,8 +27,9 @@ var C_temp_niveau int
 var C_temp_points_de_vie_maximum int
 var C_temp_points_de_vie_actuels int
 var C_temp_inventaire []string
+var C_temp_skill []string
 
-func InitCharacter(nom string, classe string, niveau int, pointsDeVieMaximum int, pointsDeVieActuels int, inventaire []string) *Character {
+func InitCharacter(nom string, classe string, niveau int, pointsDeVieMaximum int, pointsDeVieActuels int, inventaire []string, skill []string) *Character {
 	characterTemplate := &Character{
 		Nom:                nom,
 		Classe:             classe,
@@ -35,18 +37,21 @@ func InitCharacter(nom string, classe string, niveau int, pointsDeVieMaximum int
 		PointsDeVieMaximum: pointsDeVieMaximum,
 		PointsDeVieActuels: pointsDeVieActuels,
 		Inventaire:         inventaire,
+		Skill:              skill,
 	}
 	return characterTemplate
 }
 
 func DisplayCharacterTable(character Character) {
 	inventaireStr := strings.Join(character.Inventaire, ", ")
+	skillStr := strings.Join(character.Skill, ", ")
 	// Largeur totale du cadre : 85 caractères
 	// Largeur utile pour le contenu : 85 - 4 (bordures et espaces) = 81 caractères
 	// Largeur pour les valeurs après "   - XXX : " : environ 65-67 caractères selon le label
 	// const totalWidth = 85
 	// const contentWidth = 81
 	inventaireMaxWidth := 62 // 81 - 18 - 1 = 62
+	skillMaxWidth := 67
 	// Tronquer l'inventaire si nécessaire
 	if utf8.RuneCountInString(inventaireStr) > inventaireMaxWidth {
 		// Garder de la place pour "..."
@@ -54,6 +59,14 @@ func DisplayCharacterTable(character Character) {
 		runes := []rune(inventaireStr)
 		if len(runes) > targetLength {
 			inventaireStr = string(runes[:targetLength]) + "..."
+		}
+	}
+
+	if utf8.RuneCountInString(skillStr) > skillMaxWidth {
+		targetLength := skillMaxWidth - 1
+		runes2 := []rune(skillStr)
+		if len(runes2) > targetLength {
+			skillStr = string(runes2[:targetLength]) + "..."
 		}
 	}
 
@@ -65,6 +78,7 @@ func DisplayCharacterTable(character Character) {
 	fmt.Printf("│   - Points de vie maximum : %-56d│\n", character.PointsDeVieMaximum)
 	fmt.Printf("│   - Points de vie actuels : %-56d│\n", character.PointsDeVieActuels)
 	fmt.Printf("│   - Inventaire : [%-65s]│\n", inventaireStr)
+	fmt.Printf("│   - Skill : [%-70s]│\n", skillStr)
 	fmt.Printf("│%-85s│\n", "")
 	fmt.Println("└─────────────────────────────────────────────────────────────────────────────────────┘")
 }

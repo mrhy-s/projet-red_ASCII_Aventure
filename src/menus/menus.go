@@ -21,7 +21,8 @@ func Menu() {
 	fmt.Printf("│ 2. Accéder au contenu de l'inventaire                                               │\n")
 	fmt.Printf("│ 3. Utiliser une potion de soin                                                      │\n")
 	fmt.Printf("│ 4. Boutique du Marchand                                                             │\n")
-	fmt.Printf("│ 5. Quitter                                                                          │\n")
+	fmt.Printf("│ 5. Passer un tour                                                                   │\n")
+	fmt.Printf("│ 6. Quitter                                                                          │\n")
 	fmt.Printf("└─────────────────────────────────────────────────────────────────────────────────────┘\n")
 	fmt.Print("\nVotre choix : ")
 	option := functionshelper.ReadInput()
@@ -59,6 +60,8 @@ func Menu() {
 		functionsactions.Marchand(functionsactions.Tour)
 		Menu()
 	case "5", "5.":
+		functionsactions.Tour++
+	case "6", "6.":
 		return
 	default:
 		fmt.Println("Option invalide")

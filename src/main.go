@@ -2,6 +2,7 @@ package main
 
 import (
 	"ASCII_Aventure/characters"
+	functionsactions "ASCII_Aventure/functions_actions"
 	functionshelper "ASCII_Aventure/functions_helper"
 	"ASCII_Aventure/menus"
 	"fmt"
@@ -9,7 +10,8 @@ import (
 
 func main() {
 	IsFirst := true
-	characters.C1 = characters.InitCharacter("Zinrel", "Elfe", 1, 100, 40, []string{"potion de soin", "potion de soin", "potion de soin"})
+	functionsactions.PotionGratuite = true
+	characters.C1 = characters.InitCharacter("Zinrel", "Elfe", 1, 100, 40, []string{"potion de soin", "potion de soin", "potion de soin"}, []string{"Coup de poing"})
 
 	if IsFirst {
 		min_pt_vie_rand, max_pt_vie_rand := 95, 105
@@ -28,12 +30,14 @@ func main() {
 			characters.C_temp_niveau = 0
 			characters.C_temp_points_de_vie_maximum = functionshelper.RandomBetween(min_pt_vie_rand, max_pt_vie_rand)
 			characters.C_temp_points_de_vie_actuels = characters.C_temp_points_de_vie_maximum - functionshelper.RandomBetween(20, 70)
+			characters.C_temp_skill = []string{"Coup de poing"}
 			fmt.Printf("\nVotre personnage avec %d/%d points de vie.", characters.C_temp_points_de_vie_actuels, characters.C_temp_points_de_vie_maximum)
 			characters.C_temp_inventaire = []string{"potion de soin", "potion de soin", "potion de soin"}
 			fmt.Print("\nvous commencez avec 'Potion de soin x3'\n")
+			fmt.Print("\nVous avez acquis le skill 'Coup de poing'")
 			characters.C2_b = true
-			characters.C2 = characters.InitCharacter(characters.C_temp_name, characters.C_temp_classe, characters.C_temp_niveau, characters.C_temp_points_de_vie_maximum, characters.C_temp_points_de_vie_actuels, characters.C_temp_inventaire)
-			fmt.Println("\nVoici votre nouveau personnage :")
+			characters.C2 = characters.InitCharacter(characters.C_temp_name, characters.C_temp_classe, characters.C_temp_niveau, characters.C_temp_points_de_vie_maximum, characters.C_temp_points_de_vie_actuels, characters.C_temp_inventaire, characters.C_temp_skill)
+			fmt.Println("\n\nVoici votre nouveau personnage :")
 			characters.DisplayCharacterTable(*characters.C2)
 		case "Non", "Non.", "non", "non.":
 			menus.Menu()
