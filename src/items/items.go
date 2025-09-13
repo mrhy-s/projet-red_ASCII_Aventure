@@ -7,4 +7,48 @@ type Item struct {
 	DurabilitéMaximum    int
 	DurabilitéesActuelle int
 	Description          string
+	Type                 string
+	Effet                string
+	Degats               int
+}
+
+var Potion_de_soin *Item
+var Potion_de_poison *Item
+var Epee_en_fer *Item
+
+func InitItem(nom string, classeToUse string, niveauToUse int, durabilitéMaximum int, durabilitéesActuelle int, description string) *Item {
+	return &Item{
+		Nom:                  nom,
+		ClasseToUse:          classeToUse,
+		NiveauToUse:          niveauToUse,
+		DurabilitéMaximum:    durabilitéMaximum,
+		DurabilitéesActuelle: durabilitéesActuelle,
+		Description:          description,
+	}
+}
+
+func InitPotion(nom string, classeToUse string, niveauToUse int, description string, effet string) *Item {
+	return &Item{
+		Nom:                  nom,
+		ClasseToUse:          classeToUse,
+		NiveauToUse:          niveauToUse,
+		DurabilitéMaximum:    -1,
+		DurabilitéesActuelle: -1,
+		Description:          description,
+		Type:                 "Consommable",
+		Effet:                effet,
+	}
+}
+
+func InitArme(nom string, classeToUse string, niveauToUse int, durabilitéMax int, description string, degats int) *Item {
+	return &Item{
+		Nom:                  nom,
+		ClasseToUse:          classeToUse,
+		NiveauToUse:          niveauToUse,
+		DurabilitéMaximum:    durabilitéMax,
+		DurabilitéesActuelle: durabilitéMax,
+		Description:          description,
+		Type:                 "Arme",
+		Degats:               degats,
+	}
 }

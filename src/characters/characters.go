@@ -15,6 +15,7 @@ type Character struct {
 	PointsDeVieActuels int
 	Inventaire         []string
 	Skill              []string
+	PiècesDOr          int
 }
 
 var C1 *Character
@@ -29,8 +30,8 @@ var C_temp_points_de_vie_actuels int
 var C_temp_inventaire []string
 var C_temp_skill []string
 
-func InitCharacter(nom string, classe string, niveau int, pointsDeVieMaximum int, pointsDeVieActuels int, inventaire []string, skill []string) *Character {
-	characterTemplate := &Character{
+func InitCharacter(nom string, classe string, niveau int, pointsDeVieMaximum int, pointsDeVieActuels int, inventaire []string, skill []string, piècesDOr int) *Character {
+	return &Character{
 		Nom:                nom,
 		Classe:             classe,
 		Niveau:             niveau,
@@ -38,8 +39,8 @@ func InitCharacter(nom string, classe string, niveau int, pointsDeVieMaximum int
 		PointsDeVieActuels: pointsDeVieActuels,
 		Inventaire:         inventaire,
 		Skill:              skill,
+		PiècesDOr:          piècesDOr,
 	}
-	return characterTemplate
 }
 
 func DisplayCharacterTable(character Character) {
@@ -71,7 +72,8 @@ func DisplayCharacterTable(character Character) {
 	}
 
 	fmt.Println("┌─────────────────────────────────────────────────────────────────────────────────────┐")
-	fmt.Printf("│%-85s│\n", "Caractéristiques du personnage :")
+	fmt.Println("│                         Caractéristiques du personnage :                            │")
+	fmt.Println("├─────────────────────────────────────────────────────────────────────────────────────┤")
 	fmt.Printf("│   - Nom : %-74s│\n", character.Nom)
 	fmt.Printf("│   - Classe : %-71s│\n", character.Classe)
 	fmt.Printf("│   - Niveau : %-71d│\n", character.Niveau)
@@ -79,7 +81,8 @@ func DisplayCharacterTable(character Character) {
 	fmt.Printf("│   - Points de vie actuels : %-56d│\n", character.PointsDeVieActuels)
 	fmt.Printf("│   - Inventaire : [%-65s]│\n", inventaireStr)
 	fmt.Printf("│   - Skill : [%-70s]│\n", skillStr)
-	fmt.Printf("│%-85s│\n", "")
+	fmt.Printf("│   - Pièces d'Or : %-65d │\n", character.PiècesDOr)
+	fmt.Println("│                                                                                     │")
 	fmt.Println("└─────────────────────────────────────────────────────────────────────────────────────┘")
 }
 

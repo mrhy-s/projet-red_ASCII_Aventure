@@ -28,39 +28,46 @@ func Menu() {
 	option := functionshelper.ReadInput()
 	switch option {
 	case "1", "1.":
-		fmt.Print("Veuillez sélectionner un personnage de la liste pour afficher ses caractéristiques :\n")
-
 		if characters.C2_b && characters.C2 != nil {
+			fmt.Print("Veuillez sélectionner un personnage de la liste pour afficher ses caractéristiques :\n")
 			fmt.Printf("Personnages disponibles: %s, %s\n", characters.C1.Nom, characters.C2.Nom)
+			fmt.Print("\nVotre réponse : ")
+			commande := functionshelper.ReadInput()
+			functionsactions.DisplayInfo(commande)
 		} else {
-			fmt.Printf("Personnage disponible: %s\n", characters.C1.Nom)
+			functionsactions.DisplayInfo(characters.C1.Nom)
 		}
-		fmt.Print("\nVotre réponse : ")
-		commande := functionshelper.ReadInput()
-		functionsactions.DisplayInfo(commande)
+
 		Menu()
 	case "2", "2.":
-		fmt.Print("Veuillez sélectionner un personnage de la liste pour afficher son inventaire :\n")
 		if characters.C2_b && characters.C2 != nil {
+			fmt.Print("Veuillez sélectionner un personnage de la liste pour afficher son inventaire :\n")
 			fmt.Printf("Personnages disponibles: %s, %s\n", characters.C1.Nom, characters.C2.Nom)
+			fmt.Print("\nVotre réponse : ")
+			commande := functionshelper.ReadInput()
+			functionsactions.AccessInventory(commande)
+			functionsactions.ItemView(commande)
 		} else {
-			fmt.Printf("Personnage disponible: %s\n", characters.C1.Nom)
+			functionsactions.AccessInventory(characters.C1.Nom)
+			functionsactions.ItemView(characters.C1.Nom)
 		}
-		fmt.Print("\nVotre réponse : ")
-		commande := functionshelper.ReadInput()
-		functionsactions.AccessInventory(commande)
-		functionsactions.ItemView(commande)
+
 		Menu()
 	case "3", "3.":
-		fmt.Print("Nom du personnage : ")
-		characterName := functionshelper.ReadInput()
-		functionsactions.TakePot(characterName)
+		if characters.C2_b && characters.C2 != nil {
+			fmt.Print("Nom du personnage : ")
+			characterName := functionshelper.ReadInput()
+			functionsactions.TakePot(characterName)
+		} else {
+			functionsactions.TakePot(characters.C1.Nom)
+		}
 		Menu()
 	case "4", "4.":
 		functionsactions.Marchand(functionsactions.Tour)
 		Menu()
 	case "5", "5.":
 		functionsactions.Tour++
+		Menu()
 	case "6", "6.":
 		return
 	default:
