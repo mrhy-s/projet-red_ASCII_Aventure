@@ -15,7 +15,7 @@ var PotionGratuite bool
 // ================
 
 func DisplayInfo(s string) {
-	s = strings.TrimSpace(s)
+	s = strings.ToLower(strings.TrimSpace(s))
 	if strings.Contains(strings.ToLower(s), "liste") {
 		fmt.Println("\n=== LISTE DES PERSONNAGES ===")
 		fmt.Println("\nPersonnage 1 :")
@@ -26,11 +26,11 @@ func DisplayInfo(s string) {
 		}
 		return
 	}
-	if s == characters.C1.Nom {
+	if s == strings.ToLower(characters.C1.Nom) {
 		characters.DisplayCharacterTable(*characters.C1)
 		return
 	}
-	if characters.C2_b && characters.C2 != nil && s == characters.C2.Nom {
+	if characters.C2_b && characters.C2 != nil && s == strings.ToLower(characters.C2.Nom) {
 		characters.DisplayCharacterTable(*characters.C2)
 		return
 	}
@@ -39,11 +39,12 @@ func DisplayInfo(s string) {
 
 func AccessInventory(s string) {
 	var character *characters.Character
+	s = strings.TrimSpace(strings.ToLower(s))
 	if characters.C2_b {
 		switch s {
-		case characters.C1.Nom:
+		case strings.ToLower(characters.C1.Nom):
 			character = characters.C1
-		case characters.C2.Nom:
+		case strings.ToLower(characters.C2.Nom):
 			character = characters.C2
 		default:
 			fmt.Println("Personnage non trouvé")
@@ -210,13 +211,14 @@ func Marchand(tour int) {
 }
 
 func ItemView(s string) {
+	s = strings.TrimSpace(strings.ToLower(s))
 	fmt.Print("Souhaitez-vous avoir le détail d'un objet ? (Oui/Non): ")
 	var character *characters.Character
 	if characters.C2_b {
 		switch s {
-		case characters.C1.Nom:
+		case strings.ToLower(characters.C1.Nom):
 			character = characters.C1
-		case characters.C2.Nom:
+		case strings.ToLower(characters.C2.Nom):
 			character = characters.C2
 		default:
 			fmt.Println("Personnage non trouvé")

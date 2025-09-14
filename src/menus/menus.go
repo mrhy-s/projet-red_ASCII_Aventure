@@ -4,6 +4,7 @@ import (
 	characters "ASCII_Aventure/characters"
 	functionsactions "ASCII_Aventure/functions_actions"
 	functionshelper "ASCII_Aventure/functions_helper"
+	"ASCII_Aventure/startscreen"
 	"fmt"
 )
 
@@ -37,7 +38,6 @@ func Menu() {
 		} else {
 			functionsactions.DisplayInfo(characters.C1.Nom)
 		}
-
 		Menu()
 	case "2", "2.":
 		if characters.C2_b && characters.C2 != nil {
@@ -51,7 +51,6 @@ func Menu() {
 			functionsactions.AccessInventory(characters.C1.Nom)
 			functionsactions.ItemView(characters.C1.Nom)
 		}
-
 		Menu()
 	case "3", "3.":
 		if characters.C2_b && characters.C2 != nil {
@@ -63,15 +62,19 @@ func Menu() {
 		}
 		Menu()
 	case "4", "4.":
+		startscreen.ClearScreen()
 		functionsactions.Marchand(functionsactions.Tour)
 		Menu()
 	case "5", "5.":
+		startscreen.ClearScreen()
 		functionsactions.Tour++
 		Menu()
 	case "6", "6.":
 		return
 	default:
-		fmt.Println("Option invalide")
+		startscreen.ClearScreen()
 		Menu()
+		fmt.Println("Option invalide")
+
 	}
 }
