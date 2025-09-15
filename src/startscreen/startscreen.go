@@ -191,7 +191,7 @@ func printASCII() {
 
 /*
 cette fonction affiche d'abord le logo AVENTURE ligne par ligne,
-puis utilise l'animation hardcodée pour ASCII
+puis utilise l'animation hardcodée (PARCE QUE QUAND ON FAIT UNE BOUCLE LES LIGNES SONT PAS SYNCHRONISÉES, J'AI PAS DU TOUT LE SEUM) pour ASCII
 */
 func logoAnimation() {
 	ClearScreen()
