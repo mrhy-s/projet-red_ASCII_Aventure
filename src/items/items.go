@@ -15,6 +15,7 @@ type Item struct {
 var Potion_de_soin *Item
 var Potion_de_poison *Item
 var Epee_en_fer *Item
+var Spell_book_bdf *Item
 
 func InitItem(nom string, classeToUse string, niveauToUse int, durabilitéMaximum int, durabilitéesActuelle int, description string) *Item {
 	return &Item{
@@ -29,14 +30,12 @@ func InitItem(nom string, classeToUse string, niveauToUse int, durabilitéMaximu
 
 func InitPotion(nom string, classeToUse string, niveauToUse int, description string, effet string) *Item {
 	return &Item{
-		Nom:                  nom,
-		ClasseToUse:          classeToUse,
-		NiveauToUse:          niveauToUse,
-		DurabilitéMaximum:    -1,
-		DurabilitéesActuelle: -1,
-		Description:          description,
-		Type:                 "Consommable",
-		Effet:                effet,
+		Nom:         nom,
+		ClasseToUse: classeToUse,
+		NiveauToUse: niveauToUse,
+		Description: description,
+		Type:        "Consommable",
+		Effet:       effet,
 	}
 }
 
@@ -50,5 +49,15 @@ func InitArme(nom string, classeToUse string, niveauToUse int, durabilitéMax in
 		Description:          description,
 		Type:                 "Arme",
 		Degats:               degats,
+	}
+}
+
+func InitSpellBook(nom string, classeToUse string, niveauToUse int, description string) *Item {
+	return &Item{
+		Nom:         nom,
+		ClasseToUse: classeToUse,
+		NiveauToUse: niveauToUse,
+		Description: description,
+		Type:        "Consommable",
 	}
 }

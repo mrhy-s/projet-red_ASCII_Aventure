@@ -10,6 +10,7 @@ type Skill struct {
 var CoupDePoing *Skill
 var TirÀLarc *Skill
 var CoupDeHache *Skill
+var BouleDeFeu *Skill
 var C_temp_skill []string
 
 func InitSkill(nom string, classeToUse string, niveauToUse int, description string) *Skill {

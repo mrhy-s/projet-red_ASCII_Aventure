@@ -6,20 +6,20 @@ import (
 	"os"
 )
 
-func SaveCharacter(c characters.Character) error {
-	data, err := json.MarshalIndent(c, "", "  ")
+func SaveCharacter(character *characters.Character) error {
+	jsonData, err := json.MarshalIndent(character, "", "\t")
 	if err != nil {
 		return err
 	}
-	return os.WriteFile("character.json", data, 0644)
+	return os.WriteFile("jsonData.json", jsonData, 0644)
 }
 
 func LoadCharacter() (characters.Character, error) {
-	var c characters.Character
-	data, err := os.ReadFile("character.json")
+	var character characters.Character
+	jsonData, err := os.ReadFile("jsonData.json")
 	if err != nil {
-		return c, err
+		return character, err
 	}
-	err = json.Unmarshal(data, &c)
-	return c, err
+	err = json.Unmarshal(jsonData, &character)
+	return character, err
 }

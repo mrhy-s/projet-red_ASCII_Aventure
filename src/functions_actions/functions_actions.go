@@ -132,7 +132,15 @@ func TakePot(characterName string) {
 
 func Marchand(tour int) {
 	const prixBase = 10
-	var prixActuel int
+	var prixActuel_PotionDeVie int
+	prixActuel_PotionDePoison := (prixBase + 5) * tour
+	if prixActuel_PotionDePoison == 0 {
+		prixActuel_PotionDePoison = 15
+	}
+	prixActuel_SpellBookBouleDeFeu := (prixBase + 15) * tour
+	if prixActuel_SpellBookBouleDeFeu == 0 {
+		prixActuel_SpellBookBouleDeFeu = 25
+	}
 	for {
 		fmt.Println("┌─────────────────────────────────────────────────────────────────────────────────────┐")
 		fmt.Print("│                                BOUTIQUE DU MARCHAND                                 │")
@@ -141,15 +149,17 @@ func Marchand(tour int) {
 		fmt.Print("│ Voici les items disponibles :                                                       │\n")
 		fmt.Print("│                                                                                     │\n")
 		if PotionGratuite {
-			fmt.Print("│ 1. Potion de vie - GRATUIT                                                          │\n")
+			fmt.Print("│ 1. Potion de soin - GRATUIT                                                         │\n")
 		} else {
-			prixActuel = prixBase * tour
-			if prixActuel == 0 {
-				prixActuel = 10
+			prixActuel_PotionDeVie = prixBase * tour
+			if prixActuel_PotionDeVie == 0 {
+				prixActuel_PotionDeVie = 10
 			}
-			fmt.Printf("│ 1. Potion de vie - %-3d pièces d'or                                                  │\n", prixActuel)
+			fmt.Printf("│ 1. Potion de soin - %-3d pièces d'or                                                 │\n", prixActuel_PotionDeVie)
 		}
-		fmt.Print("│ 2. Retourner au menu principal                                                      │\n")
+		fmt.Printf("│ 2. Potion de poison - %-3d pièces d'or                                               │\n", prixActuel_PotionDePoison)
+		fmt.Printf("│ 3. [Spell book] > Boule de feu - %-3d pièces d'or                                    │\n", prixActuel_SpellBookBouleDeFeu)
+		fmt.Print("│ 4. Retourner au menu principal                                                      │\n")
 		fmt.Print("└─────────────────────────────────────────────────────────────────────────────────────┘\n\nQue souhaitez vous faire ?\n")
 		choix := functionshelper.ReadInput()
 		switch choix {
@@ -157,7 +167,7 @@ func Marchand(tour int) {
 			var characterName string
 			var character *characters.Character
 			if characters.C2_b && characters.C2 != nil {
-				fmt.Print("\nQuel personnage souhaite prendre la potion ?\n")
+				fmt.Print("\nQuel personnage souhaite acheter la potion ?\n")
 				fmt.Printf("1. %s\n", characters.C1.Nom)
 				fmt.Printf("2. %s\n", characters.C2.Nom)
 				fmt.Print("Votre choix : ")
@@ -184,16 +194,16 @@ func Marchand(tour int) {
 			}
 			if PotionGratuite {
 				fmt.Printf("\nPotion de vie GRATUITE ajoutée à l'inventaire de %s !\n", characterName)
-				functionshelper.AddInventory(characterName, "potion de vie")
+				functionshelper.AddInventory(characterName, "potion de soin")
 				PotionGratuite = false
 			} else {
-				if character.PiècesDOr >= prixActuel {
+				if character.PiècesDOr >= prixActuel_PotionDeVie {
 					fmt.Printf("\nPotion de vie ajoutée à l'inventaire de %s !\n", characterName)
-					functionshelper.AddInventory(characterName, "potion de vie")
-					character.PiècesDOr -= prixActuel
+					functionshelper.AddInventory(characterName, "potion de soin")
+					character.PiècesDOr -= prixActuel_PotionDeVie
 					fmt.Printf("Votre nouveau solde : %d pièces d'or\n", character.PiècesDOr)
 				} else {
-					manque := prixActuel - character.PiècesDOr
+					manque := prixActuel_PotionDeVie - character.PiècesDOr
 					fmt.Printf("\nVous n'avez pas assez de pièces d'or (il vous manque %d pièces)\n", manque)
 				}
 			}
@@ -203,6 +213,92 @@ func Marchand(tour int) {
 				return
 			}
 		case "2", "2.":
+			var characterName string
+			var character *characters.Character
+			if characters.C2_b && characters.C2 != nil {
+				fmt.Print("\nQuel personnage souhaite acheter la potion ?\n")
+				fmt.Printf("1. %s\n", characters.C1.Nom)
+				fmt.Printf("2. %s\n", characters.C2.Nom)
+				fmt.Print("Votre choix : ")
+				choixPerso := functionshelper.ReadInput()
+				switch choixPerso {
+				case "1", "1.":
+					characterName = characters.C1.Nom
+					character = characters.C1
+				case "2", "2.":
+					characterName = characters.C2.Nom
+					character = characters.C2
+				default:
+					fmt.Println("Choix invalide")
+					continue
+				}
+			} else {
+				characterName = characters.C1.Nom
+				character = characters.C1
+			}
+			if !CheckInventorySpace(characterName) {
+				fmt.Printf("\nL'inventaire de %s est plein ! (10/10 items)\n", characterName)
+				fmt.Print("Vous devez libérer de l'espace avant d'acheter un nouvel item.\n")
+				continue
+			}
+			if character.PiècesDOr >= prixActuel_PotionDePoison {
+				fmt.Printf("\nPotion de poison ajoutée à l'inventaire de %s !\n", characterName)
+				functionshelper.AddInventory(characterName, "potion de poison")
+				character.PiècesDOr -= prixActuel_PotionDePoison
+				fmt.Printf("Votre nouveau solde : %d pièces d'or\n", character.PiècesDOr)
+			} else {
+				manque := prixActuel_PotionDePoison - character.PiècesDOr
+				fmt.Printf("\nVous n'avez pas assez de pièces d'or (il vous manque %d pièces)\n", manque)
+			}
+			fmt.Print("\nVoulez-vous acheter autre chose ? (o/n) : ")
+			continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+			if continuer != "o" && continuer != "oui" {
+				return
+			}
+		case "3", "3.":
+			var characterName string
+			var character *characters.Character
+			if characters.C2_b && characters.C2 != nil {
+				fmt.Print("\nQuel personnage souhaite acheter le livre de sort ?\n")
+				fmt.Printf("1. %s\n", characters.C1.Nom)
+				fmt.Printf("2. %s\n", characters.C2.Nom)
+				fmt.Print("Votre choix : ")
+				choixPerso := functionshelper.ReadInput()
+				switch choixPerso {
+				case "1", "1.":
+					characterName = characters.C1.Nom
+					character = characters.C1
+				case "2", "2.":
+					characterName = characters.C2.Nom
+					character = characters.C2
+				default:
+					fmt.Println("Choix invalide")
+					continue
+				}
+			} else {
+				characterName = characters.C1.Nom
+				character = characters.C1
+			}
+			if !CheckInventorySpace(characterName) {
+				fmt.Printf("\nL'inventaire de %s est plein ! (10/10 items)\n", characterName)
+				fmt.Print("Vous devez libérer de l'espace avant d'acheter un nouvel item.\n")
+				continue
+			}
+			if character.PiècesDOr >= prixActuel_SpellBookBouleDeFeu {
+				fmt.Printf("\nPotion de poison ajoutée à l'inventaire de %s !\n", characterName)
+				functionshelper.AddInventory(characterName, "[Spell book] > Boule de feu")
+				character.PiècesDOr -= prixActuel_SpellBookBouleDeFeu
+				fmt.Printf("Votre nouveau solde : %d pièces d'or\n", character.PiècesDOr)
+			} else {
+				manque := prixActuel_SpellBookBouleDeFeu - character.PiècesDOr
+				fmt.Printf("\nVous n'avez pas assez de pièces d'or (il vous manque %d pièces)\n", manque)
+			}
+			fmt.Print("\nVoulez-vous acheter autre chose ? (o/n) : ")
+			continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+			if continuer != "o" && continuer != "oui" {
+				return
+			}
+		case "4", "4.":
 			return
 		default:
 			fmt.Println("Choix invalide, veuillez réessayer.")
@@ -245,9 +341,9 @@ func ItemViewOui(character *characters.Character) {
 	}
 	itemFound := false
 	for _, inventoryItem := range character.Inventaire {
-		itemStr := fmt.Sprintf("%v", inventoryItem)
+		itemStr := strings.ToLower(fmt.Sprintf("%v", inventoryItem))
 		if itemStr == item {
-			functionshelper.DisplayItemDetails(itemStr)
+			functionshelper.DisplayItemDetails(inventoryItem)
 			itemFound = true
 			break
 		}

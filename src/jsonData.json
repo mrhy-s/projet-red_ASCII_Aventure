@@ -1,0 +1,18 @@
+{
+	"Nom": "Test",
+	"Classe": "Humain",
+	"Niveau": 1,
+	"PointsDeVieMaximum": 98,
+	"PointsDeVieActuels": 45,
+	"Inventaire": [
+		"potion de soin",
+		"potion de soin",
+		"potion de soin",
+		"[Spell book] \u003e Boule de feu"
+	],
+	"Skill": [
+		"Coup de poing",
+		"boule de feu"
+	],
+	"PiècesDOr": 50
+}

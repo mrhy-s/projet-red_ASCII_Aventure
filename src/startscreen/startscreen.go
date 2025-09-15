@@ -1,8 +1,10 @@
 package startscreen
 
 import (
-	functionshelper "ASCII_Aventure/functions_helper"
+	"bufio"
 	"fmt"
+	"os"
+	"strings"
 	"time"
 )
 
@@ -293,13 +295,19 @@ func StartScreen() {
 	}
 	fmt.Printf("%*s%s%s%s%s\n", espacesAGauche, "", Cyan, Bold, messageFinal, Reset)
 
-	input := functionshelper.ReadInput()
+	input := readInput()
 	if input != "" {
 		fmt.Printf("\n%sÇa commence bien... On te dit d'appuyer sur la touche ENTRÉE et toi tu tapes '%s'%s\n",
 			Red, input, Reset)
 		fmt.Printf("%sAppuyez juste sur ENTRÉE cette fois...%s\n", Cyan, Reset)
-		functionshelper.ReadInput()
+		readInput()
 	}
 	fmt.Print("\033[?25h") // remonter le curseur
 	ClearScreen()
+}
+
+func readInput() string {
+	reader := bufio.NewReader(os.Stdin)
+	input, _ := reader.ReadString('\n')
+	return strings.TrimSpace(input)
 }

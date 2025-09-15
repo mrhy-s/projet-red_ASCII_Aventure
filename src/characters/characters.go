@@ -91,7 +91,7 @@ func IsDead() {
 	if C2_b {
 		if C1.PointsDeVieActuels <= 0 {
 			deadCharacter = C1
-		} else if C2.PointsDeVieActuels <= 0 {
+		} else if C2 != nil && C2.PointsDeVieActuels <= 0 {
 			deadCharacter = C2
 		}
 	} else {
