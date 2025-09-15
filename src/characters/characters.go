@@ -1,6 +1,7 @@
 package characters
 
 import (
+	"ASCII_Aventure/couleurs"
 	"fmt"
 	"math/rand"
 	"strings"
@@ -46,23 +47,15 @@ func InitCharacter(nom string, classe string, niveau int, pointsDeVieMaximum int
 func DisplayCharacterTable(character Character) {
 	inventaireStr := strings.Join(character.Inventaire, ", ")
 	skillStr := strings.Join(character.Skill, ", ")
-	// Largeur totale du cadre : 85 caractères
-	// Largeur utile pour le contenu : 85 - 4 (bordures et espaces) = 81 caractères
-	// Largeur pour les valeurs après "   - XXX : " : environ 65-67 caractères selon le label
-	// const totalWidth = 85
-	// const contentWidth = 81
-	inventaireMaxWidth := 62 // 81 - 18 - 1 = 62
+	inventaireMaxWidth := 62
 	skillMaxWidth := 67
-	// Tronquer l'inventaire si nécessaire
 	if utf8.RuneCountInString(inventaireStr) > inventaireMaxWidth {
-		// Garder de la place pour "..."
 		targetLength := inventaireMaxWidth - 3
 		runes := []rune(inventaireStr)
 		if len(runes) > targetLength {
 			inventaireStr = string(runes[:targetLength]) + "..."
 		}
 	}
-
 	if utf8.RuneCountInString(skillStr) > skillMaxWidth {
 		targetLength := skillMaxWidth - 1
 		runes2 := []rune(skillStr)
@@ -70,20 +63,43 @@ func DisplayCharacterTable(character Character) {
 			skillStr = string(runes2[:targetLength]) + "..."
 		}
 	}
+	fmt.Printf("%s┌─────────────────────────────────────────────────────────────────────────────────────┐%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s%s                         Caractéristiques du personnage :                            %s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s├─────────────────────────────────────────────────────────────────────────────────────┤%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Nom :%s %s%-74s%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Green, character.Nom, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Classe :%s %s%-71s%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Purple, character.Classe, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Niveau :%s %s%-71d%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Blue, character.Niveau, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	var pvColor string
+	pvPercent := float64(character.PointsDeVieActuels) / float64(character.PointsDeVieMaximum)
+	if pvPercent >= 0.7 {
+		pvColor = couleurs.Green
+	} else if pvPercent >= 0.4 {
+		pvColor = couleurs.Yellow
+	} else {
+		pvColor = couleurs.Red
+	}
+	fmt.Printf("%s│%s   %s- Points de vie maximum :%s %s%-56d%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.White, character.PointsDeVieMaximum, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Points de vie actuels :%s %s%-56d%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, pvColor, character.PointsDeVieActuels, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	var invColor string
+	if len(character.Inventaire) == 0 {
+		invColor = couleurs.Red
+		inventaireStr = "Vide"
+	} else {
+		invColor = couleurs.White
+	}
+	fmt.Printf("%s│%s   %s- Inventaire :%s [%s%-65s%s]%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, invColor, inventaireStr, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	var skillColor string
+	if len(character.Skill) == 0 {
+		skillColor = couleurs.Red
+		skillStr = "Aucune"
+	} else {
+		skillColor = couleurs.White
+	}
+	fmt.Printf("%s│%s   %s- Skill :%s [%s%-70s%s]%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, skillColor, skillStr, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
 
-	fmt.Println("┌─────────────────────────────────────────────────────────────────────────────────────┐")
-	fmt.Println("│                         Caractéristiques du personnage :                            │")
-	fmt.Println("├─────────────────────────────────────────────────────────────────────────────────────┤")
-	fmt.Printf("│   - Nom : %-74s│\n", character.Nom)
-	fmt.Printf("│   - Classe : %-71s│\n", character.Classe)
-	fmt.Printf("│   - Niveau : %-71d│\n", character.Niveau)
-	fmt.Printf("│   - Points de vie maximum : %-56d│\n", character.PointsDeVieMaximum)
-	fmt.Printf("│   - Points de vie actuels : %-56d│\n", character.PointsDeVieActuels)
-	fmt.Printf("│   - Inventaire : [%-65s]│\n", inventaireStr)
-	fmt.Printf("│   - Skill : [%-70s]│\n", skillStr)
-	fmt.Printf("│   - Pièces d'Or : %-65d │\n", character.PiècesDOr)
-	fmt.Println("│                                                                                     │")
-	fmt.Println("└─────────────────────────────────────────────────────────────────────────────────────┘")
+	fmt.Printf("%s│%s   %s- Pièces d'Or :%s %s%-65d%s %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Yellow, character.PiècesDOr, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s                                                                                     %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Cyan, couleurs.Reset)
 }
 
 func IsDead() {
@@ -100,14 +116,14 @@ func IsDead() {
 		}
 	}
 	if deadCharacter != nil {
-		fmt.Printf("\n\nOh snap ! Votre personnage %s est mort (╥﹏╥)\n\n", deadCharacter.Nom)
+		fmt.Printf("\n\n%sOh snap ! Votre personnage %s%s%s est mort%s\n\n", couleurs.Red+couleurs.Bold, couleurs.Green, deadCharacter.Nom, couleurs.Red+couleurs.Bold, couleurs.Reset)
 		displayWastedMessage()
 		deadCharacter.PointsDeVieMaximum = deadCharacter.PointsDeVieMaximum / 2
 		if deadCharacter.PointsDeVieActuels > deadCharacter.PointsDeVieMaximum {
 			deadCharacter.PointsDeVieActuels = deadCharacter.PointsDeVieMaximum
 		}
 		deadCharacter.PointsDeVieActuels = rand.Intn(deadCharacter.PointsDeVieMaximum-11) + 10
-		fmt.Printf("\n\nVotre personnage est ressuscité avec %v sur %v points de vie... ", deadCharacter.PointsDeVieActuels, deadCharacter.PointsDeVieMaximum)
+		fmt.Printf("\n\n%sVotre personnage est ressuscité avec %s%v%s sur %s%v%s points de vie...%s ", couleurs.Green, couleurs.White, deadCharacter.PointsDeVieActuels, couleurs.Green, couleurs.White, deadCharacter.PointsDeVieMaximum, couleurs.Green, couleurs.Reset)
 	}
 }
 
@@ -120,5 +136,5 @@ func displayWastedMessage() {
 ░████   ░████ ░██   ░██         ░██    ░██    ░██        ░██   ░███ 
 ░███     ░███  ░█████░██  ░███████      ░████  ░███████   ░█████░██ `
 
-	fmt.Print(wastedArt)
+	fmt.Printf("%s%s%s%s\n", couleurs.Red, couleurs.Bold, wastedArt, couleurs.Reset)
 }

@@ -2,6 +2,7 @@ package menus
 
 import (
 	characters "ASCII_Aventure/characters"
+	"ASCII_Aventure/couleurs"
 	functionsactions "ASCII_Aventure/functions_actions"
 	functionshelper "ASCII_Aventure/functions_helper"
 	"ASCII_Aventure/savegame"
@@ -22,26 +23,26 @@ func Menu() {
 	}
 	characters.IsDead()
 	fmt.Printf("\n")
-	fmt.Printf("┌─────────────────────────────────────────────────────────────────────────────────────┐\n")
-	fmt.Printf("│                                  MENU PRINCIPAL                                     │\n")
-	fmt.Printf("├─────────────────────────────────────────────────────────────────────────────────────┤\n")
-	fmt.Printf("│ 1. Afficher les informations du personnage                                          │\n")
-	fmt.Printf("│ 2. Accéder au contenu de l'inventaire                                               │\n")
-	fmt.Printf("│ 3. Utiliser une potion de soin                                                      │\n")
-	fmt.Printf("│ 4. Boutique du Marchand                                                             │\n")
-	fmt.Printf("│ 5. Boutique du Forgeron                                                             │\n")
-	fmt.Printf("│ 6. Créer un nouveau personnage                                                      │\n")
-	fmt.Printf("│ 7. Passer un tour                                                                   │\n")
-	fmt.Printf("│ 8. Quitter                                                                          │\n")
-	fmt.Printf("└─────────────────────────────────────────────────────────────────────────────────────┘\n")
-	fmt.Print("\nVotre choix : ")
+	fmt.Printf("%s┌─────────────────────────────────────────────────────────────────────────────────────┐%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s%s                                  MENU PRINCIPAL                                     %s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s├─────────────────────────────────────────────────────────────────────────────────────┤%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s %s1.%s Afficher les informations du personnage                                          %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s %s2.%s Accéder au contenu de l'inventaire                                               %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s %s3.%s Utiliser une potion de soin                                                      %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s %s4.%s Boutique du Marchand                                                             %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s %s5.%s Boutique du Forgeron                                                             %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s %s6.%s Créer un nouveau personnage                                                      %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s %s7.%s Passer un tour                                                                   %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s %s8.%s Quitter                                                                          %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("\n%sVotre choix :%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
 	option := functionshelper.ReadInput()
 	switch option {
 	case "1", "1.":
 		if characters.C2_b && characters.C2 != nil {
-			fmt.Print("Veuillez sélectionner un personnage de la liste pour afficher ses caractéristiques :\n")
-			fmt.Printf("Personnages disponibles: %s, %s\n", characters.C1.Nom, characters.C2.Nom)
-			fmt.Print("\nVotre réponse : ")
+			fmt.Printf("%sVeuillez sélectionner un personnage de la liste pour afficher ses caractéristiques :%s\n", couleurs.Purple, couleurs.Reset)
+			fmt.Printf("%sPersonnages disponibles:%s %s%s%s, %s%s%s\n", couleurs.White, couleurs.Reset, couleurs.Green, characters.C1.Nom, couleurs.Reset, couleurs.Green, characters.C2.Nom, couleurs.Reset)
+			fmt.Printf("\n%sVotre réponse :%s ", couleurs.Blue, couleurs.Reset)
 			commande := functionshelper.ReadInput()
 			functionsactions.DisplayInfo(commande)
 		} else {
@@ -50,9 +51,9 @@ func Menu() {
 		Menu()
 	case "2", "2.":
 		if characters.C2_b && characters.C2 != nil {
-			fmt.Print("Veuillez sélectionner un personnage de la liste pour afficher son inventaire :\n")
-			fmt.Printf("Personnages disponibles: %s, %s\n", characters.C1.Nom, characters.C2.Nom)
-			fmt.Print("\nVotre réponse : ")
+			fmt.Printf("%sVeuillez sélectionner un personnage de la liste pour afficher son inventaire :%s\n", couleurs.Purple, couleurs.Reset)
+			fmt.Printf("%sPersonnages disponibles:%s %s%s%s, %s%s%s\n", couleurs.White, couleurs.Reset, couleurs.Green, characters.C1.Nom, couleurs.Reset, couleurs.Green, characters.C2.Nom, couleurs.Reset)
+			fmt.Printf("\n%sVotre réponse :%s ", couleurs.Blue, couleurs.Reset)
 			commande := functionshelper.ReadInput()
 			functionsactions.AccessInventory(commande)
 			functionsactions.ItemView(commande)
@@ -63,7 +64,7 @@ func Menu() {
 		Menu()
 	case "3", "3.":
 		if characters.C2_b && characters.C2 != nil {
-			fmt.Print("Nom du personnage : ")
+			fmt.Printf("%sNom du personnage :%s ", couleurs.Purple, couleurs.Reset)
 			characterName := functionshelper.ReadInput()
 			functionsactions.TakePot(characterName)
 		} else {
@@ -90,7 +91,6 @@ func Menu() {
 	default:
 		startscreen.ClearScreen()
 		Menu()
-		fmt.Println("Option invalide")
-
+		fmt.Printf("%sOption invalide%s\n", couleurs.Red, couleurs.Reset)
 	}
 }
