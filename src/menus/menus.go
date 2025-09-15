@@ -29,9 +29,10 @@ func Menu() {
 	fmt.Printf("│ 2. Accéder au contenu de l'inventaire                                               │\n")
 	fmt.Printf("│ 3. Utiliser une potion de soin                                                      │\n")
 	fmt.Printf("│ 4. Boutique du Marchand                                                             │\n")
-	fmt.Printf("│ 5. Créer un nouveau personnage                                                      │\n")
-	fmt.Printf("│ 6. Passer un tour                                                                   │\n")
-	fmt.Printf("│ 7. Quitter                                                                          │\n")
+	fmt.Printf("│ 5. Boutique du Forgeron                                                             │\n")
+	fmt.Printf("│ 6. Créer un nouveau personnage                                                      │\n")
+	fmt.Printf("│ 7. Passer un tour                                                                   │\n")
+	fmt.Printf("│ 8. Quitter                                                                          │\n")
 	fmt.Printf("└─────────────────────────────────────────────────────────────────────────────────────┘\n")
 	fmt.Print("\nVotre choix : ")
 	option := functionshelper.ReadInput()
@@ -71,16 +72,20 @@ func Menu() {
 		Menu()
 	case "4", "4.":
 		startscreen.ClearScreen()
-		functionsactions.Marchand(functionsactions.Tour)
+		functionsactions.Marchand()
 		Menu()
 	case "5", "5.":
-		characters.C2 = functionshelper.CharacterCreation()
+		startscreen.ClearScreen()
+		functionsactions.Forgeron()
 		Menu()
 	case "6", "6.":
+		characters.C2 = functionshelper.CharacterCreation()
+		Menu()
+	case "7", "7.":
 		startscreen.ClearScreen()
 		functionsactions.Tour++
 		Menu()
-	case "7", "7.":
+	case "8", "8.":
 		return
 	default:
 		startscreen.ClearScreen()

@@ -16,6 +16,10 @@ var Potion_de_soin *Item
 var Potion_de_poison *Item
 var Epee_en_fer *Item
 var Spell_book_bdf *Item
+var Plume_de_corbeau *Item
+var Fourrure_de_loup *Item
+var Peau_de_troll *Item
+var Cuir_de_sanglier *Item
 
 func InitItem(nom string, classeToUse string, niveauToUse int, durabilitéMaximum int, durabilitéesActuelle int, description string) *Item {
 	return &Item{
@@ -59,5 +63,13 @@ func InitSpellBook(nom string, classeToUse string, niveauToUse int, description 
 		NiveauToUse: niveauToUse,
 		Description: description,
 		Type:        "Consommable",
+	}
+}
+
+func InitRessources(nom string, description string) *Item {
+	return &Item{
+		Nom:         nom,
+		Description: description,
+		Type:        "Ressources",
 	}
 }

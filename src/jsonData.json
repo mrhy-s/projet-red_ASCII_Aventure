@@ -1,18 +1,17 @@
 {
-	"Nom": "Test",
-	"Classe": "Humain",
+	"Nom": "Zinrel",
+	"Classe": "Elfe",
 	"Niveau": 1,
-	"PointsDeVieMaximum": 98,
-	"PointsDeVieActuels": 45,
+	"PointsDeVieMaximum": 80,
+	"PointsDeVieActuels": 40,
 	"Inventaire": [
 		"potion de soin",
 		"potion de soin",
 		"potion de soin",
-		"[Spell book] \u003e Boule de feu"
+		"Chapeau de l'aventurier"
 	],
 	"Skill": [
-		"Coup de poing",
-		"boule de feu"
+		"Coup de poing"
 	],
-	"PiècesDOr": 50
+	"PiècesDOr": 75
 }

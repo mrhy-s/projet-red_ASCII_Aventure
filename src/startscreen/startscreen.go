@@ -1,6 +1,7 @@
 package startscreen
 
 import (
+	"ASCII_Aventure/couleurs"
 	"bufio"
 	"fmt"
 	"os"
@@ -16,19 +17,6 @@ import (
 - <paramètres> = nombres séparés par ;
 - <commande> = lettre finale
 */
-
-// couleurs
-const (
-	Reset  = "\033[0m"
-	Red    = "\033[31m"
-	Green  = "\033[32m"
-	Yellow = "\033[33m"
-	Blue   = "\033[34m"
-	Purple = "\033[35m"
-	Cyan   = "\033[36m"
-	White  = "\033[37m"
-	Bold   = "\033[1m"
-)
 
 // ClearScreen efface l'écran actuel pour avoir un écran vide dans le terminal
 func ClearScreen() {
@@ -61,133 +49,133 @@ func printASCII() {
 	for range 5 {
 		fmt.Println()
 	}
-	fmt.Print(Red + Bold)
+	fmt.Print(couleurs.Red + couleurs.Bold)
 	fmt.Println("██╗")
 	fmt.Println("██║")
 	fmt.Println("██║")
 	fmt.Println("██║")
 	fmt.Println("██║")
-	fmt.Print("╚═╝" + Reset)
+	fmt.Print("╚═╝" + couleurs.Reset)
 	time.Sleep(100 * time.Millisecond)
 	ClearScreen()
 	for range 5 {
 		fmt.Println()
 	}
-	fmt.Print(Red + Bold)
+	fmt.Print(couleurs.Red + couleurs.Bold)
 	fmt.Println("██╗██╗")
 	fmt.Println("██║██║")
 	fmt.Println("██║██║")
 	fmt.Println("██║██║")
 	fmt.Println("██║██║")
-	fmt.Print("╚═╝╚═╝" + Reset)
+	fmt.Print("╚═╝╚═╝" + couleurs.Reset)
 	time.Sleep(100 * time.Millisecond)
 	ClearScreen()
 	for range 5 {
 		fmt.Println()
 	}
-	fmt.Print(Red + Bold)
+	fmt.Print(couleurs.Red + couleurs.Bold)
 	fmt.Println("██╗██╗██╗")
 	fmt.Println("══╝██║██║")
 	fmt.Println("   ██║██║")
 	fmt.Println("   ██║██║")
 	fmt.Println("██╗██║██║")
-	fmt.Print("══╝╚═╝╚═╝" + Reset)
+	fmt.Print("══╝╚═╝╚═╝" + couleurs.Reset)
 	time.Sleep(100 * time.Millisecond)
 	ClearScreen()
 	for range 5 {
 		fmt.Println()
 	}
-	fmt.Print(Red + Bold)
+	fmt.Print(couleurs.Red + couleurs.Bold)
 	fmt.Println(" ██████╗██╗██╗")
 	fmt.Println("██╔════╝██║██║")
 	fmt.Println("██║     ██║██║")
 	fmt.Println("██║     ██║██║")
 	fmt.Println("╚██████╗██║██║")
-	fmt.Print(" ╚═════╝╚═╝╚═╝" + Reset)
+	fmt.Print(" ╚═════╝╚═╝╚═╝" + couleurs.Reset)
 	time.Sleep(100 * time.Millisecond)
 	ClearScreen()
 	for range 5 {
 		fmt.Println()
 	}
-	fmt.Print(Red + Bold)
+	fmt.Print(couleurs.Red + couleurs.Bold)
 	fmt.Println("██╗ ██████╗██╗██╗")
 	fmt.Println("══╝██╔════╝██║██║")
 	fmt.Println("██╗██║     ██║██║")
 	fmt.Println("██║██║     ██║██║")
 	fmt.Println("██║╚██████╗██║██║")
-	fmt.Print("══╝ ╚═════╝╚═╝╚═╝" + Reset)
+	fmt.Print("══╝ ╚═════╝╚═╝╚═╝" + couleurs.Reset)
 	time.Sleep(100 * time.Millisecond)
 	ClearScreen()
 	for range 5 {
 		fmt.Println()
 	}
-	fmt.Print(Red + Bold)
+	fmt.Print(couleurs.Red + couleurs.Bold)
 	fmt.Println("█████╗ ██████╗██╗██╗")
 	fmt.Println("╔════╝██╔════╝██║██║")
 	fmt.Println("█████╗██║     ██║██║")
 	fmt.Println("═══██║██║     ██║██║")
 	fmt.Println("█████║╚██████╗██║██║")
-	fmt.Print("═════╝ ╚═════╝╚═╝╚═╝" + Reset)
+	fmt.Print("═════╝ ╚═════╝╚═╝╚═╝" + couleurs.Reset)
 	time.Sleep(100 * time.Millisecond)
 	ClearScreen()
 	for range 5 {
 		fmt.Println()
 	}
-	fmt.Print(Red + Bold)
+	fmt.Print(couleurs.Red + couleurs.Bold)
 	fmt.Println("███████╗ ██████╗██╗██╗")
 	fmt.Println("██╔════╝██╔════╝██║██║")
 	fmt.Println("███████╗██║     ██║██║")
 	fmt.Println("╚════██║██║     ██║██║")
 	fmt.Println("███████║╚██████╗██║██║")
-	fmt.Print("╚══════╝ ╚═════╝╚═╝╚═╝" + Reset)
+	fmt.Print("╚══════╝ ╚═════╝╚═╝╚═╝" + couleurs.Reset)
 	time.Sleep(100 * time.Millisecond)
 	ClearScreen()
 	for range 5 {
 		fmt.Println()
 	}
-	fmt.Print(Red + Bold)
+	fmt.Print(couleurs.Red + couleurs.Bold)
 	fmt.Println("╗ ███████╗ ██████╗██╗██╗")
 	fmt.Println("█╗██╔════╝██╔════╝██║██║")
 	fmt.Println("█║███████╗██║     ██║██║")
 	fmt.Println("█║╚════██║██║     ██║██║")
 	fmt.Println("█║███████║╚██████╗██║██║")
-	fmt.Print("═╝╚══════╝ ╚═════╝╚═╝╚═╝" + Reset)
+	fmt.Print("═╝╚══════╝ ╚═════╝╚═╝╚═╝" + couleurs.Reset)
 	time.Sleep(100 * time.Millisecond)
 	ClearScreen()
 	for range 5 {
 		fmt.Println()
 	}
-	fmt.Print(Red + Bold)
+	fmt.Print(couleurs.Red + couleurs.Bold)
 	fmt.Println("██╗ ███████╗ ██████╗██╗██╗")
 	fmt.Println("═██╗██╔════╝██╔════╝██║██║")
 	fmt.Println("███║███████╗██║     ██║██║")
 	fmt.Println("═██║╚════██║██║     ██║██║")
 	fmt.Println(" ██║███████║╚██████╗██║██║")
-	fmt.Print(" ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝" + Reset)
+	fmt.Print(" ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝" + couleurs.Reset)
 	time.Sleep(100 * time.Millisecond)
 	ClearScreen()
 	for range 5 {
 		fmt.Println()
 	}
-	fmt.Print(Red + Bold)
+	fmt.Print(couleurs.Red + couleurs.Bold)
 	fmt.Println("████╗ ███████╗ ██████╗██╗██╗")
 	fmt.Println("╔══██╗██╔════╝██╔════╝██║██║")
 	fmt.Println("█████║███████╗██║     ██║██║")
 	fmt.Println("╔══██║╚════██║██║     ██║██║")
 	fmt.Println("║  ██║███████║╚██████╗██║██║")
-	fmt.Print("╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝" + Reset)
+	fmt.Print("╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝" + couleurs.Reset)
 	time.Sleep(100 * time.Millisecond)
 	ClearScreen()
 	for range 5 {
 		fmt.Println()
 	}
-	fmt.Print(Red + Bold)
+	fmt.Print(couleurs.Red + couleurs.Bold)
 	fmt.Println("  █████╗ ███████╗ ██████╗██╗██╗")
 	fmt.Println(" ██╔══██╗██╔════╝██╔════╝██║██║")
 	fmt.Println(" ███████║███████╗██║     ██║██║")
 	fmt.Println(" ██╔══██║╚════██║██║     ██║██║")
 	fmt.Println(" ██║  ██║███████║╚██████╗██║██║")
-	fmt.Print(" ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝" + Reset)
+	fmt.Print(" ╚═╝  ╚═╝╚══════╝ ╚═════╝╚═╝╚═╝" + couleurs.Reset)
 	time.Sleep(500 * time.Millisecond)
 }
 
@@ -213,11 +201,11 @@ func logoAnimation() {
 		}
 		// on affiche les 6 lignes des logos côte à côte
 		for numeroLigne := range 6 {
-			ligneComplete := Red + Bold + logoASCII[numeroLigne] + Reset
+			ligneComplete := couleurs.Red + couleurs.Bold + logoASCII[numeroLigne] + couleurs.Reset
 			for range espacementEntreLogos {
 				ligneComplete += " "
 			}
-			ligneComplete += Green + Bold + logoAVENTURE[numeroLigne] + Reset
+			ligneComplete += couleurs.Green + couleurs.Bold + logoAVENTURE[numeroLigne] + couleurs.Reset
 			// on veut centrer toute la ligne
 			largeurEcran := 120
 			largeurTotale := len(logoASCII[numeroLigne]) + espacementEntreLogos + len(logoAVENTURE[numeroLigne])
@@ -238,9 +226,9 @@ func loadingAnimation() {
 		fmt.Println()
 	}
 	for i := range 6 {
-		fmt.Print(Red + Bold + logoASCII[i] + Reset)
+		fmt.Print(couleurs.Red + couleurs.Bold + logoASCII[i] + couleurs.Reset)
 		fmt.Printf("%3s", "")
-		fmt.Print(Green + Bold + logoAVENTURE[i] + Reset)
+		fmt.Print(couleurs.Green + couleurs.Bold + logoAVENTURE[i] + couleurs.Reset)
 		fmt.Println()
 	}
 	// toujours l'animation de chargement
@@ -253,17 +241,17 @@ func loadingAnimation() {
 	for i := range 20 {
 		fmt.Print("\033[14;1H")
 		nombrePoints := i % 4
-		fmt.Printf("%*s%s%s%s", espacesAGauche, "", Cyan+Bold, texteChargement, Reset)
+		fmt.Printf("%*s%s%s%s", espacesAGauche, "", couleurs.Cyan+couleurs.Bold, texteChargement, couleurs.Reset)
 		fmt.Printf("%.*s%*s", nombrePoints, "...", 3-nombrePoints, "")
 		fmt.Printf("\n%*s", espacesAGauche, "")
 		pourcentage := i * 5
 		barresRemplies := pourcentage / 5
 		barresVides := 20 - barresRemplies
-		fmt.Printf("%s[%s", Cyan, Yellow)
+		fmt.Printf("%s[%s", couleurs.Cyan, couleurs.Yellow)
 		fmt.Printf("%.*s", barresRemplies, "████████████████████")
-		fmt.Printf("%s", White)
+		fmt.Printf("%s", couleurs.White)
 		fmt.Printf("%.*s", barresVides, "░░░░░░░░░░░░░░░░░░░░")
-		fmt.Printf("%s] %d%%%s", Cyan, pourcentage, Reset)
+		fmt.Printf("%s] %d%%%s", couleurs.Cyan, pourcentage, couleurs.Reset)
 		time.Sleep(100 * time.Millisecond)
 	}
 }
@@ -281,9 +269,9 @@ func StartScreen() {
 		fmt.Println()
 	}
 	for i := range 6 {
-		fmt.Print(Red + Bold + logoASCII[i] + Reset)
+		fmt.Print(couleurs.Red + couleurs.Bold + logoASCII[i] + couleurs.Reset)
 		fmt.Printf("%3s", "")
-		fmt.Print(Green + Bold + logoAVENTURE[i] + Reset)
+		fmt.Print(couleurs.Green + couleurs.Bold + logoAVENTURE[i] + couleurs.Reset)
 		fmt.Println()
 	}
 	fmt.Println()
@@ -293,13 +281,13 @@ func StartScreen() {
 	if espacesAGauche < 0 {
 		espacesAGauche = 0
 	}
-	fmt.Printf("%*s%s%s%s%s\n", espacesAGauche, "", Cyan, Bold, messageFinal, Reset)
+	fmt.Printf("%*s%s%s%s%s\n", espacesAGauche, "", couleurs.Cyan, couleurs.Bold, messageFinal, couleurs.Reset)
 
 	input := readInput()
 	if input != "" {
 		fmt.Printf("\n%sÇa commence bien... On te dit d'appuyer sur la touche ENTRÉE et toi tu tapes '%s'%s\n",
-			Red, input, Reset)
-		fmt.Printf("%sAppuyez juste sur ENTRÉE cette fois...%s\n", Cyan, Reset)
+			couleurs.Red, input, couleurs.Reset)
+		fmt.Printf("%sAppuyez juste sur ENTRÉE cette fois...%s\n", couleurs.Cyan, couleurs.Reset)
 		readInput()
 	}
 	fmt.Print("\033[?25h") // remonter le curseur

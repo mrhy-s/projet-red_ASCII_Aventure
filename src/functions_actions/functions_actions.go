@@ -130,17 +130,14 @@ func TakePot(characterName string) {
 	fmt.Printf("Points de vie: %d/%d\n", character.PointsDeVieActuels, character.PointsDeVieMaximum)
 }
 
-func Marchand(tour int) {
-	const prixBase = 10
-	var prixActuel_PotionDeVie int
-	prixActuel_PotionDePoison := (prixBase + 5) * tour
-	if prixActuel_PotionDePoison == 0 {
-		prixActuel_PotionDePoison = 15
-	}
-	prixActuel_SpellBookBouleDeFeu := (prixBase + 15) * tour
-	if prixActuel_SpellBookBouleDeFeu == 0 {
-		prixActuel_SpellBookBouleDeFeu = 25
-	}
+func Marchand() {
+	prixActuel_PotionDeVie := 10
+	prixActuel_PotionDePoison := 15
+	prixActuel_SpellBookBouleDeFeu := 25
+	prixActuel_Fourruredeloup := 4
+	prixActuel_Peaudetroll := 7
+	prixActuel_Cuirdesanglier := 3
+	prixActuel_Plumedecorbeau := 1
 	for {
 		fmt.Println("┌─────────────────────────────────────────────────────────────────────────────────────┐")
 		fmt.Print("│                                BOUTIQUE DU MARCHAND                                 │")
@@ -151,15 +148,15 @@ func Marchand(tour int) {
 		if PotionGratuite {
 			fmt.Print("│ 1. Potion de soin - GRATUIT                                                         │\n")
 		} else {
-			prixActuel_PotionDeVie = prixBase * tour
-			if prixActuel_PotionDeVie == 0 {
-				prixActuel_PotionDeVie = 10
-			}
 			fmt.Printf("│ 1. Potion de soin - %-3d pièces d'or                                                 │\n", prixActuel_PotionDeVie)
 		}
 		fmt.Printf("│ 2. Potion de poison - %-3d pièces d'or                                               │\n", prixActuel_PotionDePoison)
 		fmt.Printf("│ 3. [Spell book] > Boule de feu - %-3d pièces d'or                                    │\n", prixActuel_SpellBookBouleDeFeu)
-		fmt.Print("│ 4. Retourner au menu principal                                                      │\n")
+		fmt.Printf("│ 4. Fourrure de loup - %-3d pièces d'or                                               │\n", prixActuel_Fourruredeloup)
+		fmt.Printf("│ 5. Peau de troll - %-3d pièces d'or                                                  │\n", prixActuel_Peaudetroll)
+		fmt.Printf("│ 6. Cuir de sanglier - %-3d pièces d'or                                               │\n", prixActuel_Cuirdesanglier)
+		fmt.Printf("│ 7. Plume de corbeau - %-3d pièces d'or                                               │\n", prixActuel_Plumedecorbeau)
+		fmt.Print("│ 8. Retourner au menu principal                                                      │\n")
 		fmt.Print("└─────────────────────────────────────────────────────────────────────────────────────┘\n\nQue souhaitez vous faire ?\n")
 		choix := functionshelper.ReadInput()
 		switch choix {
@@ -299,10 +296,271 @@ func Marchand(tour int) {
 				return
 			}
 		case "4", "4.":
+			var characterName string
+			var character *characters.Character
+			if characters.C2_b && characters.C2 != nil {
+				fmt.Print("\nQuel personnage souhaite acheter la fourrure de loup ?\n")
+				fmt.Printf("1. %s\n", characters.C1.Nom)
+				fmt.Printf("2. %s\n", characters.C2.Nom)
+				fmt.Print("Votre choix : ")
+				choixPerso := functionshelper.ReadInput()
+				switch choixPerso {
+				case "1", "1.":
+					characterName = characters.C1.Nom
+					character = characters.C1
+				case "2", "2.":
+					characterName = characters.C2.Nom
+					character = characters.C2
+				default:
+					fmt.Println("Choix invalide")
+					continue
+				}
+			} else {
+				characterName = characters.C1.Nom
+				character = characters.C1
+			}
+			if !CheckInventorySpace(characterName) {
+				fmt.Printf("\nL'inventaire de %s est plein ! (10/10 items)\n", characterName)
+				fmt.Print("Vous devez libérer de l'espace avant d'acheter un nouvel item.\n")
+				continue
+			}
+			if character.PiècesDOr >= prixActuel_Fourruredeloup {
+				fmt.Printf("\nFourrure de loup ajoutée à l'inventaire de %s !\n", characterName)
+				functionshelper.AddInventory(characterName, "Fourrure de loup")
+				character.PiècesDOr -= prixActuel_Fourruredeloup
+				fmt.Printf("Votre nouveau solde : %d pièces d'or\n", character.PiècesDOr)
+			} else {
+				manque := prixActuel_Fourruredeloup - character.PiècesDOr
+				fmt.Printf("\nVous n'avez pas assez de pièces d'or (il vous manque %d pièces)\n", manque)
+			}
+			fmt.Print("\nVoulez-vous acheter autre chose ? (o/n) : ")
+			continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+			if continuer != "o" && continuer != "oui" {
+				return
+			}
+		case "5", "5.":
+			var characterName string
+			var character *characters.Character
+			if characters.C2_b && characters.C2 != nil {
+				fmt.Print("\nQuel personnage souhaite acheter la peau de troll ?\n")
+				fmt.Printf("1. %s\n", characters.C1.Nom)
+				fmt.Printf("2. %s\n", characters.C2.Nom)
+				fmt.Print("Votre choix : ")
+				choixPerso := functionshelper.ReadInput()
+				switch choixPerso {
+				case "1", "1.":
+					characterName = characters.C1.Nom
+					character = characters.C1
+				case "2", "2.":
+					characterName = characters.C2.Nom
+					character = characters.C2
+				default:
+					fmt.Println("Choix invalide")
+					continue
+				}
+			} else {
+				characterName = characters.C1.Nom
+				character = characters.C1
+			}
+			if !CheckInventorySpace(characterName) {
+				fmt.Printf("\nL'inventaire de %s est plein ! (10/10 items)\n", characterName)
+				fmt.Print("Vous devez libérer de l'espace avant d'acheter un nouvel item.\n")
+				continue
+			}
+			if character.PiècesDOr >= prixActuel_Peaudetroll {
+				fmt.Printf("\nPeau de troll ajoutée à l'inventaire de %s !\n", characterName)
+				functionshelper.AddInventory(characterName, "Peau de troll")
+				character.PiècesDOr -= prixActuel_Peaudetroll
+				fmt.Printf("Votre nouveau solde : %d pièces d'or\n", character.PiècesDOr)
+			} else {
+				manque := prixActuel_Peaudetroll - character.PiècesDOr
+				fmt.Printf("\nVous n'avez pas assez de pièces d'or (il vous manque %d pièces)\n", manque)
+			}
+			fmt.Print("\nVoulez-vous acheter autre chose ? (o/n) : ")
+			continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+			if continuer != "o" && continuer != "oui" {
+				return
+			}
+		case "6", "6.":
+			var characterName string
+			var character *characters.Character
+			if characters.C2_b && characters.C2 != nil {
+				fmt.Print("\nQuel personnage souhaite acheter le cuir de sanglier ?\n")
+				fmt.Printf("1. %s\n", characters.C1.Nom)
+				fmt.Printf("2. %s\n", characters.C2.Nom)
+				fmt.Print("Votre choix : ")
+				choixPerso := functionshelper.ReadInput()
+				switch choixPerso {
+				case "1", "1.":
+					characterName = characters.C1.Nom
+					character = characters.C1
+				case "2", "2.":
+					characterName = characters.C2.Nom
+					character = characters.C2
+				default:
+					fmt.Println("Choix invalide")
+					continue
+				}
+			} else {
+				characterName = characters.C1.Nom
+				character = characters.C1
+			}
+			if !CheckInventorySpace(characterName) {
+				fmt.Printf("\nL'inventaire de %s est plein ! (10/10 items)\n", characterName)
+				fmt.Print("Vous devez libérer de l'espace avant d'acheter un nouvel item.\n")
+				continue
+			}
+			if character.PiècesDOr >= prixActuel_Cuirdesanglier {
+				fmt.Printf("\nCuir de sanglier ajouté à l'inventaire de %s !\n", characterName)
+				functionshelper.AddInventory(characterName, "Cuir de sanglier")
+				character.PiècesDOr -= prixActuel_Cuirdesanglier
+				fmt.Printf("Votre nouveau solde : %d pièces d'or\n", character.PiècesDOr)
+			} else {
+				manque := prixActuel_Cuirdesanglier - character.PiècesDOr
+				fmt.Printf("\nVous n'avez pas assez de pièces d'or (il vous manque %d pièces)\n", manque)
+			}
+			fmt.Print("\nVoulez-vous acheter autre chose ? (o/n) : ")
+			continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+			if continuer != "o" && continuer != "oui" {
+				return
+			}
+		case "7", "7.":
+			var characterName string
+			var character *characters.Character
+			if characters.C2_b && characters.C2 != nil {
+				fmt.Print("\nQuel personnage souhaite acheter la plume de corbeau ?\n")
+				fmt.Printf("1. %s\n", characters.C1.Nom)
+				fmt.Printf("2. %s\n", characters.C2.Nom)
+				fmt.Print("Votre choix : ")
+				choixPerso := functionshelper.ReadInput()
+				switch choixPerso {
+				case "1", "1.":
+					characterName = characters.C1.Nom
+					character = characters.C1
+				case "2", "2.":
+					characterName = characters.C2.Nom
+					character = characters.C2
+				default:
+					fmt.Println("Choix invalide")
+					continue
+				}
+			} else {
+				characterName = characters.C1.Nom
+				character = characters.C1
+			}
+			if !CheckInventorySpace(characterName) {
+				fmt.Printf("\nL'inventaire de %s est plein ! (10/10 items)\n", characterName)
+				fmt.Print("Vous devez libérer de l'espace avant d'acheter un nouvel item.\n")
+				continue
+			}
+			if character.PiècesDOr >= prixActuel_Plumedecorbeau {
+				fmt.Printf("\nPlume de corbeau ajoutée à l'inventaire de %s !\n", characterName)
+				functionshelper.AddInventory(characterName, "Plume de corbeau")
+				character.PiècesDOr -= prixActuel_Plumedecorbeau
+				fmt.Printf("Votre nouveau solde : %d pièces d'or\n", character.PiècesDOr)
+			} else {
+				manque := prixActuel_Plumedecorbeau - character.PiècesDOr
+				fmt.Printf("\nVous n'avez pas assez de pièces d'or (il vous manque %d pièces)\n", manque)
+			}
+			fmt.Print("\nVoulez-vous acheter autre chose ? (o/n) : ")
+			continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+			if continuer != "o" && continuer != "oui" {
+				return
+			}
+		case "8", "8.":
 			return
 		default:
 			fmt.Println("Choix invalide, veuillez réessayer.")
 		}
+	}
+}
+
+func Forgeron() {
+	prixChapeau := 25
+	prixTunique := 30
+	prixBottes := 20
+	prixEpee := 35
+	fmt.Println("┌─────────────────────────────────────────────────────────────────────────────────────┐")
+	fmt.Print("│                                BOUTIQUE DU FORGERON                                 │")
+	fmt.Print("\n├─────────────────────────────────────────────────────────────────────────────────────┤\n")
+	fmt.Print("│ Bienvenue dans ma boutique                                                          │\n")
+	fmt.Print("│ Voici les items disponibles :                                                       │\n")
+	fmt.Print("│                                                                                     │\n")
+	fmt.Printf("│ 1. Chapeau de l'aventurier - %-3d pièces d'or                                        │\n", prixChapeau)
+	fmt.Printf("│ 2. Tunique de l'aventurier - %-3d pièces d'or                                        │\n", prixTunique)
+	fmt.Printf("│ 3. Bottes de l'aventurier - %-3d pièces d'or                                         │\n", prixBottes)
+	fmt.Printf("│ 4. Épée en fer - %-3d pièces d'or                                                    │\n", prixEpee)
+	fmt.Print("│ 5. Retourner au menu principal                                                      │\n")
+	fmt.Print("└─────────────────────────────────────────────────────────────────────────────────────┘\n\nQue souhaitez vous faire ?\n")
+
+	choix := functionshelper.ReadInput()
+
+	switch choix {
+	case "1", "1.":
+		processerAchat("Chapeau de l'aventurier", prixChapeau)
+	case "2", "2.":
+		processerAchat("Tunique de l'aventurier", prixTunique)
+	case "3", "3.":
+		processerAchat("Bottes de l'aventurier", prixBottes)
+	case "4", "4.":
+		processerAchat("Épée en fer", prixEpee)
+	case "5", "5.":
+		return
+	default:
+		fmt.Println("Choix invalide, veuillez réessayer.")
+	}
+}
+
+func processerAchat(itemName string, prix int) bool {
+	var characterName string
+	var character *characters.Character
+	if characters.C2_b && characters.C2 != nil {
+		fmt.Printf("\nQuel personnage souhaite acheter %s ?\n", itemName)
+		fmt.Printf("1. %s\n", characters.C1.Nom)
+		fmt.Printf("2. %s\n", characters.C2.Nom)
+		fmt.Print("Votre choix : ")
+		choixPerso := functionshelper.ReadInput()
+		switch choixPerso {
+		case "1", "1.":
+			characterName = characters.C1.Nom
+			character = characters.C1
+		case "2", "2.":
+			characterName = characters.C2.Nom
+			character = characters.C2
+		default:
+			fmt.Println("Choix invalide")
+			return false
+		}
+	} else {
+		characterName = characters.C1.Nom
+		character = characters.C1
+	}
+	if !CheckInventorySpace(characterName) {
+		fmt.Printf("\nL'inventaire de %s est plein ! (10/10 items)\n", characterName)
+		fmt.Print("Vous devez libérer de l'espace avant d'acheter un nouvel item.\n")
+		return false
+	}
+
+	if character.PiècesDOr >= prix {
+		fmt.Printf("\n%s ajouté à l'inventaire de %s !\n", itemName, characterName)
+		functionshelper.AddInventory(characterName, itemName)
+		character.PiècesDOr -= prix
+		fmt.Printf("Votre nouveau solde : %d pièces d'or\n", character.PiècesDOr)
+		fmt.Print("\nVoulez-vous acheter autre chose ? (o/n) : ")
+		continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+		if continuer != "o" && continuer != "oui" {
+			return true
+		}
+		return true
+	} else {
+		manque := prix - character.PiècesDOr
+		fmt.Printf("\nVous n'avez pas assez de pièces d'or (il vous manque %d pièces)\n", manque)
+		fmt.Print("\nVoulez-vous regarder autre chose ? (o/n) : ")
+		continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+		if continuer != "o" && continuer != "oui" {
+			return false
+		}
+		return false
 	}
 }
 
