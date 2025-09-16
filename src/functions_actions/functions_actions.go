@@ -157,6 +157,7 @@ func Marchand() {
 		fmt.Printf("%s│%s %s5.%s Peau de troll - %s%-3d pièces d'or%s                                                  %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Peaudetroll, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
 		fmt.Printf("%s│%s %s6.%s Cuir de sanglier - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Cuirdesanglier, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
 		fmt.Printf("%s│%s %s7.%s Plume de corbeau - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Plumedecorbeau, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s %s8.%s Revendre des objets                                                              %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
 		fmt.Printf("%s│%s %s8.%s Retourner au menu principal                                                      %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
 		fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Cyan, couleurs.Reset)
 		fmt.Printf("\n%sQue souhaitez vous faire ?%s\n", couleurs.Blue+couleurs.Bold, couleurs.Reset)
@@ -470,6 +471,45 @@ func Marchand() {
 				return
 			}
 		case "8", "8.":
+			var characterName string
+			if characters.C2_b && characters.C2 != nil {
+				fmt.Printf("\n%sQuel personnage souhaite revendre ?%s\n", couleurs.Purple, couleurs.Reset)
+				fmt.Printf("%s1. %s%s%s\n", couleurs.White, couleurs.Green, characters.C1.Nom, couleurs.Reset)
+				fmt.Printf("%s2. %s%s%s\n", couleurs.White, couleurs.Green, characters.C2.Nom, couleurs.Reset)
+				fmt.Printf("%sVotre choix :%s ", couleurs.Blue, couleurs.Reset)
+				choixPerso := functionshelper.ReadInput()
+				switch choixPerso {
+				case "1", "1.":
+					characterName = characters.C1.Nom
+					AccessInventory(characterName)
+					ItemView(characterName)
+				case "2", "2.":
+					characterName = characters.C2.Nom
+					AccessInventory(characterName)
+					ItemView(characterName)
+				default:
+					fmt.Printf("%sChoix invalide%s\n", couleurs.Red, couleurs.Reset)
+					continue
+				}
+			} else {
+				AccessInventory(characters.C1.Nom)
+				ItemView(characters.C1.Nom)
+				fmt.Printf("\n%sQuel(s) objet(s) souhaitez vous revendre ?%s\n", couleurs.Blue, couleurs.Reset)
+				fmt.Printf("%sVotre choix :%s ", couleurs.Blue, couleurs.Reset)
+				itemName := functionshelper.ReadInput()
+				for len(itemName) <= 6 {
+					if len(itemName) <= 6 {
+						fmt.Printf("%sErreur : vous devez entrer le nom d'un objet %s\n", couleurs.Red, couleurs.Reset)
+						fmt.Printf("\n%sQuel(s) objet(s) souhaitez vous revendre ?%s\n", couleurs.Blue, couleurs.Reset)
+					}
+					itemName = functionshelper.ReadInput()
+					functionshelper.RemoveInventory(characters.C1.Nom, itemName)
+					if len(itemName) >= 6 {
+						fmt.Printf("%sVous avez bien vendu %s%s%s ! %s\n", couleurs.Green, couleurs.Yellow, itemName, couleurs.Green, couleurs.Reset)
+					}
+				}
+			}
+		case "9", "9.":
 			return
 		default:
 			fmt.Printf("%sChoix invalide, veuillez réessayer.%s\n", couleurs.Red, couleurs.Reset)

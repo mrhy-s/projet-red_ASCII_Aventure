@@ -30,9 +30,20 @@ type Equipement struct {
 	Bouclier string
 }
 
+type Monster struct {
+	Nom                string
+	Classe             string
+	PointsDeVieMaximum int
+	PointsDeVieActuels int
+	Inventaire         []string
+	Skill              []string
+	Equipement         Equipement
+}
+
 var C1 *Character
 var C2 *Character
 var C2_b bool
+var Goblin *Monster
 
 var C_temp_name string
 var C_temp_classe string
@@ -55,6 +66,18 @@ func InitCharacter(nom string, classe string, niveau int, pointsDeVieMaximum int
 		Equipment:          Equipement{},
 		InventaireMaxSlots: 10,
 		UpgradesUtilisés:   0,
+	}
+}
+
+func InitMonster(nom string, classe string, niveau int, pointsDeVieMaximum int, pointsDeVieActuels int, inventaire []string, skill []string) *Monster {
+	return &Monster{
+		Nom:                nom,
+		Classe:             classe,
+		PointsDeVieMaximum: pointsDeVieMaximum,
+		PointsDeVieActuels: pointsDeVieActuels,
+		Inventaire:         inventaire,
+		Skill:              skill,
+		Equipement:         Equipement{},
 	}
 }
 

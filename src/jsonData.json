@@ -7,15 +7,12 @@
 	"Inventaire": [
 		"potion de soin",
 		"potion de soin",
-		"potion de soin",
-		"Fourrure de loup",
-		"Peau de troll",
-		"Chapeau de l'aventurier"
+		"potion de soin"
 	],
 	"Skill": [
 		"Coup de poing"
 	],
-	"PiècesDOr": 80,
+	"PiècesDOr": 100,
 	"Equipment": {
 		"Chapeau": "",
 		"Tunique": "",
