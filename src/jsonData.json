@@ -7,12 +7,13 @@
 	"Inventaire": [
 		"potion de soin",
 		"potion de soin",
-		"potion de soin"
+		"potion de soin",
+		"Bottes de l'aventurier"
 	],
 	"Skill": [
 		"Coup de poing"
 	],
-	"PiècesDOr": 100,
+	"PiècesDOr": 88,
 	"Equipment": {
 		"Chapeau": "",
 		"Tunique": "",

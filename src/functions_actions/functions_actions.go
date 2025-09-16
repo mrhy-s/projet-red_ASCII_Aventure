@@ -18,7 +18,7 @@ var PotionGratuite bool
 func DisplayInfo(s string) {
 	s = strings.ToLower(strings.TrimSpace(s))
 	if strings.Contains(strings.ToLower(s), "liste") {
-		fmt.Printf("\n%s=== LISTE DES PERSONNAGES ===%s\n", couleurs.Bold+couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("\n%s=== LISTE DES PERSONNAGES ===%s\n", couleurs.Bold+couleurs.Blue, couleurs.Reset)
 		fmt.Printf("\n%sPersonnage 1 :%s\n", couleurs.Green, couleurs.Reset)
 		characters.DisplayCharacterTable(*characters.C1)
 		if characters.C2_b && characters.C2 != nil {
@@ -55,19 +55,19 @@ func AccessInventory(s string) {
 		character = characters.C1
 	}
 	inventoryCount := len(character.Inventaire)
-	fmt.Printf("\n%s┌─────────────────────────────────────────────────┐%s\n", couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s│%s %sInventaire de%s %s%-33s%s %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Green, character.Nom, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s│%s %s(%d/%d items)%s                                    %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Blue, inventoryCount, character.InventaireMaxSlots, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s├─────────────────────────────────────────────────┤%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("\n%s┌─────────────────────────────────────────────────┐%s\n", couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s %sInventaire de%s %s%-33s%s %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Green, character.Nom, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s %s(%d/%d items)%s                                    %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Blue, inventoryCount, character.InventaireMaxSlots, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s├─────────────────────────────────────────────────┤%s\n", couleurs.Blue, couleurs.Reset)
 	if inventoryCount == 0 {
-		fmt.Printf("%s│%s %sInventaire vide%s                                 %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s %sInventaire vide%s                                 %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	} else {
 		for i, item := range character.Inventaire {
 			itemName := fmt.Sprintf("%v", item)
-			fmt.Printf("%s│%s %s%d.%s %-44s %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Yellow, i+1, couleurs.Reset, itemName, couleurs.Cyan, couleurs.Reset)
+			fmt.Printf("%s│%s %s%d.%s %-44s %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Yellow, i+1, couleurs.Reset, itemName, couleurs.Blue, couleurs.Reset)
 		}
 	}
-	fmt.Printf("%s└─────────────────────────────────────────────────┘%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s└─────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
 }
 
 func CheckInventorySpace(characterName string) bool {
@@ -140,26 +140,26 @@ func Marchand() {
 	prixActuel_Cuirdesanglier := 3
 	prixActuel_Plumedecorbeau := 1
 	for {
-		fmt.Printf("%s┌─────────────────────────────────────────────────────────────────────────────────────┐%s\n", couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s%s                                BOUTIQUE DU MARCHAND                                 %s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s├─────────────────────────────────────────────────────────────────────────────────────┤%s\n", couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %sBienvenue dans ma boutique%s                                                          %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %sVoici les items disponibles :%s                                                       %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s                                                                                     %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s┌─────────────────────────────────────────────────────────────────────────────────────┐%s\n", couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s%s                                BOUTIQUE DU MARCHAND                                 %s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s├─────────────────────────────────────────────────────────────────────────────────────┤%s\n", couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %sBienvenue dans ma boutique%s                                                          %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %sVoici les items disponibles :%s                                                       %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s                                                                                     %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		if PotionGratuite {
-			fmt.Printf("%s│%s %s1.%s Potion de soin - %sGRATUIT%s                                                         %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Bold+couleurs.Yellow, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+			fmt.Printf("%s│%s %s1.%s Potion de soin - %sGRATUIT%s                                                         %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Bold+couleurs.Yellow, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		} else {
-			fmt.Printf("%s│%s %s1.%s Potion de soin - %s%-3d pièces d'or%s                                                 %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_PotionDeVie, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+			fmt.Printf("%s│%s %s1.%s Potion de soin - %s%-3d pièces d'or%s                                                 %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_PotionDeVie, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		}
-		fmt.Printf("%s│%s %s2.%s Potion de poison - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_PotionDePoison, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s3.%s [Spell book] > Boule de feu - %s%-3d pièces d'or%s                                    %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_SpellBookBouleDeFeu, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s4.%s Fourrure de loup - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Fourruredeloup, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s5.%s Peau de troll - %s%-3d pièces d'or%s                                                  %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Peaudetroll, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s6.%s Cuir de sanglier - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Cuirdesanglier, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s7.%s Plume de corbeau - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Plumedecorbeau, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s8.%s Revendre des objets                                                              %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s8.%s Retourner au menu principal                                                      %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s %s2.%s Potion de poison - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_PotionDePoison, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s3.%s [Spell book] > Boule de feu - %s%-3d pièces d'or%s                                    %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_SpellBookBouleDeFeu, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s4.%s Fourrure de loup - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Fourruredeloup, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s5.%s Peau de troll - %s%-3d pièces d'or%s                                                  %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Peaudetroll, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s6.%s Cuir de sanglier - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Cuirdesanglier, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s7.%s Plume de corbeau - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Plumedecorbeau, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s8.%s Revendre des objets                                                              %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s9.%s Retourner au menu principal                                                      %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
 		fmt.Printf("\n%sQue souhaitez vous faire ?%s\n", couleurs.Blue+couleurs.Bold, couleurs.Reset)
 		choix := functionshelper.ReadInput()
 		switch choix {
@@ -519,18 +519,18 @@ func Marchand() {
 
 func Forgeron() {
 	for {
-		fmt.Printf("%s┌─────────────────────────────────────────────────────────────────────────────────────┐%s\n", couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s%s                                FORGE DE L'AVENTURIER                                %s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s├─────────────────────────────────────────────────────────────────────────────────────┤%s\n", couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %sBienvenue dans ma forge !%s                                                           %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %sVoici les équipements que je peux fabriquer :%s                                       %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s                                                                                     %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s1.%s Chapeau de l'aventurier - Nécessite : 1 Plume de Corbeau + 1 Cuir de Sanglier    %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s2.%s Tunique de l'aventurier - Nécessite : 2 Fourrure de loup + 1 Peau de Troll       %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s3.%s Bottes de l'aventurier - Nécessite : 1 Fourrure de loup + 1 Cuir de Sanglier     %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s4.%s Amélioration d'inventaire                                                        %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s5.%s Retour au menu                                                                   %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s┌─────────────────────────────────────────────────────────────────────────────────────┐%s\n", couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s%s                                FORGE DE L'AVENTURIER                                %s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s├─────────────────────────────────────────────────────────────────────────────────────┤%s\n", couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %sBienvenue dans ma forge !%s                                                           %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %sVoici les équipements que je peux fabriquer :%s                                       %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s                                                                                     %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s1.%s Chapeau de l'aventurier - Nécessite : 1 Plume de Corbeau + 1 Cuir de Sanglier    %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s2.%s Tunique de l'aventurier - Nécessite : 2 Fourrure de loup + 1 Peau de Troll       %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s3.%s Bottes de l'aventurier - Nécessite : 1 Fourrure de loup + 1 Cuir de Sanglier     %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s4.%s Amélioration d'inventaire                                                        %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s5.%s Retour au menu                                                                   %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
 
 		fmt.Printf("\n%sVotre choix :%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
 		choice := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
@@ -702,3 +702,80 @@ func ItemViewOui(character *characters.Character) {
 		fmt.Printf("%sL'item '%s' n'est pas dans l'inventaire.%s\n", couleurs.Red, item, couleurs.Reset)
 	}
 }
+
+/*
+func InitCombat(Tour int) {
+	var character *characters.Character
+
+	if characters.C2_b && characters.C2 != nil {
+		fmt.Printf("\n%sAvec quel personnage souhaitez-vous attaquer ?%s\n", couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s1. %s%s%s\n", couleurs.White, couleurs.Green, characters.C1.Nom, couleurs.Reset)
+		fmt.Printf("%s2. %s%s%s\n", couleurs.White, couleurs.Green, characters.C2.Nom, couleurs.Reset)
+		fmt.Printf("%sVotre choix :%s ", couleurs.Blue, couleurs.Reset)
+		choixPerso := functionshelper.ReadInput()
+		switch choixPerso {
+		case "1", "1.", characters.C1.Nom:
+			character = characters.C1
+		case "2", "2.", characters.C2.Nom:
+			character = characters.C2
+		default:
+			fmt.Printf("%sChoix invalide%s\n", couleurs.Red, couleurs.Reset)
+		}
+	} else {
+		character = characters.C1
+	}
+	if character != nil {
+		enemy := getCurrentEnemy()
+		fmt.Printf("┌─────────────────────────────────────────────────────────────────────────────────────┐\n")
+		fmt.Printf("│                                                                                     │\n")
+		fmt.Printf("│                              %sCOMBAT%s ── %s%s%s vs %s%s%s                             │\n", couleurs.Red, couleurs.Reset, couleurs.Green, character.Nom, couleurs.Reset, couleurs.Red, enemy.Nom, couleurs.Reset)
+		fmt.Printf("│                                                                                     │\n")
+		fmt.Printf("├─────────────────────────────────────────┬─┬─────────────────────────────────────────┤\n")
+		fmt.Printf("│ %s%s%s                                  │ │ %s%s%s                                  │\n", couleurs.Green, espacementDroite(character.Nom, 39), couleurs.Reset, couleurs.Red, espacementDroite(enemy.Nom, 39), couleurs.Reset)
+		fmt.Printf("├─────────────────────────────────────────┼─┼─────────────────────────────────────────┤\n")
+		fmt.Printf("│                                         │ │                                         │\n")
+		fmt.Printf("│ %sPV : %s%s%d%s                           │ │ %sPV : %s%s%d%s                           │\n", couleurs.White, couleurs.Green, couleurs.Bold, character.PointsDeVieActuels, couleurs.Reset, couleurs.White, couleurs.Red, couleurs.Bold, enemy.PointsDeVieActuels, couleurs.Reset)
+		fmt.Printf("│                                         │ │                                         │\n")
+		fmt.Printf("│ %sDurabilité équipement :%s             │ │ %sDurabilité équipement :%s             │\n", couleurs.Yellow, couleurs.Reset, couleurs.Yellow, couleurs.Reset)
+		fmt.Printf("│                                         │ │                                         │\n")
+		equipements := getEquipementsDurability(character)
+		enemyEquipements := getEquipementsDurability(enemy)
+		for i := 0; i < 4; i++ {
+			var playerEquip, enemyEquip string
+			if i < len(equipements) {
+				playerEquip = equipements[i]
+			}
+			if i < len(enemyEquipements) {
+				enemyEquip = enemyEquipements[i]
+			}
+			fmt.Printf("│  %s- %s%s%s                             │ │  %s- %s%s%s                             │\n",
+				couleurs.White, couleurs.Cyan, espacementDroite(playerEquip, 31), couleurs.Reset,
+				couleurs.White, couleurs.Cyan, espacementDroite(enemyEquip, 31), couleurs.Reset)
+			fmt.Printf("│                                         │ │                                         │\n")
+		}
+		fmt.Printf("│                                         │ │                                         │\n")
+		fmt.Printf("│                                         │ │                                         │\n")
+		fmt.Printf("└─────────────────────────────────────────┴─┴─────────────────────────────────────────┘\n")
+	}
+	Tour++
+}
+
+func espacementDroite(string_ string, len_ int) string {
+	if len(string_) >= len_ {
+		return string_[:len_]
+	}
+	return string_ + strings.Repeat(" ", len_-len(string_))
+}
+
+func getCurrentEnemy() *characters.Monster {
+	return &characters.Monster{
+		// Mettre la logique
+	}
+}
+
+func getEquipementsDurability(character *characters.Character) []string {
+	return []string{
+		// Mettre la logique
+	}
+}
+*/

@@ -115,23 +115,23 @@ func RemoveInventory(characterName string, item string) bool {
 
 func DisplayItemDetails(itemName string) {
 	item := GetItemByName(strings.ToLower(itemName))
-	fmt.Printf("%s┌──────────────────────────────────────────────────────────────┐%s\n", couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s│%s%s                      Détails de l'item                       %s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s├──────────────────────────────────────────────────────────────┤%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s┌──────────────────────────────────────────────────────────────┐%s\n", couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s%s                      Détails de l'item                       %s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s├──────────────────────────────────────────────────────────────┤%s\n", couleurs.Blue, couleurs.Reset)
 	if item == nil {
-		fmt.Printf("%s│%s%sNom:%s %s%-57s%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Yellow, itemName, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s%sType:%s %sObjet%s                                                   %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Purple, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s%sDescription:%s %sUn objet mystérieux%s                              %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s%sNom:%s %s%-57s%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Yellow, itemName, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s%sType:%s %sObjet%s                                                   %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Purple, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s%sDescription:%s %sUn objet mystérieux%s                              %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	} else {
-		fmt.Printf("%s│%s%sNom:%s %s%-57s%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Yellow, item.Nom, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s%sNom:%s %s%-57s%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Yellow, item.Nom, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		if item.Type != "" {
-			fmt.Printf("%s│%s%sType:%s %s%-56s%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Purple, item.Type, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+			fmt.Printf("%s│%s%sType:%s %s%-56s%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Purple, item.Type, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		}
 		if item.Effet != "" {
-			fmt.Printf("%s│%s%sEffet:%s %s%-55s%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Green, item.Effet, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+			fmt.Printf("%s│%s%sEffet:%s %s%-55s%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Green, item.Effet, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		}
 		if item.Degats > 0 {
-			fmt.Printf("%s│%s%sDégâts:%s %s+%-53d%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Red, item.Degats, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+			fmt.Printf("%s│%s%sDégâts:%s %s+%-53d%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Red, item.Degats, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		}
 		if item.DurabilitéMaximum > 0 {
 			var durabilityColor string
@@ -143,7 +143,7 @@ func DisplayItemDetails(itemName string) {
 			} else {
 				durabilityColor = couleurs.Red
 			}
-			fmt.Printf("%s│%s%sDurabilité:%s %s%d%s/%s%d%s%-48s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, durabilityColor, item.DurabilitéesActuelle, couleurs.Reset, couleurs.White, item.DurabilitéMaximum, couleurs.Reset, "", couleurs.Cyan, couleurs.Reset)
+			fmt.Printf("%s│%s%sDurabilité:%s %s%d%s/%s%d%s%-48s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, durabilityColor, item.DurabilitéesActuelle, couleurs.Reset, couleurs.White, item.DurabilitéMaximum, couleurs.Reset, "", couleurs.Blue, couleurs.Reset)
 		}
 		if item.Description != "" {
 			desc := item.Description
@@ -151,14 +151,14 @@ func DisplayItemDetails(itemName string) {
 			lines := WrapText(desc, maxWidth)
 			for i, line := range lines {
 				if i == 0 {
-					fmt.Printf("%s│%s%sDescription:%s %s%-49s%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.White, line, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+					fmt.Printf("%s│%s%sDescription:%s %s%-49s%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.White, line, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 				} else {
-					fmt.Printf("%s│%s             %s%-49s%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, line, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+					fmt.Printf("%s│%s             %s%-49s%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, line, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 				}
 			}
 		}
 	}
-	fmt.Printf("%s└──────────────────────────────────────────────────────────────┘%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s└──────────────────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
 	if strings.Contains(itemName, "[Spell book]") {
 		fmt.Printf("\n%sVoulez-vous apprendre ce livre de sort ?%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
 		input := strings.ToLower(strings.TrimSpace(ReadInput()))

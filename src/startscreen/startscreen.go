@@ -241,17 +241,17 @@ func loadingAnimation() {
 	for i := range 20 {
 		fmt.Print("\033[14;1H")
 		nombrePoints := i % 4
-		fmt.Printf("%*s%s%s%s", espacesAGauche, "", couleurs.Cyan+couleurs.Bold, texteChargement, couleurs.Reset)
+		fmt.Printf("%*s%s%s%s", espacesAGauche, "", couleurs.Blue+couleurs.Bold, texteChargement, couleurs.Reset)
 		fmt.Printf("%.*s%*s", nombrePoints, "...", 3-nombrePoints, "")
 		fmt.Printf("\n%*s", espacesAGauche, "")
 		pourcentage := i * 5
 		barresRemplies := pourcentage / 5
 		barresVides := 20 - barresRemplies
-		fmt.Printf("%s[%s", couleurs.Cyan, couleurs.Yellow)
+		fmt.Printf("%s[%s", couleurs.Blue, couleurs.Yellow)
 		fmt.Printf("%.*s", barresRemplies, "████████████████████")
 		fmt.Printf("%s", couleurs.White)
 		fmt.Printf("%.*s", barresVides, "░░░░░░░░░░░░░░░░░░░░")
-		fmt.Printf("%s] %d%%%s", couleurs.Cyan, pourcentage, couleurs.Reset)
+		fmt.Printf("%s] %d%%%s", couleurs.Blue, pourcentage, couleurs.Reset)
 		time.Sleep(100 * time.Millisecond)
 	}
 }
@@ -281,13 +281,13 @@ func StartScreen() {
 	if espacesAGauche < 0 {
 		espacesAGauche = 0
 	}
-	fmt.Printf("%*s%s%s%s%s\n", espacesAGauche, "", couleurs.Cyan, couleurs.Bold, messageFinal, couleurs.Reset)
+	fmt.Printf("%*s%s%s%s%s\n", espacesAGauche, "", couleurs.Blue, couleurs.Bold, messageFinal, couleurs.Reset)
 
 	input := readInput()
 	if input != "" {
 		fmt.Printf("\n%sÇa commence bien... On te dit d'appuyer sur la touche ENTRÉE et toi tu tapes '%s'%s\n",
 			couleurs.Red, input, couleurs.Reset)
-		fmt.Printf("%sAppuyez juste sur ENTRÉE cette fois...%s\n", couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%sAppuyez juste sur ENTRÉE cette fois...%s\n", couleurs.Blue, couleurs.Reset)
 		readInput()
 	}
 	fmt.Print("\033[?25h") // remonter le curseur

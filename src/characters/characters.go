@@ -81,6 +81,10 @@ func InitMonster(nom string, classe string, niveau int, pointsDeVieMaximum int, 
 	}
 }
 
+func GoblinPattern() {
+
+}
+
 func DisplayCharacterTable(character Character) {
 	inventaireStr := strings.Join(character.Inventaire, ", ")
 	skillStr := strings.Join(character.Skill, ", ")
@@ -100,12 +104,12 @@ func DisplayCharacterTable(character Character) {
 			skillStr = string(runes2[:targetLength]) + "..."
 		}
 	}
-	fmt.Printf("%s┌─────────────────────────────────────────────────────────────────────────────────────┐%s\n", couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s│%s%s                         Caractéristiques du personnage :                            %s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s├─────────────────────────────────────────────────────────────────────────────────────┤%s\n", couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s│%s   %s- Nom :%s %s%-74s%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Green, character.Nom, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s│%s   %s- Classe :%s %s%-71s%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Purple, character.Classe, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s│%s   %s- Niveau :%s %s%-71d%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Blue, character.Niveau, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s┌─────────────────────────────────────────────────────────────────────────────────────┐%s\n", couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s%s                         Caractéristiques du personnage :                            %s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s├─────────────────────────────────────────────────────────────────────────────────────┤%s\n", couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Nom :%s %s%-74s%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Green, character.Nom, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Classe :%s %s%-71s%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Purple, character.Classe, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Niveau :%s %s%-71d%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Blue, character.Niveau, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	var pvColor string
 	pvPercent := float64(character.PointsDeVieActuels) / float64(character.PointsDeVieMaximum)
 	if pvPercent >= 0.7 {
@@ -115,8 +119,8 @@ func DisplayCharacterTable(character Character) {
 	} else {
 		pvColor = couleurs.Red
 	}
-	fmt.Printf("%s│%s   %s- Points de vie maximum :%s %s%-56d%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.White, character.PointsDeVieMaximum, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s│%s   %s- Points de vie actuels :%s %s%-56d%s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, pvColor, character.PointsDeVieActuels, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Points de vie maximum :%s %s%-56d%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.White, character.PointsDeVieMaximum, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Points de vie actuels :%s %s%-56d%s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, pvColor, character.PointsDeVieActuels, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	var invColor string
 	if len(character.Inventaire) == 0 {
 		invColor = couleurs.Red
@@ -124,7 +128,7 @@ func DisplayCharacterTable(character Character) {
 	} else {
 		invColor = couleurs.White
 	}
-	fmt.Printf("%s│%s   %s- Inventaire :%s [%s%-65s%s]%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, invColor, inventaireStr, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Inventaire :%s [%s%-65s%s]%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, invColor, inventaireStr, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	var skillColor string
 	if len(character.Skill) == 0 {
 		skillColor = couleurs.Red
@@ -132,11 +136,11 @@ func DisplayCharacterTable(character Character) {
 	} else {
 		skillColor = couleurs.White
 	}
-	fmt.Printf("%s│%s   %s- Skill :%s [%s%-70s%s]%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, skillColor, skillStr, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Skill :%s [%s%-70s%s]%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, skillColor, skillStr, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 
-	fmt.Printf("%s│%s   %s- Pièces d'Or :%s %s%-65d%s %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Yellow, character.PiècesDOr, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s│%s                                                                                     %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s   %s- Pièces d'Or :%s %s%-65d%s %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Yellow, character.PiècesDOr, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s                                                                                     %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
 }
 
 func IsDead() {
@@ -316,37 +320,37 @@ func UpgradeInventorySlot(character *Character) bool {
 }
 
 func DisplayEquipment(character *Character) {
-	fmt.Printf("\n%s┌─────────────────────────────────────────────────┐%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("\n%s┌─────────────────────────────────────────────────┐%s\n", couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s│%s %sÉquipements de%s %s%-29s%s %s   │%s\n",
-		couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
-		couleurs.Green, character.Nom, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s├─────────────────────────────────────────────────┤%s\n", couleurs.Cyan, couleurs.Reset)
+		couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset,
+		couleurs.Green, character.Nom, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s├─────────────────────────────────────────────────┤%s\n", couleurs.Blue, couleurs.Reset)
 	if character.Equipment.Chapeau != "" {
 		fmt.Printf("%s│%s %sChapeau :%s %-36s %s │%s\n",
-			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
-			character.Equipment.Chapeau, couleurs.Cyan, couleurs.Reset)
+			couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset,
+			character.Equipment.Chapeau, couleurs.Blue, couleurs.Reset)
 	} else {
 		fmt.Printf("%s│%s %sChapeau :%s %sAucun%s                             %s    │%s\n",
-			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
-			couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+			couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset,
+			couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	}
 	if character.Equipment.Tunique != "" {
 		fmt.Printf("%s│%s %sTunique :%s %-36s %s │%s\n",
-			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
-			character.Equipment.Tunique, couleurs.Cyan, couleurs.Reset)
+			couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset,
+			character.Equipment.Tunique, couleurs.Blue, couleurs.Reset)
 	} else {
 		fmt.Printf("%s│%s %sTunique :%s %sAucune%s                            %s    │%s\n",
-			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
-			couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+			couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset,
+			couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	}
 	if character.Equipment.Bottes != "" {
 		fmt.Printf("%s│%s %sBottes :%s %-37s %s │%s\n",
-			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
-			character.Equipment.Bottes, couleurs.Cyan, couleurs.Reset)
+			couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset,
+			character.Equipment.Bottes, couleurs.Blue, couleurs.Reset)
 	} else {
 		fmt.Printf("%s│%s %sBottes :%s %sAucunes%s                            %s    │%s\n",
-			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
-			couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+			couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset,
+			couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	}
-	fmt.Printf("%s└─────────────────────────────────────────────────┘%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s└─────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
 }
