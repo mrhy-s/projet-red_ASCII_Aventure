@@ -34,11 +34,12 @@ func main() {
 	skills.CoupDeHache = skills.InitSkill("Coup de hache", "Nain", 1, "Frappe d'un coup de hache puissant")
 	skills.TirÀLarc = skills.InitSkill("Tir à l'arc", "Elfe", 1, "Tir une flèche puissante")
 	skills.BouleDeFeu = skills.InitSkill("[Spell book] > Boule de feu", "any", 1, "Tir une boule de feu")
+	items.Bottes_de_laventurier = items.InitArmure("Bottes de l'aventurier", "any", 0, 80, "Bottes en cuir simples", 8)
+	items.Tunique_de_laventurier = items.InitArmure("Tunique de l'aventurier", "any", 0, 100, "Tunique en cuir simples", 10)
+	items.Chapeau_de_laventurier = items.InitArmure("Chapeau de l'aventurier", "any", 0, 70, "Chapeau en cuir simples", 5)
 	if startScreen { // affichage de l'écran de démarrage (une seule fois)
 		startscreen.StartScreen()
 		menus.Menu()
 		startScreen = false
 	}
 }
-
-// retirer correctement le spell book

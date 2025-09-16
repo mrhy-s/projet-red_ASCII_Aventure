@@ -1,16 +1,28 @@
 {
-	"Nom": "Test",
-	"Classe": "Humain",
+	"Nom": "Zinrel",
+	"Classe": "Elfe",
 	"Niveau": 1,
-	"PointsDeVieMaximum": 102,
-	"PointsDeVieActuels": 47,
+	"PointsDeVieMaximum": 80,
+	"PointsDeVieActuels": 40,
 	"Inventaire": [
 		"potion de soin",
 		"potion de soin",
-		"potion de soin"
+		"potion de soin",
+		"Fourrure de loup",
+		"Peau de troll",
+		"Chapeau de l'aventurier"
 	],
 	"Skill": [
 		"Coup de poing"
 	],
-	"PiècesDOr": 100
+	"PiècesDOr": 80,
+	"Equipment": {
+		"Chapeau": "",
+		"Tunique": "",
+		"Bottes": "",
+		"Arme": "",
+		"Bouclier": ""
+	},
+	"InventaireMaxSlots": 10,
+	"UpgradesUtilisés": 0
 }

@@ -8,6 +8,7 @@ import (
 	"ASCII_Aventure/savegame"
 	"ASCII_Aventure/startscreen"
 	"fmt"
+	"strings"
 )
 
 // ==============
@@ -45,8 +46,14 @@ func Menu() {
 			fmt.Printf("\n%sVotre réponse :%s ", couleurs.Blue, couleurs.Reset)
 			commande := functionshelper.ReadInput()
 			functionsactions.DisplayInfo(commande)
+			if strings.Contains(commande, characters.C1.Nom) {
+				characters.DisplayEquipment(characters.C1)
+			} else if strings.Contains(commande, characters.C2.Nom) {
+				characters.DisplayEquipment(characters.C2)
+			}
 		} else {
 			functionsactions.DisplayInfo(characters.C1.Nom)
+			characters.DisplayEquipment(characters.C1)
 		}
 		Menu()
 	case "2", "2.":

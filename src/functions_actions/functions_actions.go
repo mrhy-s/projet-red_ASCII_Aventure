@@ -57,7 +57,7 @@ func AccessInventory(s string) {
 	inventoryCount := len(character.Inventaire)
 	fmt.Printf("\n%s┌─────────────────────────────────────────────────┐%s\n", couleurs.Cyan, couleurs.Reset)
 	fmt.Printf("%s│%s %sInventaire de%s %s%-33s%s %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Green, character.Nom, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-	fmt.Printf("%s│%s %s(%d/10 items)%s                                    %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Blue, inventoryCount, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s %s(%d/%d items)%s                                    %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Blue, inventoryCount, character.InventaireMaxSlots, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
 	fmt.Printf("%s├─────────────────────────────────────────────────┤%s\n", couleurs.Cyan, couleurs.Reset)
 	if inventoryCount == 0 {
 		fmt.Printf("%s│%s %sInventaire vide%s                                 %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
@@ -86,7 +86,7 @@ func CheckInventorySpace(characterName string) bool {
 		character = characters.C1
 	}
 	nombreObjets := len(character.Inventaire)
-	if nombreObjets < 10 {
+	if nombreObjets < character.InventaireMaxSlots {
 		return true
 	} else {
 		return false
@@ -478,52 +478,68 @@ func Marchand() {
 }
 
 func Forgeron() {
-	prixChapeau := 25
-	prixTunique := 35
-	prixBottes := 20
-	prixEpee := 50
 	for {
 		fmt.Printf("%s┌─────────────────────────────────────────────────────────────────────────────────────┐%s\n", couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s%s                                BOUTIQUE DU FORGERON                                 %s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s%s                                FORGE DE L'AVENTURIER                                %s%s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
 		fmt.Printf("%s├─────────────────────────────────────────────────────────────────────────────────────┤%s\n", couleurs.Cyan, couleurs.Reset)
 		fmt.Printf("%s│%s %sBienvenue dans ma forge !%s                                                           %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %sVoici mes créations :%s                                                               %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s %sVoici les équipements que je peux fabriquer :%s                                       %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
 		fmt.Printf("%s│%s                                                                                     %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s1.%s Chapeau de l'aventurier - %s%-3d pièces d'or%s                                        %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixChapeau, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s2.%s Tunique de l'aventurier - %s%-3d pièces d'or%s                                        %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixTunique, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s3.%s Bottes de l'aventurier - %s%-3d pièces d'or%s                                         %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixBottes, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s4.%s Épée en fer - %s%-3d pièces d'or%s                                                    %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixEpee, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("%s│%s %s5.%s Retourner au menu principal                                                      %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s %s1.%s Chapeau de l'aventurier - Nécessite : 1 Plume de Corbeau + 1 Cuir de Sanglier    %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s %s2.%s Tunique de l'aventurier - Nécessite : 2 Fourrure de loup + 1 Peau de Troll       %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s %s3.%s Bottes de l'aventurier - Nécessite : 1 Fourrure de loup + 1 Cuir de Sanglier     %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s %s4.%s Amélioration d'inventaire                                                        %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+		fmt.Printf("%s│%s %s5.%s Retour au menu                                                                   %s│%s\n", couleurs.Cyan, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
 		fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Cyan, couleurs.Reset)
-		fmt.Printf("\n%sQue souhaitez vous faire ?%s\n", couleurs.Blue+couleurs.Bold, couleurs.Reset)
 
-		choix := functionshelper.ReadInput()
+		fmt.Printf("\n%sVotre choix :%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
+		choice := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
 
-		switch choix {
+		switch choice {
 		case "1", "1.":
-			processerAchat("Chapeau de l'aventurier", prixChapeau)
+			forgerItem("Chapeau de l'aventurier", []string{"Plume de corbeau", "Cuir de sanglier"}, []int{1, 1})
 		case "2", "2.":
-			processerAchat("Tunique de l'aventurier", prixTunique)
+			forgerItem("Tunique de l'aventurier", []string{"Fourrure de loup", "Peau de troll"}, []int{2, 1})
 		case "3", "3.":
-			processerAchat("Bottes de l'aventurier", prixBottes)
+			forgerItem("Bottes de l'aventurier", []string{"Fourrure de loup", "Cuir de sanglier"}, []int{1, 1})
 		case "4", "4.":
-			processerAchat("Épée en fer", prixEpee)
+			var character *characters.Character
+			if characters.C2_b && characters.C2 != nil {
+				fmt.Printf("\n%sQuel personnage souhaite acheter la peau de troll ?%s\n", couleurs.Purple, couleurs.Reset)
+				fmt.Printf("%s1. %s%s%s\n", couleurs.White, couleurs.Green, characters.C1.Nom, couleurs.Reset)
+				fmt.Printf("%s2. %s%s%s\n", couleurs.White, couleurs.Green, characters.C2.Nom, couleurs.Reset)
+				fmt.Printf("%sVotre choix :%s ", couleurs.Blue, couleurs.Reset)
+				choixPerso := functionshelper.ReadInput()
+				switch choixPerso {
+				case "1", "1.":
+					character = characters.C1
+				case "2", "2.":
+					character = characters.C2
+				default:
+					fmt.Printf("%sChoix invalide%s\n", couleurs.Red, couleurs.Reset)
+					continue
+				}
+			} else {
+				character = characters.C1
+			}
+			characters.UpgradeInventorySlot(character)
 		case "5", "5.":
 			return
 		default:
-			fmt.Printf("%sChoix invalide, veuillez réessayer.%s\n", couleurs.Red, couleurs.Reset)
+			fmt.Printf("%sChoix invalide, veuillez réessayer%s\n", couleurs.Red, couleurs.Reset)
 		}
 	}
 }
 
-func processerAchat(itemName string, prix int) bool {
+func forgerItem(equipmentName string, materials []string, quantities []int) {
 	var characterName string
 	var character *characters.Character
 	if characters.C2_b && characters.C2 != nil {
-		fmt.Printf("\n%sQuel personnage souhaite acheter %s ?%s\n", couleurs.Purple, itemName, couleurs.Reset)
+		fmt.Printf("\n%sQuel personnage souhaite forger %s ?%s\n", couleurs.Purple, equipmentName, couleurs.Reset)
 		fmt.Printf("%s1. %s%s%s\n", couleurs.White, couleurs.Green, characters.C1.Nom, couleurs.Reset)
 		fmt.Printf("%s2. %s%s%s\n", couleurs.White, couleurs.Green, characters.C2.Nom, couleurs.Reset)
 		fmt.Printf("%sVotre choix :%s ", couleurs.Blue, couleurs.Reset)
+
 		choixPerso := functionshelper.ReadInput()
 		switch choixPerso {
 		case "1", "1.":
@@ -534,39 +550,69 @@ func processerAchat(itemName string, prix int) bool {
 			character = characters.C2
 		default:
 			fmt.Printf("%sChoix invalide%s\n", couleurs.Red, couleurs.Reset)
-			return false
+			return
 		}
 	} else {
 		characterName = characters.C1.Nom
 		character = characters.C1
 	}
+	if character.PiècesDOr < 5 {
+		manque := 5 - character.PiècesDOr
+		fmt.Printf("\n%sVous n'avez pas assez de pièces d'or pour forger ! (il vous manque %d pièces)%s\n", couleurs.Red, manque, couleurs.Reset)
+		return
+	}
 	if !CheckInventorySpace(characterName) {
 		fmt.Printf("\n%sL'inventaire de %s est plein ! (10/10 items)%s\n", couleurs.Red, characterName, couleurs.Reset)
-		fmt.Printf("%sVous devez libérer de l'espace avant d'acheter un nouvel item.%s\n", couleurs.Red, couleurs.Reset)
-		return false
+		fmt.Printf("%sVous devez libérer de l'espace avant de forger un équipement.%s\n", couleurs.Red, couleurs.Reset)
+		return
 	}
+	for _, item := range character.Inventaire {
+		if strings.ToLower(item) == strings.ToLower(equipmentName) {
+			fmt.Printf("\n%s%s possède déjà %s !%s\n", couleurs.Yellow, characterName, equipmentName, couleurs.Reset)
+			return
+		}
+	}
+	missingMaterials := []string{}
+	materialCount := make(map[string]int)
+	for _, item := range character.Inventaire {
+		itemLower := strings.ToLower(item)
+		materialCount[itemLower]++
+	}
+	for i, material := range materials {
+		materialLower := strings.ToLower(material)
+		needed := quantities[i]
+		possessed := materialCount[materialLower]
 
-	if character.PiècesDOr >= prix {
-		fmt.Printf("\n%s%s ajouté à l'inventaire de %s !%s\n", couleurs.Green, itemName, characterName, couleurs.Reset)
-		functionshelper.AddInventory(characterName, itemName)
-		character.PiècesDOr -= prix
-		fmt.Printf("%sVotre nouveau solde : %s%d pièces d'or%s\n", couleurs.White, couleurs.Yellow, character.PiècesDOr, couleurs.Reset)
-		fmt.Printf("\n%sVoulez-vous acheter autre chose ? (o/n) :%s ", couleurs.Blue, couleurs.Reset)
-		continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
-		if continuer != "o" && continuer != "oui" {
-			return true
+		if possessed < needed {
+			missing := needed - possessed
+			missingMaterials = append(missingMaterials, fmt.Sprintf("%d %s", missing, material))
 		}
-		return true
-	} else {
-		manque := prix - character.PiècesDOr
-		fmt.Printf("\n%sVous n'avez pas assez de pièces d'or (il vous manque %d pièces)%s\n", couleurs.Red, manque, couleurs.Reset)
-		fmt.Printf("\n%sVoulez-vous regarder autre chose ? (o/n) :%s ", couleurs.Blue, couleurs.Reset)
-		continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
-		if continuer != "o" && continuer != "oui" {
-			return false
-		}
-		return false
 	}
+	if len(missingMaterials) > 0 {
+		fmt.Printf("\n%sMatériaux insuffisants pour forger %s !%s\n", couleurs.Red, equipmentName, couleurs.Reset)
+		fmt.Printf("%sIl vous manque : %s%s%s\n", couleurs.Red, couleurs.Yellow, strings.Join(missingMaterials, ", "), couleurs.Reset)
+		return
+	}
+	for i, material := range materials {
+		materialLower := strings.ToLower(material)
+		needed := quantities[i]
+		removed := 0
+		for j := len(character.Inventaire) - 1; j >= 0 && removed < needed; j-- {
+			if strings.ToLower(character.Inventaire[j]) == materialLower {
+				character.Inventaire = functionshelper.RemoveItem(character.Inventaire, j)
+				removed++
+			}
+		}
+	}
+	character.PiècesDOr -= 5
+	functionshelper.AddInventory(characterName, equipmentName)
+	fmt.Printf("\n%s%s a forgé avec succès : %s%s%s%s\n", couleurs.Green, characterName, couleurs.Yellow, equipmentName, couleurs.Green, couleurs.Reset)
+	fmt.Printf("%sMatériaux utilisés :%s\n", couleurs.White, couleurs.Reset)
+	for i, material := range materials {
+		fmt.Printf("%s- %d %s%s\n", couleurs.Yellow, quantities[i], material, couleurs.Reset)
+	}
+	fmt.Printf("%sPièces d'or dépensées : %s5%s\n", couleurs.White, couleurs.Yellow, couleurs.Reset)
+	fmt.Printf("%sNouveau solde : %s%d pièces d'or%s\n", couleurs.White, couleurs.Yellow, character.PiècesDOr, couleurs.Reset)
 }
 
 func ItemView(s string) {

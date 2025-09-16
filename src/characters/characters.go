@@ -17,6 +17,17 @@ type Character struct {
 	Inventaire         []string
 	Skill              []string
 	PiècesDOr          int
+	Equipment          Equipement
+	InventaireMaxSlots int
+	UpgradesUtilisés   int
+}
+
+type Equipement struct {
+	Chapeau  string
+	Tunique  string
+	Bottes   string
+	Arme     string
+	Bouclier string
 }
 
 var C1 *Character
@@ -41,6 +52,9 @@ func InitCharacter(nom string, classe string, niveau int, pointsDeVieMaximum int
 		Inventaire:         inventaire,
 		Skill:              skill,
 		PiècesDOr:          piècesDOr,
+		Equipment:          Equipement{},
+		InventaireMaxSlots: 10,
+		UpgradesUtilisés:   0,
 	}
 }
 
@@ -137,4 +151,179 @@ func displayWastedMessage() {
 ░███     ░███  ░█████░██  ░███████      ░████  ░███████   ░█████░██ `
 
 	fmt.Printf("%s%s%s%s\n", couleurs.Red, couleurs.Bold, wastedArt, couleurs.Reset)
+}
+
+func EquipItem(character *Character, itemName string) bool {
+	itemLower := strings.ToLower(itemName)
+	var bonusPV int
+	var oldItem string
+	switch {
+	case strings.Contains(itemLower, "chapeau"):
+		bonusPV = 10
+		oldItem = character.Equipment.Chapeau
+		character.Equipment.Chapeau = itemName
+	case strings.Contains(itemLower, "tunique"):
+		bonusPV = 25
+		oldItem = character.Equipment.Tunique
+		character.Equipment.Tunique = itemName
+	case strings.Contains(itemLower, "bottes"):
+		bonusPV = 15
+		oldItem = character.Equipment.Bottes
+		character.Equipment.Bottes = itemName
+	default:
+		return false
+	}
+	if oldItem != "" {
+		character.Inventaire = append(character.Inventaire, oldItem)
+		character.PointsDeVieMaximum -= GetEquipmentBonus(oldItem)
+	}
+	character.PointsDeVieMaximum += bonusPV
+	if character.PointsDeVieActuels > character.PointsDeVieMaximum {
+		character.PointsDeVieActuels = character.PointsDeVieMaximum
+	}
+	fmt.Printf("\n%s%s équipe %s%s%s (+%d PV max)%s\n", couleurs.Green, character.Nom, couleurs.Yellow, itemName, couleurs.Green, bonusPV, couleurs.Reset)
+	removeInventory(character.Nom, itemName)
+	return true
+}
+
+func removeInventory(characterName string, item string) bool { // import cycle not allowed
+	character, err := getCharacterByName(characterName)
+	if err != nil {
+		fmt.Println(err.Error())
+		return false
+	}
+	for i, inventoryItem := range character.Inventaire {
+		if inventoryItem == item {
+			character.Inventaire = removeItem(character.Inventaire, i)
+			return true
+		}
+	}
+	return false
+}
+
+func removeItem(slice []string, index int) []string { // import cycle not allowed
+	return append(slice[:index], slice[index+1:]...)
+}
+
+func getCharacterByName(characterName string) (*Character, error) { // import cycle not allowed
+	name := strings.ToLower(strings.TrimSpace(characterName))
+	if C2_b {
+		switch name {
+		case strings.ToLower(C1.Nom):
+			return C1, nil
+		case strings.ToLower(C2.Nom):
+			return C2, nil
+		default:
+			return nil, fmt.Errorf("%spersonnage '%s' non trouvé%s", couleurs.Red, characterName, couleurs.Reset)
+		}
+	}
+	return C1, nil
+}
+
+func GetEquipmentBonus(itemName string) int {
+	itemLower := strings.ToLower(itemName)
+	switch {
+	case strings.Contains(itemLower, "chapeau"):
+		return 10
+	case strings.Contains(itemLower, "tunique"):
+		return 25
+	case strings.Contains(itemLower, "bottes"):
+		return 15
+	default:
+		return 0
+	}
+}
+
+/*
+	func UnequipItem(character *Character, slotType string) bool {
+		var item string
+		switch strings.ToLower(slotType) {
+		case "chapeau":
+			if character.Equipment.Chapeau == "" {
+				return false
+			}
+			item = character.Equipment.Chapeau
+			character.Equipment.Chapeau = ""
+		case "tunique":
+			if character.Equipment.Tunique == "" {
+				return false
+			}
+			item = character.Equipment.Tunique
+			character.Equipment.Tunique = ""
+		case "bottes":
+			if character.Equipment.Bottes == "" {
+				return false
+			}
+			item = character.Equipment.Bottes
+			character.Equipment.Bottes = ""
+		default:
+			return false
+		}
+		bonusPV := GetEquipmentBonus(item)
+		character.PointsDeVieMaximum -= bonusPV
+		if character.PointsDeVieActuels > character.PointsDeVieMaximum {
+			character.PointsDeVieActuels = character.PointsDeVieMaximum
+		}
+		character.Inventaire = append(character.Inventaire, item)
+		fmt.Printf("\n%s%s déséquipe %s%s%s (-%d PV max)%s\n", couleurs.Yellow, character.Nom, couleurs.White, item, couleurs.Yellow, bonusPV, couleurs.Reset)
+		return true
+	}
+*/
+func UpgradeInventorySlot(character *Character) bool {
+	if character.UpgradesUtilisés >= 3 {
+		fmt.Printf("%s%s a déjà utilisé tous ses upgrades d'inventaire (3/3)%s\n", couleurs.Red, character.Nom, couleurs.Reset)
+		return false
+	}
+	if character.PiècesDOr < 30 {
+		manque := 30 - character.PiècesDOr
+		fmt.Printf("%sVous n'avez pas assez de pièces d'or ! (il vous manque %d pièces)%s\n", couleurs.Red, manque, couleurs.Reset)
+		return false
+	}
+	character.PiècesDOr -= 30
+	character.InventaireMaxSlots += 10
+	character.UpgradesUtilisés++
+	fmt.Printf("\n%sInventaire de %s%s%s amélioré !%s\n",
+		couleurs.Green, couleurs.White, character.Nom, couleurs.Green, couleurs.Reset)
+	fmt.Printf("%sNouvelle capacité : %s%d slots%s (%d/3 upgrades utilisés)\n",
+		couleurs.White, couleurs.Yellow, character.InventaireMaxSlots,
+		couleurs.White, character.UpgradesUtilisés)
+	fmt.Printf("%sNouveau solde : %s%d pièces d'or%s\n",
+		couleurs.White, couleurs.Yellow, character.PiècesDOr, couleurs.Reset)
+	return true
+}
+
+func DisplayEquipment(character *Character) {
+	fmt.Printf("\n%s┌─────────────────────────────────────────────────┐%s\n", couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s│%s %sÉquipements de%s %s%-29s%s %s   │%s\n",
+		couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
+		couleurs.Green, character.Nom, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	fmt.Printf("%s├─────────────────────────────────────────────────┤%s\n", couleurs.Cyan, couleurs.Reset)
+	if character.Equipment.Chapeau != "" {
+		fmt.Printf("%s│%s %sChapeau :%s %-36s %s │%s\n",
+			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
+			character.Equipment.Chapeau, couleurs.Cyan, couleurs.Reset)
+	} else {
+		fmt.Printf("%s│%s %sChapeau :%s %sAucun%s                             %s    │%s\n",
+			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
+			couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	}
+	if character.Equipment.Tunique != "" {
+		fmt.Printf("%s│%s %sTunique :%s %-36s %s │%s\n",
+			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
+			character.Equipment.Tunique, couleurs.Cyan, couleurs.Reset)
+	} else {
+		fmt.Printf("%s│%s %sTunique :%s %sAucune%s                            %s    │%s\n",
+			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
+			couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	}
+	if character.Equipment.Bottes != "" {
+		fmt.Printf("%s│%s %sBottes :%s %-37s %s │%s\n",
+			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
+			character.Equipment.Bottes, couleurs.Cyan, couleurs.Reset)
+	} else {
+		fmt.Printf("%s│%s %sBottes :%s %sAucunes%s                            %s    │%s\n",
+			couleurs.Cyan, couleurs.Reset, couleurs.White, couleurs.Reset,
+			couleurs.Red, couleurs.Reset, couleurs.Cyan, couleurs.Reset)
+	}
+	fmt.Printf("%s└─────────────────────────────────────────────────┘%s\n", couleurs.Cyan, couleurs.Reset)
 }
