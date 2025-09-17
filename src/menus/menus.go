@@ -104,7 +104,7 @@ func Menu() {
 		return
 	default:
 		startscreen.ClearScreen()
-		fmt.Printf("%sOption invalide%s\n", couleurs.Red, couleurs.Reset)
 		Menu()
+		fmt.Printf("%sOption invalide%s\n", couleurs.Red, couleurs.Reset)
 	}
 }

@@ -3,11 +3,11 @@
 	"Classe": "Elfe",
 	"Niveau": 1,
 	"PointsDeVieMaximum": 80,
-	"PointsDeVieActuels": 5,
+	"PointsDeVieActuels": 40,
 	"Inventaire": [
-		"Bourse de cuir",
-		"Gourdin clouté",
-		"Casque bosselé"
+		"potion de soin",
+		"potion de soin",
+		"potion de soin"
 	],
 	"Skill": [
 		"Coup de poing"

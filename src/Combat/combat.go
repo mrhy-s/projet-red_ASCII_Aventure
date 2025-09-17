@@ -8,6 +8,7 @@ import (
 	"ASCII_Aventure/characters"
 	"ASCII_Aventure/couleurs"
 	functionshelper "ASCII_Aventure/functions_helper"
+	"ASCII_Aventure/inputcontrol"
 	"ASCII_Aventure/items"
 	"ASCII_Aventure/startscreen"
 )
@@ -16,6 +17,7 @@ var currentEnemy *characters.Monster
 var combatEnCours bool = false
 
 func Combat(Tour int) {
+	startscreen.ClearScreen()
 	if combatEnCours {
 		return
 	}
@@ -411,37 +413,48 @@ func isDeadMonster() bool {
 
 func RechercheEnemy() {
 	startscreen.ClearScreen()
-	fmt.Print("\n\n")
-	texteChargement := "Recherche d'un ennemi en cours"
-	largeurEcran := 120
-	espacesAGauche := (largeurEcran - len(texteChargement) - 10) / 2
-	if espacesAGauche < 0 {
-		espacesAGauche = 0
+
+	// Désactive les inputs pendant la recherche
+	inputcontrol.DisableInput()
+	defer inputcontrol.EnableInput() // Réactive automatiquement à la fin
+
+	const (
+		texteChargement = "Recherche d'un ennemi en cours"
+		largeurEcran    = 120
+		etapesTotal     = 20
+		delaiMs         = 150
+	)
+
+	espacesAGauche := max((largeurEcran-len(texteChargement)-10)/2, 0)
+	fmt.Print("\n\n\033[?25l")   // cache le curseur
+	defer fmt.Print("\033[?25h") // réaffiche le curseur à la fin
+
+	for i := 0; i < etapesTotal; i++ {
+		afficherEtapeChargement(i, espacesAGauche, texteChargement)
+		time.Sleep(delaiMs * time.Millisecond)
 	}
-	for i := range 20 {
-		// positionnement du curseur
-		fmt.Print("\033[3;1H") // x 3, y 1
-		fmt.Print("\033[2K")   // effacer la ligne actuelle
-		// animation des points
-		nombrePoints := i % 4
-		fmt.Printf("%*s%s%s%s", espacesAGauche, "", couleurs.Blue+couleurs.Bold, texteChargement, couleurs.Reset)
-		points := strings.Repeat(".", nombrePoints) // on afichage des points
-		fmt.Printf("%s", points)
-		fmt.Printf("\n%*s", espacesAGauche, "") // nouvelle ligne pour la barre de progression
-		// la barre de progression
-		pourcentage := (i + 1) * 5
-		barresRemplies := pourcentage / 5
-		barresVides := 20 - barresRemplies
-		fmt.Printf("%s[%s", couleurs.Blue, couleurs.Yellow)
-		fmt.Printf("%s", strings.Repeat("█", barresRemplies))
-		fmt.Printf("%s", couleurs.White)
-		fmt.Printf("%s", strings.Repeat("░", barresVides))
-		fmt.Printf("%s] %d%%%s", couleurs.Blue, pourcentage, couleurs.Reset)
-		time.Sleep(150 * time.Millisecond)
-	}
+
 	fmt.Print("\n\n")
 	fmt.Printf("%sEnnemi trouvé !%s\n", couleurs.Green+couleurs.Bold, couleurs.Reset)
 	time.Sleep(2 * time.Second)
+}
+
+func afficherEtapeChargement(etape int, espaces int, texte string) {
+	fmt.Print("\033[3;1H")
+	fmt.Print("\033[2K")
+	nombrePoints := etape % 4
+	fmt.Printf("%*s%s%s%s%s\n", espaces, "", couleurs.Blue+couleurs.Bold, texte, strings.Repeat(".", nombrePoints), couleurs.Reset)
+	pourcentage := (etape + 1) * 5
+	barresRemplies := pourcentage / 5
+	barresVides := 20 - barresRemplies
+	fmt.Printf("%*s%s[%s%s%s%s%s] %d%%%s", espaces, "", couleurs.Blue, couleurs.Yellow, strings.Repeat("█", barresRemplies), couleurs.White, strings.Repeat("░", barresVides), couleurs.Blue, pourcentage, couleurs.Reset)
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 func characterTurn(character *characters.Character, enemy *characters.Monster) bool {
