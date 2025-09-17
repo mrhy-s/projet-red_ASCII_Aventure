@@ -1,6 +1,7 @@
 package menus
 
 import (
+	combat "ASCII_Aventure/Combat"
 	characters "ASCII_Aventure/characters"
 	"ASCII_Aventure/couleurs"
 	functionsactions "ASCII_Aventure/functions_actions"
@@ -33,8 +34,9 @@ func Menu() {
 	fmt.Printf("%s│%s %s4.%s Boutique du Marchand                                                             %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s│%s %s5.%s Boutique du Forgeron                                                             %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s│%s %s6.%s Créer un nouveau personnage                                                      %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
-	fmt.Printf("%s│%s %s7.%s Passer un tour                                                                   %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
-	fmt.Printf("%s│%s %s8.%s Quitter                                                                          %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s %s7.%s Rechercher un ennemi à attaquer                                                  %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s %s8.%s Passer un tour                                                                   %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s %s9.%s Quitter                                                                          %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
 	fmt.Printf("\n%sVotre choix :%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
 	option := functionshelper.ReadInput()
@@ -91,9 +93,14 @@ func Menu() {
 		Menu()
 	case "7", "7.":
 		startscreen.ClearScreen()
-		functionsactions.Tour++
+		combat.RechercheEnemy()
+		combat.Combat(functionsactions.Tour)
 		Menu()
 	case "8", "8.":
+		startscreen.ClearScreen()
+		functionsactions.Tour++
+		Menu()
+	case "9", "9.":
 		return
 	default:
 		startscreen.ClearScreen()

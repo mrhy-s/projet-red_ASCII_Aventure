@@ -10,12 +10,12 @@ type Item struct {
 	Type                 string
 	Effet                string
 	Degats               int
-	Defense              int
+	Gold                 int
 }
 
 var Potion_de_soin *Item
 var Potion_de_poison *Item
-var Epee_en_fer *Item
+var Épée_en_fer *Item
 var Spell_book_bdf *Item
 var Plume_de_corbeau *Item
 var Fourrure_de_loup *Item
@@ -24,6 +24,13 @@ var Cuir_de_sanglier *Item
 var Tunique_de_laventurier *Item
 var Chapeau_de_laventurier *Item
 var Bottes_de_laventurier *Item
+var Dague_rouillée *Item
+var Gourdin_clouté *Item
+var Arc_tordu *Item
+var Cuir_bouilli_rapiécé *Item
+var Casque_bosselé *Item
+var Bourse_de_cuir *Item
+var Fer_brut *Item
 
 func InitItem(nom string, classeToUse string, niveauToUse int, durabilitéMaximum int, durabilitéesActuelle int, description string) *Item {
 	return &Item{
@@ -60,6 +67,19 @@ func InitArme(nom string, classeToUse string, niveauToUse int, durabilitéMax in
 	}
 }
 
+func InitArmeMonster(nom string, classeToUse string, niveauToUse int, durabilitéActuelle int, durabilitéMax int, description string, degats int) *Item {
+	return &Item{
+		Nom:                  nom,
+		ClasseToUse:          classeToUse,
+		NiveauToUse:          niveauToUse,
+		DurabilitéMaximum:    durabilitéMax,
+		DurabilitéesActuelle: durabilitéActuelle,
+		Description:          description,
+		Type:                 "Arme",
+		Degats:               degats,
+	}
+}
+
 func InitSpellBook(nom string, classeToUse string, niveauToUse int, description string) *Item {
 	return &Item{
 		Nom:         nom,
@@ -78,15 +98,23 @@ func InitRessources(nom string, description string) *Item {
 	}
 }
 
-func InitArmure(nom string, classeToUse string, niveauToUse int, durabilitéMax int, description string, defense int) *Item {
+func InitArmure(nom string, classeToUse string, niveauToUse int, durabilitéMax int, durabilitéActuelle int, description string) *Item {
 	return &Item{
 		Nom:                  nom,
 		ClasseToUse:          classeToUse,
 		NiveauToUse:          niveauToUse,
 		DurabilitéMaximum:    durabilitéMax,
-		DurabilitéesActuelle: durabilitéMax,
+		DurabilitéesActuelle: durabilitéActuelle,
 		Description:          description,
 		Type:                 "Armure",
-		Defense:              defense,
+	}
+}
+
+func InitBourse(gold int) *Item {
+	return &Item{
+		Nom:         "Bourse de cuir",
+		Description: "Quelques pièces d'or",
+		Type:        "Objet",
+		Gold:        gold,
 	}
 }

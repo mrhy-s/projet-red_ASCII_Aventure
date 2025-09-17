@@ -139,6 +139,7 @@ func Marchand() {
 	prixActuel_Peaudetroll := 7
 	prixActuel_Cuirdesanglier := 3
 	prixActuel_Plumedecorbeau := 1
+	prixActuel_Ferbrut := 15
 	for {
 		fmt.Printf("%s┌─────────────────────────────────────────────────────────────────────────────────────┐%s\n", couleurs.Blue, couleurs.Reset)
 		fmt.Printf("%s│%s%s                                BOUTIQUE DU MARCHAND                                 %s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Blue, couleurs.Reset)
@@ -157,8 +158,9 @@ func Marchand() {
 		fmt.Printf("%s│%s %s5.%s Peau de troll - %s%-3d pièces d'or%s                                                  %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Peaudetroll, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		fmt.Printf("%s│%s %s6.%s Cuir de sanglier - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Cuirdesanglier, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		fmt.Printf("%s│%s %s7.%s Plume de corbeau - %s%-3d pièces d'or%s                                               %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Plumedecorbeau, couleurs.Reset, couleurs.Blue, couleurs.Reset)
-		fmt.Printf("%s│%s %s8.%s Revendre des objets                                                              %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
-		fmt.Printf("%s│%s %s9.%s Retourner au menu principal                                                      %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s8.%s Fer brut - %s%-3d pièces d'or%s                                                       %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Yellow, prixActuel_Ferbrut, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s9.%s Revendre des objets                                                              %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s10.%s Retourner au menu principal                                                     %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
 		fmt.Printf("\n%sQue souhaitez vous faire ?%s\n", couleurs.Blue+couleurs.Bold, couleurs.Reset)
 		choix := functionshelper.ReadInput()
@@ -472,6 +474,49 @@ func Marchand() {
 			}
 		case "8", "8.":
 			var characterName string
+			var character *characters.Character
+			if characters.C2_b && characters.C2 != nil {
+				fmt.Printf("\n%sQuel personnage souhaite acheter le fer brut ?%s\n", couleurs.Purple, couleurs.Reset)
+				fmt.Printf("%s1. %s%s%s\n", couleurs.White, couleurs.Green, characters.C1.Nom, couleurs.Reset)
+				fmt.Printf("%s2. %s%s%s\n", couleurs.White, couleurs.Green, characters.C2.Nom, couleurs.Reset)
+				fmt.Printf("%sVotre choix :%s ", couleurs.Blue, couleurs.Reset)
+				choixPerso := functionshelper.ReadInput()
+				switch choixPerso {
+				case "1", "1.":
+					characterName = characters.C1.Nom
+					character = characters.C1
+				case "2", "2.":
+					characterName = characters.C2.Nom
+					character = characters.C2
+				default:
+					fmt.Printf("%sChoix invalide%s\n", couleurs.Red, couleurs.Reset)
+					continue
+				}
+			} else {
+				characterName = characters.C1.Nom
+				character = characters.C1
+			}
+			if !CheckInventorySpace(characterName) {
+				fmt.Printf("\n%sL'inventaire de %s est plein ! (10/10 items)%s\n", couleurs.Red, characterName, couleurs.Reset)
+				fmt.Printf("%sVous devez libérer de l'espace avant d'acheter un nouvel item.%s\n", couleurs.Red, couleurs.Reset)
+				continue
+			}
+			if character.PiècesDOr >= prixActuel_Plumedecorbeau {
+				fmt.Printf("\n%sFer brut ajoutée à l'inventaire de %s !%s\n", couleurs.Green, characterName, couleurs.Reset)
+				functionshelper.AddInventory(characterName, "Fer brut")
+				character.PiècesDOr -= prixActuel_Ferbrut
+				fmt.Printf("%sVotre nouveau solde : %s%d pièces d'or%s\n", couleurs.White, couleurs.Yellow, character.PiècesDOr, couleurs.Reset)
+			} else {
+				manque := prixActuel_Plumedecorbeau - character.PiècesDOr
+				fmt.Printf("\n%sVous n'avez pas assez de pièces d'or (il vous manque %d pièces)%s\n", couleurs.Red, manque, couleurs.Reset)
+			}
+			fmt.Printf("\n%sVoulez-vous acheter autre chose ? (o/n) :%s ", couleurs.Blue, couleurs.Reset)
+			continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+			if continuer != "o" && continuer != "oui" {
+				return
+			}
+		case "9", "9.":
+			var characterName string
 			if characters.C2_b && characters.C2 != nil {
 				fmt.Printf("\n%sQuel personnage souhaite revendre ?%s\n", couleurs.Purple, couleurs.Reset)
 				fmt.Printf("%s1. %s%s%s\n", couleurs.White, couleurs.Green, characters.C1.Nom, couleurs.Reset)
@@ -509,7 +554,7 @@ func Marchand() {
 					}
 				}
 			}
-		case "9", "9.":
+		case "10", "10.":
 			return
 		default:
 			fmt.Printf("%sChoix invalide, veuillez réessayer.%s\n", couleurs.Red, couleurs.Reset)
@@ -528,13 +573,12 @@ func Forgeron() {
 		fmt.Printf("%s│%s %s1.%s Chapeau de l'aventurier - Nécessite : 1 Plume de Corbeau + 1 Cuir de Sanglier    %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		fmt.Printf("%s│%s %s2.%s Tunique de l'aventurier - Nécessite : 2 Fourrure de loup + 1 Peau de Troll       %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		fmt.Printf("%s│%s %s3.%s Bottes de l'aventurier - Nécessite : 1 Fourrure de loup + 1 Cuir de Sanglier     %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
-		fmt.Printf("%s│%s %s4.%s Amélioration d'inventaire                                                        %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
-		fmt.Printf("%s│%s %s5.%s Retour au menu                                                                   %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s4.%s Épée en fer - Nécessite : 3 Fer brut                                             %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s5.%s Amélioration d'inventaire                                                        %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s6.%s Retour au menu                                                                   %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 		fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
-
 		fmt.Printf("\n%sVotre choix :%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
 		choice := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
-
 		switch choice {
 		case "1", "1.":
 			forgerItem("Chapeau de l'aventurier", []string{"Plume de corbeau", "Cuir de sanglier"}, []int{1, 1})
@@ -543,9 +587,11 @@ func Forgeron() {
 		case "3", "3.":
 			forgerItem("Bottes de l'aventurier", []string{"Fourrure de loup", "Cuir de sanglier"}, []int{1, 1})
 		case "4", "4.":
+			forgerItem("Épée en fer", []string{"Fer brut"}, []int{3})
+		case "5", "5.":
 			var character *characters.Character
 			if characters.C2_b && characters.C2 != nil {
-				fmt.Printf("\n%sQuel personnage souhaite acheter la peau de troll ?%s\n", couleurs.Purple, couleurs.Reset)
+				fmt.Printf("\n%sQuel personnage souhaite améliorer son inventaire ?%s\n", couleurs.Purple, couleurs.Reset)
 				fmt.Printf("%s1. %s%s%s\n", couleurs.White, couleurs.Green, characters.C1.Nom, couleurs.Reset)
 				fmt.Printf("%s2. %s%s%s\n", couleurs.White, couleurs.Green, characters.C2.Nom, couleurs.Reset)
 				fmt.Printf("%sVotre choix :%s ", couleurs.Blue, couleurs.Reset)
@@ -563,7 +609,7 @@ func Forgeron() {
 				character = characters.C1
 			}
 			characters.UpgradeInventorySlot(character)
-		case "5", "5.":
+		case "6", "6.":
 			return
 		default:
 			fmt.Printf("%sChoix invalide, veuillez réessayer%s\n", couleurs.Red, couleurs.Reset)
@@ -702,80 +748,3 @@ func ItemViewOui(character *characters.Character) {
 		fmt.Printf("%sL'item '%s' n'est pas dans l'inventaire.%s\n", couleurs.Red, item, couleurs.Reset)
 	}
 }
-
-/*
-func InitCombat(Tour int) {
-	var character *characters.Character
-
-	if characters.C2_b && characters.C2 != nil {
-		fmt.Printf("\n%sAvec quel personnage souhaitez-vous attaquer ?%s\n", couleurs.Blue, couleurs.Reset)
-		fmt.Printf("%s1. %s%s%s\n", couleurs.White, couleurs.Green, characters.C1.Nom, couleurs.Reset)
-		fmt.Printf("%s2. %s%s%s\n", couleurs.White, couleurs.Green, characters.C2.Nom, couleurs.Reset)
-		fmt.Printf("%sVotre choix :%s ", couleurs.Blue, couleurs.Reset)
-		choixPerso := functionshelper.ReadInput()
-		switch choixPerso {
-		case "1", "1.", characters.C1.Nom:
-			character = characters.C1
-		case "2", "2.", characters.C2.Nom:
-			character = characters.C2
-		default:
-			fmt.Printf("%sChoix invalide%s\n", couleurs.Red, couleurs.Reset)
-		}
-	} else {
-		character = characters.C1
-	}
-	if character != nil {
-		enemy := getCurrentEnemy()
-		fmt.Printf("┌─────────────────────────────────────────────────────────────────────────────────────┐\n")
-		fmt.Printf("│                                                                                     │\n")
-		fmt.Printf("│                              %sCOMBAT%s ── %s%s%s vs %s%s%s                             │\n", couleurs.Red, couleurs.Reset, couleurs.Green, character.Nom, couleurs.Reset, couleurs.Red, enemy.Nom, couleurs.Reset)
-		fmt.Printf("│                                                                                     │\n")
-		fmt.Printf("├─────────────────────────────────────────┬─┬─────────────────────────────────────────┤\n")
-		fmt.Printf("│ %s%s%s                                  │ │ %s%s%s                                  │\n", couleurs.Green, espacementDroite(character.Nom, 39), couleurs.Reset, couleurs.Red, espacementDroite(enemy.Nom, 39), couleurs.Reset)
-		fmt.Printf("├─────────────────────────────────────────┼─┼─────────────────────────────────────────┤\n")
-		fmt.Printf("│                                         │ │                                         │\n")
-		fmt.Printf("│ %sPV : %s%s%d%s                           │ │ %sPV : %s%s%d%s                           │\n", couleurs.White, couleurs.Green, couleurs.Bold, character.PointsDeVieActuels, couleurs.Reset, couleurs.White, couleurs.Red, couleurs.Bold, enemy.PointsDeVieActuels, couleurs.Reset)
-		fmt.Printf("│                                         │ │                                         │\n")
-		fmt.Printf("│ %sDurabilité équipement :%s             │ │ %sDurabilité équipement :%s             │\n", couleurs.Yellow, couleurs.Reset, couleurs.Yellow, couleurs.Reset)
-		fmt.Printf("│                                         │ │                                         │\n")
-		equipements := getEquipementsDurability(character)
-		enemyEquipements := getEquipementsDurability(enemy)
-		for i := 0; i < 4; i++ {
-			var playerEquip, enemyEquip string
-			if i < len(equipements) {
-				playerEquip = equipements[i]
-			}
-			if i < len(enemyEquipements) {
-				enemyEquip = enemyEquipements[i]
-			}
-			fmt.Printf("│  %s- %s%s%s                             │ │  %s- %s%s%s                             │\n",
-				couleurs.White, couleurs.Cyan, espacementDroite(playerEquip, 31), couleurs.Reset,
-				couleurs.White, couleurs.Cyan, espacementDroite(enemyEquip, 31), couleurs.Reset)
-			fmt.Printf("│                                         │ │                                         │\n")
-		}
-		fmt.Printf("│                                         │ │                                         │\n")
-		fmt.Printf("│                                         │ │                                         │\n")
-		fmt.Printf("└─────────────────────────────────────────┴─┴─────────────────────────────────────────┘\n")
-	}
-	Tour++
-}
-
-func espacementDroite(string_ string, len_ int) string {
-	if len(string_) >= len_ {
-		return string_[:len_]
-	}
-	return string_ + strings.Repeat(" ", len_-len(string_))
-}
-
-func getCurrentEnemy() *characters.Monster {
-	return &characters.Monster{
-		// Mettre la logique
-	}
-}
-
-func getEquipementsDurability(character *characters.Character) []string {
-	return []string{
-		// Mettre la logique
-	}
-}
-*/

@@ -8,7 +8,7 @@ type Classe struct {
 var Humain *Classe
 var Elfe *Classe
 var Nain *Classe
-var Goblin *Classe
+var Gobelin *Classe
 
 func InitClasse(nom string, description string) *Classe {
 	return &Classe{

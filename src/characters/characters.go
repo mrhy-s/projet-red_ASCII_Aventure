@@ -43,7 +43,7 @@ type Monster struct {
 var C1 *Character
 var C2 *Character
 var C2_b bool
-var Goblin *Monster
+var Gobelin *Monster
 
 var C_temp_name string
 var C_temp_classe string
@@ -81,7 +81,7 @@ func InitMonster(nom string, classe string, niveau int, pointsDeVieMaximum int, 
 	}
 }
 
-func GoblinPattern() {
+func GobelinPattern() {
 
 }
 
@@ -143,7 +143,7 @@ func DisplayCharacterTable(character Character) {
 	fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
 }
 
-func IsDead() {
+func IsDead() bool {
 	var deadCharacter *Character
 	if C2_b {
 		if C1.PointsDeVieActuels <= 0 {
@@ -165,7 +165,9 @@ func IsDead() {
 		}
 		deadCharacter.PointsDeVieActuels = rand.Intn(deadCharacter.PointsDeVieMaximum-11) + 10
 		fmt.Printf("\n\n%sVotre personnage est ressuscité avec %s%v%s sur %s%v%s points de vie...%s ", couleurs.Green, couleurs.White, deadCharacter.PointsDeVieActuels, couleurs.Green, couleurs.White, deadCharacter.PointsDeVieMaximum, couleurs.Green, couleurs.Reset)
+		return true
 	}
+	return false
 }
 
 func displayWastedMessage() {
@@ -197,6 +199,9 @@ func EquipItem(character *Character, itemName string) bool {
 		bonusPV = 15
 		oldItem = character.Equipment.Bottes
 		character.Equipment.Bottes = itemName
+	case strings.Contains(itemLower, "pée en fer"):
+		oldItem = character.Equipment.Arme
+		character.Equipment.Arme = itemName
 	default:
 		return false
 	}

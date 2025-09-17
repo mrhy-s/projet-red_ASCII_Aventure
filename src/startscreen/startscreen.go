@@ -219,6 +219,7 @@ func logoAnimation() {
 	}
 }
 
+/*
 // ici, l'animation de chargement avec barre de progression
 func loadingAnimation() {
 	ClearScreen()
@@ -240,6 +241,12 @@ func loadingAnimation() {
 	}
 	for i := range 20 {
 		fmt.Print("\033[14;1H")
+
+		//	\033 : Code d'échappement (ESC en octal))
+		//	[ : Début de la séquence de contrôle ANSI
+		//	14;1 : Coordonnées x;y
+		//	H : Commande de positionnement du curseur
+
 		nombrePoints := i % 4
 		fmt.Printf("%*s%s%s%s", espacesAGauche, "", couleurs.Blue+couleurs.Bold, texteChargement, couleurs.Reset)
 		fmt.Printf("%.*s%*s", nombrePoints, "...", 3-nombrePoints, "")
@@ -255,14 +262,14 @@ func loadingAnimation() {
 		time.Sleep(100 * time.Millisecond)
 	}
 }
-
+*/
 // Maintenant voici la fonction qui permet de mettre ensemble tout ce boulgiboulga. Elle devra être appelée dans le main.go
 func StartScreen() {
 	fmt.Print("\033[?25l") // cacher le curseur
 	logoAnimation()        // animation d'apparition des logos
 	time.Sleep(1 * time.Second)
-	loadingAnimation() // animation de chargement
-	time.Sleep(500 * time.Millisecond)
+	// loadingAnimation() // animation de chargement
+	time.Sleep(50 * time.Millisecond)
 	// Affichage final
 	ClearScreen()
 	for range 5 {

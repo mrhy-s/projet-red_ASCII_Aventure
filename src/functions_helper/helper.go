@@ -166,71 +166,42 @@ func DisplayItemDetails(itemName string) {
 			SpellBook("boule de feu", itemName)
 		}
 	}
-	if strings.Contains(itemName, "Chapeau de l'aventurier") {
-		fmt.Printf("\n%sVoulez-vous équiper cet objet ?%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
-		input := strings.ToLower(strings.TrimSpace(ReadInput()))
-		if input == "oui" || input == "Oui" {
-			var targetCharacter *characters.Character
-			var characterName string
-			if characters.C2_b && characters.C2 != nil {
-				fmt.Printf("\n%sSur quel personnage souhaitez-vous équiper l'item ?%s\n", couleurs.Purple, couleurs.Reset)
-				fmt.Printf("%sVotre choix :%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
-				characterName = strings.TrimSpace(ReadInput())
-				var err error
-				targetCharacter, err = GetCharacterByName(characterName)
-				if err != nil {
-					fmt.Printf("%sErreur: %s%s\n", couleurs.Red, err.Error(), couleurs.Reset)
-					return
-				}
-			} else {
-				targetCharacter = characters.C1
-			}
-			characters.EquipItem(targetCharacter, itemName)
-		}
+	if isEquippableItem(itemName) { // vérifie si c'est un équipement
+		promptEquipItem(itemName)
 	}
-	if strings.Contains(itemName, "Tunique de l'aventurier") {
-		fmt.Printf("\n%sVoulez-vous équiper cet objet ?%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
-		input := strings.ToLower(strings.TrimSpace(ReadInput()))
-		if input == "oui" || input == "Oui" {
-			var targetCharacter *characters.Character
-			var characterName string
-			if characters.C2_b && characters.C2 != nil {
-				fmt.Printf("\n%sSur quel personnage souhaitez-vous équiper l'item ?%s\n", couleurs.Purple, couleurs.Reset)
-				fmt.Printf("%sVotre choix :%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
-				characterName = strings.TrimSpace(ReadInput())
-				var err error
-				targetCharacter, err = GetCharacterByName(characterName)
-				if err != nil {
-					fmt.Printf("%sErreur: %s%s\n", couleurs.Red, err.Error(), couleurs.Reset)
-					return
-				}
-			} else {
-				targetCharacter = characters.C1
-			}
-			characters.EquipItem(targetCharacter, itemName)
-		}
+}
+
+func isEquippableItem(itemName string) bool {
+	itemLower := strings.ToLower(itemName)
+	return strings.Contains(itemLower, "chapeau de l'aventurier") || strings.Contains(itemLower, "tunique de l'aventurier") || strings.Contains(itemLower, "bottes de l'aventurier") || strings.Contains(itemLower, "épée en fer")
+}
+
+func promptEquipItem(itemName string) {
+	var equipType string
+	if strings.Contains(strings.ToLower(itemName), "épée") {
+		equipType = "arme"
+	} else {
+		equipType = "armure"
 	}
-	if strings.Contains(itemName, "Bottes de l'aventurier") {
-		fmt.Printf("\n%sVoulez-vous équiper cet objet ?%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
-		input := strings.ToLower(strings.TrimSpace(ReadInput()))
-		if input == "oui" || input == "Oui" {
-			var targetCharacter *characters.Character
-			var characterName string
-			if characters.C2_b && characters.C2 != nil {
-				fmt.Printf("\n%sSur quel personnage souhaitez-vous équiper l'item ?%s\n", couleurs.Purple, couleurs.Reset)
-				fmt.Printf("%sVotre choix :%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
-				characterName = strings.TrimSpace(ReadInput())
-				var err error
-				targetCharacter, err = GetCharacterByName(characterName)
-				if err != nil {
-					fmt.Printf("%sErreur: %s%s\n", couleurs.Red, err.Error(), couleurs.Reset)
-					return
-				}
-			} else {
-				targetCharacter = characters.C1
+	fmt.Printf("\n%sVoulez-vous équiper cet %s ?%s ", couleurs.Blue+couleurs.Bold, equipType, couleurs.Reset)
+	input := strings.ToLower(strings.TrimSpace(ReadInput()))
+	if input == "oui" {
+		var targetCharacter *characters.Character
+		var characterName string
+		if characters.C2_b && characters.C2 != nil {
+			fmt.Printf("\n%sSur quel personnage souhaitez-vous équiper l'%s ?%s\n", couleurs.Purple, equipType, couleurs.Reset)
+			fmt.Printf("%sVotre choix :%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
+			characterName = strings.TrimSpace(ReadInput())
+			var err error
+			targetCharacter, err = GetCharacterByName(characterName)
+			if err != nil {
+				fmt.Printf("%sErreur: %s%s\n", couleurs.Red, err.Error(), couleurs.Reset)
+				return
 			}
-			characters.EquipItem(targetCharacter, itemName)
+		} else {
+			targetCharacter = characters.C1
 		}
+		characters.EquipItem(targetCharacter, itemName)
 	}
 }
 
@@ -271,16 +242,26 @@ func contains(slice []string, item string) bool {
 
 func GetItemByName(itemName string) *items.Item {
 	switch itemName {
-	case "potion de soin":
-		return items.Potion_de_soin
-	case "potion de poison":
-		return items.Potion_de_poison
-	case "épée en fer":
-		return items.Epee_en_fer
+	// Armes
+	case "Dague rouillée":
+		return items.Dague_rouillée
+	case "Gourdin clouté":
+		return items.Gourdin_clouté
+	case "Arc tordu":
+		return items.Arc_tordu
+	case "Épée en fer":
+		return items.Épée_en_fer
+	// Armures/Tuniques
 	case "Tunique de l'aventurier":
 		return items.Tunique_de_laventurier
+	case "Cuir bouilli rapiécé":
+		return items.Cuir_bouilli_rapiécé
+	// Chapeaux/Casques
 	case "Chapeau de l'aventurier":
 		return items.Chapeau_de_laventurier
+	case "Casque bosselé":
+		return items.Casque_bosselé
+	// Bottes
 	case "Bottes de l'aventurier":
 		return items.Bottes_de_laventurier
 	default:
@@ -320,9 +301,7 @@ func IsValidClass(input string) bool {
 		strings.ToLower(classes.Elfe.Nom),
 		strings.ToLower(classes.Nain.Nom),
 	}
-
 	inputLower := strings.ToLower(strings.TrimSpace(input))
-
 	for _, class := range validClasses {
 		if inputLower == class {
 			return true
