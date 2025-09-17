@@ -4,6 +4,7 @@ import (
 	characters "ASCII_Aventure/characters"
 	"ASCII_Aventure/couleurs"
 	functionshelper "ASCII_Aventure/functions_helper"
+	"ASCII_Aventure/items"
 	"fmt"
 	"strings"
 )
@@ -517,6 +518,7 @@ func Marchand() {
 			}
 		case "9", "9.":
 			var characterName string
+			var character *characters.Character
 			if characters.C2_b && characters.C2 != nil {
 				fmt.Printf("\n%sQuel personnage souhaite revendre ?%s\n", couleurs.Purple, couleurs.Reset)
 				fmt.Printf("%s1. %s%s%s\n", couleurs.White, couleurs.Green, characters.C1.Nom, couleurs.Reset)
@@ -526,33 +528,92 @@ func Marchand() {
 				switch choixPerso {
 				case "1", "1.":
 					characterName = characters.C1.Nom
-					AccessInventory(characterName)
-					ItemView(characterName)
+					character = characters.C1
 				case "2", "2.":
 					characterName = characters.C2.Nom
-					AccessInventory(characterName)
-					ItemView(characterName)
+					character = characters.C2
 				default:
 					fmt.Printf("%sChoix invalide%s\n", couleurs.Red, couleurs.Reset)
 					continue
 				}
 			} else {
-				AccessInventory(characters.C1.Nom)
-				ItemView(characters.C1.Nom)
-				fmt.Printf("\n%sQuel(s) objet(s) souhaitez vous revendre ?%s\n", couleurs.Blue, couleurs.Reset)
-				fmt.Printf("%sVotre choix :%s ", couleurs.Blue, couleurs.Reset)
-				itemName := functionshelper.ReadInput()
-				for len(itemName) <= 1 {
-					if len(itemName) <= 1 {
-						fmt.Printf("%sErreur : vous devez entrer le nom d'un objet %s\n", couleurs.Red, couleurs.Reset)
-						fmt.Printf("\n%sQuel(s) objet(s) souhaitez vous revendre ?%s\n", couleurs.Blue, couleurs.Reset)
-					}
-					itemName = functionshelper.ReadInput()
-					functionshelper.RemoveInventory(characters.C1.Nom, itemName)
-					if len(itemName) >= 1 {
-						fmt.Printf("%sVous avez bien vendu %s%s%s ! %s\n", couleurs.Green, couleurs.Yellow, itemName, couleurs.Green, couleurs.Reset)
-					}
+				characterName = characters.C1.Nom
+				character = characters.C1
+			}
+			AccessInventory(characterName)
+			ItemView(characterName)
+			fmt.Printf("\n%sQuel objet souhaitez-vous revendre ?%s\n", couleurs.Blue, couleurs.Reset)
+			fmt.Printf("%sVotre choix : %s", couleurs.Blue, couleurs.Reset)
+			itemName := strings.TrimSpace(functionshelper.ReadInput())
+			if len(itemName) <= 1 {
+				fmt.Printf("%sErreur : vous devez entrer le nom d'un objet valide%s\n", couleurs.Red, couleurs.Reset)
+				continue
+			}
+			// on vérifie si l'item existe dans l'inventaire
+			itemExists := false
+			for _, inventoryItem := range character.Inventaire {
+				if strings.ToLower(inventoryItem) == strings.ToLower(itemName) {
+					itemExists = true
+					break
 				}
+			}
+			if !itemExists {
+				fmt.Printf("%sL'objet '%s' n'existe pas dans votre inventaire%s\n", couleurs.Red, itemName, couleurs.Reset)
+				continue
+			}
+			var ItemName *items.Item
+			var prixRevente int
+			switch strings.ToLower(itemName) {
+			case "bourse de cuir":
+				ItemName = items.Bourse_de_cuir
+				prixRevente = ItemName.PrixRevente
+			case "potion de soin":
+				ItemName = items.Potion_de_soin
+				prixRevente = ItemName.PrixRevente
+			case "potion de poison":
+				ItemName = items.Potion_de_poison
+				prixRevente = ItemName.PrixRevente
+			case "épée en fer", "epée en fer":
+				ItemName = items.Épée_en_fer
+				prixRevente = ItemName.PrixRevente
+			case "dague rouillée":
+				ItemName = items.Dague_rouillée
+				prixRevente = ItemName.PrixRevente
+			case "arc tordu":
+				ItemName = items.Arc_tordu
+				prixRevente = ItemName.PrixRevente
+			case "cuir bouilli rapiécé":
+				ItemName = items.Cuir_bouilli_rapiécé
+				prixRevente = ItemName.PrixRevente
+			case "casque bosselé":
+				ItemName = items.Casque_bosselé
+				prixRevente = ItemName.PrixRevente
+			case "fer brut":
+				ItemName = items.Fer_brut
+				prixRevente = ItemName.PrixRevente
+			case "fourrure de loup":
+				ItemName = items.Fourrure_de_loup
+				prixRevente = ItemName.PrixRevente
+			case "peau de troll":
+				ItemName = items.Peau_de_troll
+				prixRevente = ItemName.PrixRevente
+			case "cuir de sanglier":
+				ItemName = items.Cuir_de_sanglier
+				prixRevente = ItemName.PrixRevente
+			default:
+				fmt.Printf("%sObjet non reconnu ou ne peut pas être revendu%s\n", couleurs.Red, couleurs.Reset)
+				continue
+			}
+			// on effectuer la vente
+			character.PiècesDOr += prixRevente
+			functionshelper.RemoveInventory(characterName, itemName)
+			fmt.Printf("%sVous avez bien vendu %s%s%s !%s\n", couleurs.Green, couleurs.Yellow, itemName, couleurs.Green, couleurs.Reset)
+			fmt.Printf("%sVous avez gagné %s%d%s pièces d'or !%s\n", couleurs.Green, couleurs.Yellow, prixRevente, couleurs.Green, couleurs.Reset)
+			fmt.Printf("%sVotre solde est maintenant : %s%d%s pièces d'or !%s\n", couleurs.Green, couleurs.Yellow, character.PiècesDOr, couleurs.Green, couleurs.Reset)
+			fmt.Printf("\n%sVoulez-vous revendre autre chose ? (o/n) : %s", couleurs.Blue, couleurs.Reset)
+			continuer := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
+			if continuer != "o" && continuer != "oui" {
+				return
 			}
 		case "10", "10.":
 			return

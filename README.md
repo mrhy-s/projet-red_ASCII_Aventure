@@ -73,40 +73,6 @@ ascii_aventure.exe      # Windows
 2. **Personnage par défaut** : Le jeu démarre avec Zinrel (Elfe niveau 1)
 3. **Menu principal** : Utilisez les options numérotées pour naviguer
 
-## Structure du projet
-
-```
-projet-red_N/
-├── README.md                    # Ce fichier
-├── docs/                        # Documentation projet
-│   └── gestion_projet.md        # Document de gestion
-└── src/                         # Code source
-    ├── main.go                  # Point d'entrée principal
-    ├── go.mod                   # Module Go
-    ├── characters/              # Gestion des personnages
-    │   └── characters.go
-    ├── classes/                 # Classes de personnages
-    │   └── classes.go
-    ├── functions_actions/       # Actions du jeu
-    │   └── functions_actions.go
-    ├── functions_helper/        # Fonctions utilitaires
-    │   └── helper.go
-    ├── items/                   # Objets et équipements
-    │   └── items.go
-    ├── menus/                   # Interface utilisateur
-    │   └── menus.go
-    └── skills/                  # Système de compétences
-        └── skills.go
-```
-
-## Classes disponibles
-
-| Classe | Description | Spécialité |
-|--------|-------------|-----------|
-| **Humain** | Polyvalent et adaptable | Équilibré dans tous les domaines |
-| **Elfe** | Agile et magique | Maîtrise du tir à l'arc |
-| **Nain** | Robuste et artisan | Expert en combat à la hache |
-
 ## Système d'inventaire
 
 - **Capacité** : 10 objets maximum

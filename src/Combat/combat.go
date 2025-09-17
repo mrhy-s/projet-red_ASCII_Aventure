@@ -413,27 +413,19 @@ func isDeadMonster() bool {
 
 func RechercheEnemy() {
 	startscreen.ClearScreen()
-
-	// Désactive les inputs pendant la recherche
-	inputcontrol.DisableInput()
-	defer inputcontrol.EnableInput() // Réactive automatiquement à la fin
-
 	const (
 		texteChargement = "Recherche d'un ennemi en cours"
 		largeurEcran    = 120
 		etapesTotal     = 20
 		delaiMs         = 150
 	)
-
 	espacesAGauche := max((largeurEcran-len(texteChargement)-10)/2, 0)
 	fmt.Print("\n\n\033[?25l")   // cache le curseur
 	defer fmt.Print("\033[?25h") // réaffiche le curseur à la fin
-
 	for i := 0; i < etapesTotal; i++ {
 		afficherEtapeChargement(i, espacesAGauche, texteChargement)
 		time.Sleep(delaiMs * time.Millisecond)
 	}
-
 	fmt.Print("\n\n")
 	fmt.Printf("%sEnnemi trouvé !%s\n", couleurs.Green+couleurs.Bold, couleurs.Reset)
 	time.Sleep(2 * time.Second)
@@ -473,6 +465,7 @@ func characterTurn(character *characters.Character, enemy *characters.Monster) b
 	fmt.Printf("%s│%s                                                                                     %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
 	fmt.Printf("\n%sVotre choix : %s", couleurs.Blue, couleurs.Reset)
+	inputcontrol.ClearInputBuffer()
 	choix := strings.ToLower(strings.TrimSpace(functionshelper.ReadInput()))
 	switch choix {
 	case "1", "attaquer", "attaque":

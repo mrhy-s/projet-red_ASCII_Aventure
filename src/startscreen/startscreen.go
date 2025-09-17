@@ -268,9 +268,7 @@ func StartScreen() {
 	fmt.Print("\033[?25l") // cacher le curseur
 	logoAnimation()        // animation d'apparition des logos
 	time.Sleep(1 * time.Second)
-	// loadingAnimation() // animation de chargement
 	time.Sleep(50 * time.Millisecond)
-	// Affichage final
 	ClearScreen()
 	for range 5 {
 		fmt.Println()
@@ -289,15 +287,13 @@ func StartScreen() {
 		espacesAGauche = 0
 	}
 	fmt.Printf("%*s%s%s%s%s\n", espacesAGauche, "", couleurs.Blue, couleurs.Bold, messageFinal, couleurs.Reset)
-
-	input := readInput()
-	if input != "" {
-		fmt.Printf("\n%sÇa commence bien... On te dit d'appuyer sur la touche ENTRÉE et toi tu tapes '%s'%s\n",
-			couleurs.Red, input, couleurs.Reset)
-		fmt.Printf("%sAppuyez juste sur ENTRÉE cette fois...%s\n", couleurs.Blue, couleurs.Reset)
-		readInput()
-	}
 	fmt.Print("\033[?25h") // remonter le curseur
+	var input string
+	input = readInput()
+	for input != "" {
+		input = readInput()
+		println("Entrée invalide")
+	}
 	ClearScreen()
 }
 

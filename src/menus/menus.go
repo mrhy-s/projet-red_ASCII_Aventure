@@ -36,7 +36,8 @@ func Menu() {
 	fmt.Printf("%s│%s %s6.%s Créer un nouveau personnage                                                      %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s│%s %s7.%s Rechercher un ennemi à attaquer                                                  %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s│%s %s8.%s Passer un tour                                                                   %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
-	fmt.Printf("%s│%s %s9.%s Quitter                                                                          %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s %s9.%s Qui sont-ils ?                                                                   %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Green, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s %s10.%s Quitter                                                                         %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Red, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s└─────────────────────────────────────────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
 	fmt.Printf("\n%sVotre choix :%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
 	option := functionshelper.ReadInput()
@@ -101,6 +102,10 @@ func Menu() {
 		functionsactions.Tour++
 		Menu()
 	case "9", "9.":
+		startscreen.ClearScreen()
+		functionshelper.Artistes()
+		Menu()
+	case "10", "10.":
 		return
 	default:
 		startscreen.ClearScreen()

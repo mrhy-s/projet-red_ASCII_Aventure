@@ -12,6 +12,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"time"
 )
 
 // ================
@@ -444,6 +445,11 @@ func CharacterCreation() *characters.Character {
 func getGoldBourse(character characters.Character) {
 	goldDansBourse := items.Bourse_de_cuir.Gold
 	character.PiècesDOr += goldDansBourse
+}
+
+func Artistes() {
+	fmt.Print("Les artistes cachés sont ABBA et Spielberg\n")
+	time.Sleep(5 * time.Second)
 }
 
 /// =====
