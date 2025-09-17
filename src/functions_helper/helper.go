@@ -113,7 +113,7 @@ func RemoveInventory(characterName string, item string) bool {
 	return false
 }
 
-func DisplayItemDetails(itemName string) {
+func DisplayItemDetails(itemName string, character *characters.Character) {
 	item := GetItemByName(strings.ToLower(itemName))
 	fmt.Printf("%s┌──────────────────────────────────────────────────────────────┐%s\n", couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s│%s%s                      Détails de l'item                       %s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Bold, couleurs.Reset, couleurs.Blue, couleurs.Reset)
@@ -159,12 +159,15 @@ func DisplayItemDetails(itemName string) {
 		}
 	}
 	fmt.Printf("%s└──────────────────────────────────────────────────────────────┘%s\n", couleurs.Blue, couleurs.Reset)
-	if strings.Contains(itemName, "[Spell book]") {
+	if strings.Contains(itemName, "[Spell book] > Boule de feu") {
 		fmt.Printf("\n%sVoulez-vous apprendre ce livre de sort ?%s ", couleurs.Blue+couleurs.Bold, couleurs.Reset)
 		input := strings.ToLower(strings.TrimSpace(ReadInput()))
 		if input == "oui" {
 			SpellBook("boule de feu", itemName)
 		}
+	}
+	if strings.Contains(strings.ToLower(itemName), "bourse de cuir") {
+		getGoldBourse(*character)
 	}
 	if isEquippableItem(itemName) { // vérifie si c'est un équipement
 		promptEquipItem(itemName)
@@ -436,6 +439,11 @@ func CharacterCreation() *characters.Character {
 		fmt.Printf("%sVous avez déjà un second personnage%s\n", couleurs.Yellow, couleurs.Reset)
 		return nil
 	}
+}
+
+func getGoldBourse(character characters.Character) {
+	goldDansBourse := items.Bourse_de_cuir.Gold
+	character.PiècesDOr += goldDansBourse
 }
 
 /// =====

@@ -542,14 +542,14 @@ func Marchand() {
 				fmt.Printf("\n%sQuel(s) objet(s) souhaitez vous revendre ?%s\n", couleurs.Blue, couleurs.Reset)
 				fmt.Printf("%sVotre choix :%s ", couleurs.Blue, couleurs.Reset)
 				itemName := functionshelper.ReadInput()
-				for len(itemName) <= 6 {
-					if len(itemName) <= 6 {
+				for len(itemName) <= 1 {
+					if len(itemName) <= 1 {
 						fmt.Printf("%sErreur : vous devez entrer le nom d'un objet %s\n", couleurs.Red, couleurs.Reset)
 						fmt.Printf("\n%sQuel(s) objet(s) souhaitez vous revendre ?%s\n", couleurs.Blue, couleurs.Reset)
 					}
 					itemName = functionshelper.ReadInput()
 					functionshelper.RemoveInventory(characters.C1.Nom, itemName)
-					if len(itemName) >= 6 {
+					if len(itemName) >= 1 {
 						fmt.Printf("%sVous avez bien vendu %s%s%s ! %s\n", couleurs.Green, couleurs.Yellow, itemName, couleurs.Green, couleurs.Reset)
 					}
 				}
@@ -739,7 +739,7 @@ func ItemViewOui(character *characters.Character) {
 	for _, inventoryItem := range character.Inventaire {
 		itemStr := strings.ToLower(fmt.Sprintf("%v", inventoryItem))
 		if itemStr == item {
-			functionshelper.DisplayItemDetails(inventoryItem)
+			functionshelper.DisplayItemDetails(inventoryItem, character)
 			itemFound = true
 			break
 		}

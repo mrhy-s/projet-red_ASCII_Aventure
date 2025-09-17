@@ -11,6 +11,7 @@ type Item struct {
 	Effet                string
 	Degats               int
 	Gold                 int
+	PrixRevente          int
 }
 
 var Potion_de_soin *Item
@@ -32,7 +33,7 @@ var Casque_bosselé *Item
 var Bourse_de_cuir *Item
 var Fer_brut *Item
 
-func InitItem(nom string, classeToUse string, niveauToUse int, durabilitéMaximum int, durabilitéesActuelle int, description string) *Item {
+func InitItem(nom string, classeToUse string, niveauToUse int, durabilitéMaximum int, durabilitéesActuelle int, description string, prixRevente int) *Item {
 	return &Item{
 		Nom:                  nom,
 		ClasseToUse:          classeToUse,
@@ -40,10 +41,11 @@ func InitItem(nom string, classeToUse string, niveauToUse int, durabilitéMaximu
 		DurabilitéMaximum:    durabilitéMaximum,
 		DurabilitéesActuelle: durabilitéesActuelle,
 		Description:          description,
+		PrixRevente:          prixRevente,
 	}
 }
 
-func InitPotion(nom string, classeToUse string, niveauToUse int, description string, effet string) *Item {
+func InitPotion(nom string, classeToUse string, niveauToUse int, description string, effet string, prixRevente int) *Item {
 	return &Item{
 		Nom:         nom,
 		ClasseToUse: classeToUse,
@@ -51,10 +53,11 @@ func InitPotion(nom string, classeToUse string, niveauToUse int, description str
 		Description: description,
 		Type:        "Consommable",
 		Effet:       effet,
+		PrixRevente: prixRevente,
 	}
 }
 
-func InitArme(nom string, classeToUse string, niveauToUse int, durabilitéMax int, description string, degats int) *Item {
+func InitArme(nom string, classeToUse string, niveauToUse int, durabilitéMax int, description string, degats int, prixRevente int) *Item {
 	return &Item{
 		Nom:                  nom,
 		ClasseToUse:          classeToUse,
@@ -64,10 +67,11 @@ func InitArme(nom string, classeToUse string, niveauToUse int, durabilitéMax in
 		Description:          description,
 		Type:                 "Arme",
 		Degats:               degats,
+		PrixRevente:          prixRevente,
 	}
 }
 
-func InitArmeMonster(nom string, classeToUse string, niveauToUse int, durabilitéActuelle int, durabilitéMax int, description string, degats int) *Item {
+func InitArmeMonster(nom string, classeToUse string, niveauToUse int, durabilitéActuelle int, durabilitéMax int, description string, degats int, prixRevente int) *Item {
 	return &Item{
 		Nom:                  nom,
 		ClasseToUse:          classeToUse,
@@ -77,28 +81,31 @@ func InitArmeMonster(nom string, classeToUse string, niveauToUse int, durabilit�
 		Description:          description,
 		Type:                 "Arme",
 		Degats:               degats,
+		PrixRevente:          prixRevente,
 	}
 }
 
-func InitSpellBook(nom string, classeToUse string, niveauToUse int, description string) *Item {
+func InitSpellBook(nom string, classeToUse string, niveauToUse int, description string, prixRevente int) *Item {
 	return &Item{
 		Nom:         nom,
 		ClasseToUse: classeToUse,
 		NiveauToUse: niveauToUse,
 		Description: description,
 		Type:        "Consommable",
+		PrixRevente: prixRevente,
 	}
 }
 
-func InitRessources(nom string, description string) *Item {
+func InitRessources(nom string, description string, prixRevente int) *Item {
 	return &Item{
 		Nom:         nom,
 		Description: description,
 		Type:        "Ressources",
+		PrixRevente: prixRevente,
 	}
 }
 
-func InitArmure(nom string, classeToUse string, niveauToUse int, durabilitéMax int, durabilitéActuelle int, description string) *Item {
+func InitArmure(nom string, classeToUse string, niveauToUse int, durabilitéMax int, durabilitéActuelle int, description string, prixRevente int) *Item {
 	return &Item{
 		Nom:                  nom,
 		ClasseToUse:          classeToUse,
@@ -107,14 +114,17 @@ func InitArmure(nom string, classeToUse string, niveauToUse int, durabilitéMax 
 		DurabilitéesActuelle: durabilitéActuelle,
 		Description:          description,
 		Type:                 "Armure",
+		PrixRevente:          prixRevente,
 	}
 }
 
 func InitBourse(gold int) *Item {
+	prixRevente := 3
 	return &Item{
 		Nom:         "Bourse de cuir",
 		Description: "Quelques pièces d'or",
 		Type:        "Objet",
 		Gold:        gold,
+		PrixRevente: prixRevente,
 	}
 }

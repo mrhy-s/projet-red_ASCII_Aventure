@@ -1,15 +1,16 @@
 {
-	"Nom": "Test",
-	"Classe": "Nain",
+	"Nom": "Zinrel",
+	"Classe": "Elfe",
 	"Niveau": 1,
-	"PointsDeVieMaximum": 123,
-	"PointsDeVieActuels": 79,
+	"PointsDeVieMaximum": 80,
+	"PointsDeVieActuels": 5,
 	"Inventaire": [
-		"potion de soin",
-		"potion de soin"
+		"Bourse de cuir",
+		"Gourdin clouté",
+		"Casque bosselé"
 	],
 	"Skill": [
-		"Coup de hache"
+		"Coup de poing"
 	],
 	"PiècesDOr": 100,
 	"Equipment": {

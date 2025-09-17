@@ -218,7 +218,8 @@ func EquipItem(character *Character, itemName string) bool {
 	return true
 }
 
-func removeInventory(characterName string, item string) bool { // import cycle not allowed
+// import cycle not allowed
+func removeInventory(characterName string, item string) bool {
 	character, err := getCharacterByName(characterName)
 	if err != nil {
 		fmt.Println(err.Error())
@@ -233,11 +234,13 @@ func removeInventory(characterName string, item string) bool { // import cycle n
 	return false
 }
 
-func removeItem(slice []string, index int) []string { // import cycle not allowed
+// import cycle not allowed
+func removeItem(slice []string, index int) []string {
 	return append(slice[:index], slice[index+1:]...)
 }
 
-func getCharacterByName(characterName string) (*Character, error) { // import cycle not allowed
+// import cycle not allowed
+func getCharacterByName(characterName string) (*Character, error) {
 	name := strings.ToLower(strings.TrimSpace(characterName))
 	if C2_b {
 		switch name {

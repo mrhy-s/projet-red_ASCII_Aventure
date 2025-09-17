@@ -440,7 +440,7 @@ func RechercheEnemy() {
 		time.Sleep(150 * time.Millisecond)
 	}
 	fmt.Print("\n\n")
-	fmt.Printf("%s\t\t\t\t\tEnnemi trouvé !%s\n", couleurs.Green+couleurs.Bold, couleurs.Reset)
+	fmt.Printf("%sEnnemi trouvé !%s\n", couleurs.Green+couleurs.Bold, couleurs.Reset)
 	time.Sleep(2 * time.Second)
 }
 
@@ -477,7 +477,7 @@ func characterTurn(character *characters.Character, enemy *characters.Monster) b
 		time.Sleep(1 * time.Second)
 		return true
 	case "2", "inventaire", "inv":
-		return handleInventoryAction(character)
+		return handleInventoryAction(character, enemy)
 	case "3", "skills", "skill":
 		return handleSkillsAction(character, enemy)
 	default:
@@ -584,7 +584,7 @@ func useSkill(character *characters.Character, enemy *characters.Monster, skillN
 	}
 }
 
-func handleInventoryAction(character *characters.Character) bool {
+func handleInventoryAction(character *characters.Character, monster *characters.Monster) bool {
 	if len(character.Inventaire) == 0 {
 		fmt.Printf("\n%sVotre inventaire est vide.%s\n", couleurs.Red, couleurs.Reset)
 		fmt.Printf("%sAppuyez sur Entrée pour continuer...%s", couleurs.Blue, couleurs.Reset)
@@ -632,22 +632,22 @@ func handleInventoryAction(character *characters.Character) bool {
 		index = 9
 	default:
 		fmt.Printf("%sChoix invalide.%s\n", couleurs.Red, couleurs.Reset)
-		return handleInventoryAction(character) // redemander
+		return handleInventoryAction(character, monster) // redemander
 	}
 	if index < 0 || index >= len(character.Inventaire) {
 		fmt.Printf("%sChoix invalide.%s\n", couleurs.Red, couleurs.Reset)
-		return handleInventoryAction(character)
+		return handleInventoryAction(character, monster)
 	}
 	// utiliser l'objet
 	item := character.Inventaire[index]
 	fmt.Printf("\n%sVous utilisez %s%s%s\n", couleurs.Green, couleurs.Yellow, item, couleurs.Reset)
 	// appliquer l'effet selon le type d'objet
-	useItem(character, item, index)
+	useItem(character, monster, item, index)
 	time.Sleep(1 * time.Second)
 	return true
 }
 
-func useItem(character *characters.Character, itemName string, index int) {
+func useItem(character *characters.Character, monster *characters.Monster, itemName string, index int) {
 	switch itemName {
 	case "Potion de soin", "potion de soin":
 		healAmount := 50
@@ -657,6 +657,19 @@ func useItem(character *characters.Character, itemName string, index int) {
 		}
 		fmt.Printf("%s%s%s récupère %s%d%s points de vie\n", couleurs.Green, character.Nom, couleurs.Reset, couleurs.Yellow, healAmount, couleurs.Reset)
 		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Green, character.Nom, couleurs.Reset, couleurs.White, character.PointsDeVieActuels, couleurs.Reset, couleurs.White, character.PointsDeVieMaximum, couleurs.Reset)
+		character.Inventaire = functionshelper.RemoveItem(character.Inventaire, index)
+	case "Potion de poison", "potion de poison":
+		healAmount := 20
+		monster.PointsDeVieActuels -= healAmount / 3
+		time.Sleep(1 * time.Second)
+		monster.PointsDeVieActuels -= healAmount / 3
+		time.Sleep(1 * time.Second)
+		monster.PointsDeVieActuels -= healAmount / 3
+		if monster.PointsDeVieActuels > monster.PointsDeVieMaximum {
+			monster.PointsDeVieActuels = monster.PointsDeVieMaximum
+		}
+		fmt.Printf("%s%s%s perd %s%d%s points de vie\n", couleurs.Green, monster.Nom, couleurs.Reset, couleurs.Yellow, healAmount, couleurs.Reset)
+		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Green, monster.Nom, couleurs.Reset, couleurs.White, monster.PointsDeVieActuels, couleurs.Reset, couleurs.White, monster.PointsDeVieMaximum, couleurs.Reset)
 		character.Inventaire = functionshelper.RemoveItem(character.Inventaire, index)
 	default:
 		fmt.Printf("%sCet objet ne peut pas être utilisé en combat.%s\n", couleurs.Red, couleurs.Reset)
