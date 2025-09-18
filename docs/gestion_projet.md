@@ -13,10 +13,10 @@ ASCII Aventure est un jeu de rôle textuel développé en Go, proposant une exp�
 
 ## Avancement Global
 
-![Progression](https://img.shields.io/badge/Progression-87.5%25-green)
+![Progression](https://img.shields.io/badge/Progression-92.5%25-green)
 
-**Fonctionnalités complétées :** 35/40  
-**À faire :** 5
+**Fonctionnalités complétées :** 37/40  
+**À faire :** 3
 
 ## Milestones
 
@@ -57,7 +57,7 @@ ASCII Aventure est un jeu de rôle textuel développé en Go, proposant une exp�
 **Statut :** À faire  
 **Date prévue :** À définir
 
-- [ ] Créer fonction poisonPot (10 dégâts/seconde pendant 3s avec time.Sleep) (Wilfrid)
+- [x] Créer fonction poisonPot (10 dégâts/seconde pendant 3s avec time.Sleep) (Wilfrid)
 - [x] Ajouter Potion de poison au marchand (Wilfrid)
 
 ### Milestone 5 : Système de Sorts (En attente)
@@ -140,7 +140,7 @@ ASCII Aventure est un jeu de rôle textuel développé en Go, proposant une exp�
 
 - [ ] Ajouter attribut initiative (détermine ordre de jeu)
 - [ ] Système d'expérience (XP par monstre, montée niveau)
-- [ ] Utiliser sorts en combat : Coup de poing (8 dégâts), Boule de feu (18 dégâts)
+- [x] Utiliser sorts en combat : Coup de poing (8 dégâts), Boule de feu (18 dégâts)
 - [ ] Système de mana (coût sorts, potion mana)
 - [ ] Enrichir contenu du jeu
 - [x] Trouver les deux artistes cachés dans parties 2 et 3
