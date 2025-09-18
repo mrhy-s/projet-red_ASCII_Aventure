@@ -720,7 +720,7 @@ func forgerItem(equipmentName string, materials []string, quantities []int) {
 		}
 	}
 	missingMaterials := []string{}
-	materialCount := make(map[string]int)
+	materialCount := make(map[string]int) // on créé une association de string et de int
 	for _, item := range character.Inventaire {
 		itemLower := strings.ToLower(item)
 		materialCount[itemLower]++
@@ -732,7 +732,7 @@ func forgerItem(equipmentName string, materials []string, quantities []int) {
 
 		if possessed < needed {
 			missing := needed - possessed
-			missingMaterials = append(missingMaterials, fmt.Sprintf("%d %s", missing, material))
+			missingMaterials = append(missingMaterials, fmt.Sprintf("%d %s", missing, material)) // Crée une chaîne formatée et la RETOURNE (sans l'afficher)
 		}
 	}
 	if len(missingMaterials) > 0 {
