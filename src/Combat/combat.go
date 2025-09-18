@@ -10,11 +10,13 @@ import (
 	functionshelper "ASCII_Aventure/functions_helper"
 	"ASCII_Aventure/inputcontrol"
 	"ASCII_Aventure/items"
+	"ASCII_Aventure/skills"
 	"ASCII_Aventure/startscreen"
 )
 
 var currentEnemy *characters.Monster
 var combatEnCours bool = false
+var selectedCharacter *characters.Character
 
 func Combat(Tour int) {
 	startscreen.ClearScreen()
@@ -23,11 +25,14 @@ func Combat(Tour int) {
 	}
 	combatEnCours = true
 	var character *characters.Character
-	if characters.C2_b && characters.C2 != nil {
-		character = selectionnerPersonnage()
-	} else {
-		character = characters.C1
+	if Tour == 0 {
+		if characters.C2_b && characters.C2 != nil {
+			selectedCharacter = selectionnerPersonnage()
+		} else {
+			selectedCharacter = characters.C1
+		}
 	}
+	character = selectedCharacter
 	if character == nil {
 		fmt.Printf("%sErreur: Aucun personnage sélectionné%s\n", couleurs.Red, couleurs.Reset)
 		return
@@ -59,9 +64,43 @@ func goblinPattern(attaquant *characters.Monster, cible *characters.Character, t
 	if attaquant == nil || cible == nil {
 		return
 	}
+	// on calcule le pourcentage de vie du gobelin
+	pourcentageVieGobelin := float64(attaquant.PointsDeVieActuels) / float64(attaquant.PointsDeVieMaximum)
+	// on détermine l'action à effectuer
+	var actionChoisie string
+	// si le gobelin a moins de 30% de PV, il privilégie le soin
+	if pourcentageVieGobelin < 0.3 && functionshelper.RandomBetween(1, 100) <= 70 {
+		actionChoisie = "Soin"
+	} else if tour%4 == 0 && functionshelper.RandomBetween(1, 100) <= 80 {
+		// tous les 4 tours, haute chance d'utiliser "Coup de Rage"
+		actionChoisie = "Coup de Rage"
+	} else if functionshelper.RandomBetween(1, 100) <= 40 {
+		// 40% de chance d'utiliser "Griffure"
+		actionChoisie = "Griffure"
+	} else {
+		// sinon attaque normale
+		actionChoisie = "Attaque normale"
+	}
+	fmt.Printf("\n%s=== Tour du %s ====%s\n", couleurs.Red+couleurs.Bold, attaquant.Nom, couleurs.Reset)
+	switch actionChoisie {
+	case "Soin":
+		utiliserSkillGobelin(attaquant, cible, "Soin")
+	case "Coup de Rage":
+		utiliserSkillGobelin(attaquant, cible, "Coup de Rage")
+	case "Griffure":
+		utiliserSkillGobelin(attaquant, cible, "Griffure")
+	default:
+		// une attaque normale avec possibilité critique
+		attaqueNormaleGobelin(attaquant, cible, tour)
+	}
+	time.Sleep(1 * time.Second)
+}
+
+func attaqueNormaleGobelin(attaquant *characters.Monster, cible *characters.Character, tour int) {
 	degatsBase := calculateMonsterDamage(attaquant)
 	var degatsInfliges int
 	var typeAttaque string
+	// attaque critique tous les 3 tours
 	if tour%3 == 0 {
 		degatsInfliges = int(float64(degatsBase) * 2.0)
 		typeAttaque = " avec une attaque critique"
@@ -80,7 +119,45 @@ func goblinPattern(attaquant *characters.Monster, cible *characters.Character, t
 	}
 	applyArmorWear(cible)
 	fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Green, cible.Nom, couleurs.Reset, couleurs.White, cible.PointsDeVieActuels, couleurs.Reset, couleurs.White, cible.PointsDeVieMaximum, couleurs.Reset)
-	time.Sleep(1 * time.Second)
+}
+
+func utiliserSkillGobelin(attaquant *characters.Monster, cible *characters.Character, skill string) {
+	fmt.Printf("\n%s%s%s utilise %s%s%s!\n", couleurs.Red, attaquant.Nom, couleurs.Reset, couleurs.Purple+couleurs.Bold, skill, couleurs.Reset)
+	switch skill {
+	case "Soin":
+		// le gobelin se soigne
+		soinQuantite := functionshelper.RandomBetween(15, 25)
+		attaquant.PointsDeVieActuels += soinQuantite
+		if attaquant.PointsDeVieActuels > attaquant.PointsDeVieMaximum {
+			attaquant.PointsDeVieActuels = attaquant.PointsDeVieMaximum
+		}
+		fmt.Printf("%s%s%s se soigne de %s%d%s PV!\n", couleurs.Red, attaquant.Nom, couleurs.Reset, couleurs.Green, soinQuantite, couleurs.Reset)
+		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Red, attaquant.Nom, couleurs.Reset, couleurs.White, attaquant.PointsDeVieActuels, couleurs.Reset, couleurs.White, attaquant.PointsDeVieMaximum, couleurs.Reset)
+	case "Griffure":
+		// attaque rapide avec saignement
+		degats := calculateMonsterDamage(attaquant) + functionshelper.RandomBetween(3, 8)
+		fmt.Printf("%s%s%s griffe sauvagement %s%s%s et inflige %s%d%s dégâts!\n", couleurs.Red, attaquant.Nom, couleurs.Reset, couleurs.Green, cible.Nom, couleurs.Reset, couleurs.Yellow, degats, couleurs.Reset)
+		cible.PointsDeVieActuels -= degats
+		if cible.PointsDeVieActuels < 0 {
+			cible.PointsDeVieActuels = 0
+		}
+		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Green, cible.Nom, couleurs.Reset, couleurs.White, cible.PointsDeVieActuels, couleurs.Reset, couleurs.White, cible.PointsDeVieMaximum, couleurs.Reset)
+	case "Coup de Rage":
+		// attaque puissante avec bonus de dégâts
+		degatsBase := calculateMonsterDamage(attaquant)
+		degats := int(float64(degatsBase) * 1.8) // 80% de bonus de dégats
+		fmt.Printf("%s%s%s entre dans une rage folle et frappe violemment!\n", couleurs.Red+couleurs.Bold, attaquant.Nom, couleurs.Reset)
+		fmt.Printf("%s%s%s inflige %s%d%s dégâts de rage à %s%s%s!\n", couleurs.Red, attaquant.Nom, couleurs.Reset, couleurs.Yellow+couleurs.Bold, degats, couleurs.Reset, couleurs.Green, cible.Nom, couleurs.Reset)
+		cible.PointsDeVieActuels -= degats
+		if cible.PointsDeVieActuels < 0 {
+			cible.PointsDeVieActuels = 0
+		}
+		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Green, cible.Nom, couleurs.Reset, couleurs.White, cible.PointsDeVieActuels, couleurs.Reset, couleurs.White, cible.PointsDeVieMaximum, couleurs.Reset)
+	}
+	applyArmorWear(cible)
+	if attaquant.Equipement.Arme != "" {
+		applyMonsterWeaponWear(attaquant)
+	}
 }
 
 func applyMonsterWeaponWear(monster *characters.Monster) {
@@ -273,7 +350,7 @@ func getCurrentEnemy() *characters.Monster {
 			PointsDeVieMaximum: pv,
 			PointsDeVieActuels: pv,
 			Inventaire:         inventaire,
-			Skill:              []string{"Griffure"},
+			Skill:              []string{"Griffure", "Coup de Rage", "Soin"},
 			Equipement:         equipement,
 		}
 	}
@@ -500,11 +577,11 @@ func handleSkillsAction(character *characters.Character, enemy *characters.Monst
 		return false // retourner au menu principal
 	}
 	fmt.Printf("\n%s┌─────────────────────────────────────────────────────────────────────────────────────┐%s\n", couleurs.Blue, couleurs.Reset)
-	fmt.Printf("%s│%s                                 SKILLS                                             %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+	fmt.Printf("%s│%s                                 SKILLS                                              %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s├─────────────────────────────────────────────────────────────────────────────────────┤%s\n", couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s│%s                                                                                     %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	for i, skill := range character.Skill {
-		fmt.Printf("%s│%s %s%d.%s %s%-79s%s %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, i+1, couleurs.Reset, couleurs.White, skill, couleurs.Reset, couleurs.Blue, couleurs.Reset)
+		fmt.Printf("%s│%s %s%d.%s %s%-79s%s %s │%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, i+1, couleurs.Reset, couleurs.White, skill, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	}
 	fmt.Printf("%s│%s                                                                                     %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.Blue, couleurs.Reset)
 	fmt.Printf("%s│%s %s0.%s Retour                                                                           %s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, couleurs.Blue, couleurs.Reset)
@@ -556,26 +633,42 @@ func handleSkillsAction(character *characters.Character, enemy *characters.Monst
 }
 
 func useSkill(character *characters.Character, enemy *characters.Monster, skillName string) {
+	var skill *skills.Skill
+	// récupérer le skill correspondant
 	switch skillName {
-	case "Boule de Feu":
-		degats := 25
-		fmt.Printf("%s%s%s lance une boule de feu et inflige %s%d%s dégâts à %s%s%s\n", couleurs.Green, character.Nom, couleurs.Reset, couleurs.Yellow, degats, couleurs.Reset, couleurs.Red, enemy.Nom, couleurs.Reset)
-		// appliquer les dégâts
-		enemy.PointsDeVieActuels -= degats
+	case "Boule de Feu", "[Spell book] > Boule de feu":
+		skill = skills.BouleDeFeu
+	case "Coup de Rage":
+		skill = skills.CoupDeRage
+	case "Soin":
+		skill = skills.Soin
+	case "Coup de poing":
+		skill = skills.CoupDePoing
+	case "Coup de hache":
+		skill = skills.CoupDeHache
+	case "Tir à l'arc":
+		skill = skills.TirÀLarc
+	case "Griffure", "[Spell book] > Griffure":
+		skill = skills.Griffure
+	}
+	if skill == nil {
+		fmt.Printf("%sCe skill n'est pas encore implémenté.%s\n", couleurs.Red, couleurs.Reset)
+		return
+	}
+	switch skillName {
+	case "Boule de Feu", "[Spell book] > Boule de feu":
+		fmt.Printf("%s%s%s lance une boule de feu et inflige %s%d%s dégâts à %s%s%s\n", couleurs.Green, character.Nom, couleurs.Reset, couleurs.Yellow, skill.Degats, couleurs.Reset, couleurs.Red, enemy.Nom, couleurs.Reset)
+		enemy.PointsDeVieActuels -= skill.Degats
 		if enemy.PointsDeVieActuels < 0 {
 			enemy.PointsDeVieActuels = 0
 		}
-		// afficher les PV restants de l'ennemi
 		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Red, enemy.Nom, couleurs.Reset, couleurs.White, enemy.PointsDeVieActuels, couleurs.Reset, couleurs.White, enemy.PointsDeVieMaximum, couleurs.Reset)
 	case "Coup de Rage":
-		degats := 15
-		fmt.Printf("%s%s%s entre dans une rage folle et inflige %s%d%s dégâts à %s%s%s\n", couleurs.Green, character.Nom, couleurs.Reset, couleurs.Yellow, degats, couleurs.Reset, couleurs.Red, enemy.Nom, couleurs.Reset)
-		// appliquer les dégâts
-		enemy.PointsDeVieActuels -= degats
+		fmt.Printf("%s%s%s entre dans une rage folle et inflige %s%d%s dégâts à %s%s%s\n", couleurs.Green, character.Nom, couleurs.Reset, couleurs.Yellow, skill.Degats, couleurs.Reset, couleurs.Red, enemy.Nom, couleurs.Reset)
+		enemy.PointsDeVieActuels -= skill.Degats
 		if enemy.PointsDeVieActuels < 0 {
 			enemy.PointsDeVieActuels = 0
 		}
-		// afficher les PV restants de l'ennemi
 		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Red, enemy.Nom, couleurs.Reset, couleurs.White, enemy.PointsDeVieActuels, couleurs.Reset, couleurs.White, enemy.PointsDeVieMaximum, couleurs.Reset)
 	case "Soin":
 		healAmount := 30
@@ -585,6 +678,34 @@ func useSkill(character *characters.Character, enemy *characters.Monster, skillN
 		}
 		fmt.Printf("%s%s%s utilise un sort de soin et récupère %s%d%s points de vie\n", couleurs.Green, character.Nom, couleurs.Reset, couleurs.Yellow, healAmount, couleurs.Reset)
 		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Green, character.Nom, couleurs.Reset, couleurs.White, character.PointsDeVieActuels, couleurs.Reset, couleurs.White, character.PointsDeVieMaximum, couleurs.Reset)
+	case "Coup de poing":
+		fmt.Printf("%s%s%s donne un coup de poing et inflige %s%d%s dégâts à %s%s%s\n", couleurs.Green, character.Nom, couleurs.Reset, couleurs.Yellow, skill.Degats, couleurs.Reset, couleurs.Red, enemy.Nom, couleurs.Reset)
+		enemy.PointsDeVieActuels -= skill.Degats
+		if enemy.PointsDeVieActuels < 0 {
+			enemy.PointsDeVieActuels = 0
+		}
+		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Red, enemy.Nom, couleurs.Reset, couleurs.White, enemy.PointsDeVieActuels, couleurs.Reset, couleurs.White, enemy.PointsDeVieMaximum, couleurs.Reset)
+	case "Coup de hache":
+		fmt.Printf("%s%s%s frappe avec sa hache et inflige %s%d%s dégâts à %s%s%s\n", couleurs.Green, character.Nom, couleurs.Reset, couleurs.Yellow, skill.Degats, couleurs.Reset, couleurs.Red, enemy.Nom, couleurs.Reset)
+		enemy.PointsDeVieActuels -= skill.Degats
+		if enemy.PointsDeVieActuels < 0 {
+			enemy.PointsDeVieActuels = 0
+		}
+		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Red, enemy.Nom, couleurs.Reset, couleurs.White, enemy.PointsDeVieActuels, couleurs.Reset, couleurs.White, enemy.PointsDeVieMaximum, couleurs.Reset)
+	case "Tir à l'arc":
+		fmt.Printf("%s%s%s tire une flèche et inflige %s%d%s dégâts à %s%s%s\n", couleurs.Green, character.Nom, couleurs.Reset, couleurs.Yellow, skill.Degats, couleurs.Reset, couleurs.Red, enemy.Nom, couleurs.Reset)
+		enemy.PointsDeVieActuels -= skill.Degats
+		if enemy.PointsDeVieActuels < 0 {
+			enemy.PointsDeVieActuels = 0
+		}
+		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Red, enemy.Nom, couleurs.Reset, couleurs.White, enemy.PointsDeVieActuels, couleurs.Reset, couleurs.White, enemy.PointsDeVieMaximum, couleurs.Reset)
+	case "Griffure":
+		fmt.Printf("%s%s%s griffe sauvagement et inflige %s%d%s dégâts à %s%s%s\n", couleurs.Red, character.Nom, couleurs.Reset, couleurs.Yellow, skill.Degats, couleurs.Reset, couleurs.Green, enemy.Nom, couleurs.Reset)
+		enemy.PointsDeVieActuels -= skill.Degats
+		if enemy.PointsDeVieActuels < 0 {
+			enemy.PointsDeVieActuels = 0
+		}
+		fmt.Printf("%s%s%s: %s%d%s/%s%d%s PV\n", couleurs.Green, enemy.Nom, couleurs.Reset, couleurs.White, enemy.PointsDeVieActuels, couleurs.Reset, couleurs.White, enemy.PointsDeVieMaximum, couleurs.Reset)
 	default:
 		fmt.Printf("%sCe skill n'est pas encore implémenté.%s\n", couleurs.Red, couleurs.Reset)
 	}
@@ -695,9 +816,12 @@ func terminerCombat() {
 			ajouterButin(character, currentEnemy)
 		}
 		currentEnemy = nil
+		selectedCharacter = nil
+		characters.Gobelin = nil
 	} else if characters.IsDead() {
 		fmt.Printf("\n%sDéfaite !%s\n", couleurs.Red+couleurs.Bold, couleurs.Reset)
 		currentEnemy = nil
+		characters.Gobelin = nil
 	}
 }
 

@@ -144,7 +144,7 @@ func DisplayItemDetails(itemName string, character *characters.Character) {
 			} else {
 				durabilityColor = couleurs.Red
 			}
-			fmt.Printf("%s│%s%sDurabilité:%s %s%d%s/%s%d%s%-48s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, durabilityColor, item.DurabilitéesActuelle, couleurs.Reset, couleurs.White, item.DurabilitéMaximum, couleurs.Reset, "", couleurs.Blue, couleurs.Reset)
+			fmt.Printf("%s│%s%sDurabilité:%s %s%-3d%s/%s%d%s%-43s%s│%s\n", couleurs.Blue, couleurs.Reset, couleurs.White, couleurs.Reset, durabilityColor, item.DurabilitéesActuelle, couleurs.Reset, couleurs.White, item.DurabilitéMaximum, couleurs.Reset, "", couleurs.Blue, couleurs.Reset)
 		}
 		if item.Description != "" {
 			desc := item.Description
@@ -177,7 +177,7 @@ func DisplayItemDetails(itemName string, character *characters.Character) {
 
 func isEquippableItem(itemName string) bool {
 	itemLower := strings.ToLower(itemName)
-	return strings.Contains(itemLower, "chapeau de l'aventurier") || strings.Contains(itemLower, "tunique de l'aventurier") || strings.Contains(itemLower, "bottes de l'aventurier") || strings.Contains(itemLower, "épée en fer")
+	return strings.Contains(itemLower, "chapeau de l'aventurier") || strings.Contains(itemLower, "tunique de l'aventurier") || strings.Contains(itemLower, "bottes de l'aventurier") || strings.Contains(itemLower, "épée en fer") || strings.Contains(itemLower, "casque bosselé") || strings.Contains(itemLower, "cuir bouilli rapiécé") || strings.Contains(itemLower, "dague rouillée") || strings.Contains(itemLower, "gourdin clouté") || strings.Contains(itemLower, "arc tordu")
 }
 
 func promptEquipItem(itemName string) {
@@ -245,29 +245,49 @@ func contains(slice []string, item string) bool {
 }
 
 func GetItemByName(itemName string) *items.Item {
+	itemName = strings.ToLower(strings.TrimSpace(itemName))
 	switch itemName {
 	// Armes
-	case "Dague rouillée":
+	case "dague rouillée", "dague rouillee":
 		return items.Dague_rouillée
-	case "Gourdin clouté":
+	case "gourdin clouté", "gourdin cloute":
 		return items.Gourdin_clouté
-	case "Arc tordu":
+	case "arc tordu":
 		return items.Arc_tordu
-	case "Épée en fer":
+	case "épée en fer", "epee en fer":
 		return items.Épée_en_fer
 	// Armures/Tuniques
-	case "Tunique de l'aventurier":
+	case "tunique de l'aventurier", "tunique de laventurier":
 		return items.Tunique_de_laventurier
-	case "Cuir bouilli rapiécé":
+	case "cuir bouilli rapiécé", "cuir bouilli rapiece":
 		return items.Cuir_bouilli_rapiécé
 	// Chapeaux/Casques
-	case "Chapeau de l'aventurier":
+	case "chapeau de l'aventurier", "chapeau de laventurier":
 		return items.Chapeau_de_laventurier
-	case "Casque bosselé":
+	case "casque bosselé", "casque bossele":
 		return items.Casque_bosselé
 	// Bottes
-	case "Bottes de l'aventurier":
+	case "bottes de l'aventurier", "bottes de laventurier":
 		return items.Bottes_de_laventurier
+	// Potions
+	case "potion de soin":
+		return items.Potion_de_soin
+	case "potion de poison":
+		return items.Potion_de_poison
+	// Ressources
+	case "fer brut":
+		return items.Fer_brut
+	case "cuir de sanglier":
+		return items.Cuir_de_sanglier
+	case "peau de troll":
+		return items.Peau_de_troll
+	case "fourrure de loup":
+		return items.Fourrure_de_loup
+	case "plume de corbeau":
+		return items.Plume_de_corbeau
+	// Autres
+	case "bourse de cuir":
+		return items.Bourse_de_cuir
 	default:
 		return nil
 	}
@@ -445,6 +465,8 @@ func CharacterCreation() *characters.Character {
 func getGoldBourse(character characters.Character) {
 	goldDansBourse := items.Bourse_de_cuir.Gold
 	character.PiècesDOr += goldDansBourse
+	fmt.Printf("Vous avez gagné %v pièces d'or", goldDansBourse)
+	RemoveInventory(character.Nom, "Bourse de cuir")
 }
 
 func Artistes() {

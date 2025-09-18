@@ -1,0 +1,24 @@
+{
+	"Nom": "Test",
+	"Classe": "Nain",
+	"Niveau": 1,
+	"PointsDeVieMaximum": 125,
+	"PointsDeVieActuels": 69,
+	"Inventaire": [
+		"potion de soin",
+		"potion de soin"
+	],
+	"Skill": [
+		"Coup de hache"
+	],
+	"PiècesDOr": 100,
+	"Equipment": {
+		"Chapeau": "",
+		"Tunique": "",
+		"Bottes": "",
+		"Arme": "",
+		"Bouclier": ""
+	},
+	"InventaireMaxSlots": 10,
+	"UpgradesUtilisés": 0
+}

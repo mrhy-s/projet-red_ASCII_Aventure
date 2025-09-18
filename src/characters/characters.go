@@ -187,33 +187,71 @@ func EquipItem(character *Character, itemName string) bool {
 	var bonusPV int
 	var oldItem string
 	switch {
+	// Chapeaux/Casques
 	case strings.Contains(itemLower, "chapeau"):
 		bonusPV = 10
 		oldItem = character.Equipment.Chapeau
 		character.Equipment.Chapeau = itemName
+	case strings.Contains(itemLower, "casque"):
+		bonusPV = 15
+		oldItem = character.Equipment.Chapeau
+		character.Equipment.Chapeau = itemName
+	// Tuniques/Armures
 	case strings.Contains(itemLower, "tunique"):
 		bonusPV = 25
 		oldItem = character.Equipment.Tunique
 		character.Equipment.Tunique = itemName
+	case strings.Contains(itemLower, "cuir bouilli"):
+		bonusPV = 35
+		oldItem = character.Equipment.Tunique
+		character.Equipment.Tunique = itemName
+	// Bottes
 	case strings.Contains(itemLower, "bottes"):
 		bonusPV = 15
 		oldItem = character.Equipment.Bottes
 		character.Equipment.Bottes = itemName
-	case strings.Contains(itemLower, "pée en fer"):
+	// Armes
+	case strings.Contains(itemLower, "épée") || strings.Contains(itemLower, "epee"):
+		bonusPV = 0 // Les armes ne donnent pas de PV
+		oldItem = character.Equipment.Arme
+		character.Equipment.Arme = itemName
+	case strings.Contains(itemLower, "dague"):
+		bonusPV = 0
+		oldItem = character.Equipment.Arme
+		character.Equipment.Arme = itemName
+	case strings.Contains(itemLower, "gourdin"):
+		bonusPV = 0
+		oldItem = character.Equipment.Arme
+		character.Equipment.Arme = itemName
+	case strings.Contains(itemLower, "arc"):
+		bonusPV = 0
 		oldItem = character.Equipment.Arme
 		character.Equipment.Arme = itemName
 	default:
+		fmt.Printf("%sCet objet ne peut pas être équipé : %s%s%s\n", couleurs.Red, couleurs.Yellow, itemName, couleurs.Reset)
 		return false
 	}
-	if oldItem != "" {
+	// Remettre l'ancien équipement dans l'inventaire s'il y en avait un
+	if oldItem != "" && oldItem != "Poing" {
 		character.Inventaire = append(character.Inventaire, oldItem)
-		character.PointsDeVieMaximum -= GetEquipmentBonus(oldItem)
+		// Retirer le bonus de l'ancien équipement
+		oldBonus := GetEquipmentBonus(oldItem)
+		character.PointsDeVieMaximum -= oldBonus
+		fmt.Printf("%s%s déséquipe %s%s%s (-%d PV max)%s\n", couleurs.Yellow, character.Nom, couleurs.White, oldItem, couleurs.Yellow, oldBonus, couleurs.Reset)
 	}
+	// Ajouter le bonus du nouvel équipement
 	character.PointsDeVieMaximum += bonusPV
+	// Ajuster les PV actuels si ils dépassent le nouveau maximum
 	if character.PointsDeVieActuels > character.PointsDeVieMaximum {
 		character.PointsDeVieActuels = character.PointsDeVieMaximum
 	}
-	fmt.Printf("\n%s%s équipe %s%s%s (+%d PV max)%s\n", couleurs.Green, character.Nom, couleurs.Yellow, itemName, couleurs.Green, bonusPV, couleurs.Reset)
+	// Affichage selon le type d'équipement
+	if bonusPV > 0 {
+		fmt.Printf("\n%s%s équipe %s%s%s (+%d PV max)%s\n", couleurs.Green, character.Nom, couleurs.Yellow, itemName, couleurs.Green, bonusPV, couleurs.Reset)
+	} else {
+		fmt.Printf("\n%s%s équipe %s%s%s%s\n", couleurs.Green, character.Nom, couleurs.Yellow, itemName, couleurs.Green, couleurs.Reset)
+	}
+	// Retirer l'objet de l'inventaire
 	removeInventory(character.Nom, itemName)
 	return true
 }
@@ -258,12 +296,28 @@ func getCharacterByName(characterName string) (*Character, error) {
 func GetEquipmentBonus(itemName string) int {
 	itemLower := strings.ToLower(itemName)
 	switch {
+	// Chapeaux/Casques
 	case strings.Contains(itemLower, "chapeau"):
 		return 10
+	case strings.Contains(itemLower, "casque"):
+		return 5
+	// Tuniques/Armures
 	case strings.Contains(itemLower, "tunique"):
 		return 25
+	case strings.Contains(itemLower, "cuir bouilli"):
+		return 15
+	// Bottes
 	case strings.Contains(itemLower, "bottes"):
 		return 15
+	// Les armes ne donnent pas de bonus PV
+	case strings.Contains(itemLower, "épée") || strings.Contains(itemLower, "epee"):
+		return 0
+	case strings.Contains(itemLower, "dague"):
+		return 0
+	case strings.Contains(itemLower, "gourdin"):
+		return 0
+	case strings.Contains(itemLower, "arc"):
+		return 0
 	default:
 		return 0
 	}
