@@ -1,0 +1,25 @@
+{
+	"Nom": "Zinrel",
+	"Classe": "Elfe",
+	"Niveau": 1,
+	"PointsDeVieMaximum": 80,
+	"PointsDeVieActuels": 40,
+	"Inventaire": [
+		"potion de soin",
+		"potion de soin",
+		"potion de soin"
+	],
+	"Skill": [
+		"Tir à l'arc"
+	],
+	"PiècesDOr": 100,
+	"Equipment": {
+		"Chapeau": "",
+		"Tunique": "",
+		"Bottes": "",
+		"Arme": "",
+		"Bouclier": ""
+	},
+	"InventaireMaxSlots": 10,
+	"UpgradesUtilisés": 0
+}

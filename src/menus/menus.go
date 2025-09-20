@@ -113,3 +113,8 @@ func Menu() {
 		fmt.Printf("%sOption invalide%s\n", couleurs.Red, couleurs.Reset)
 	}
 }
+func MenuMap() {
+	startscreen.ClearScreen()
+	characters.IsDead()
+	Map()
+}

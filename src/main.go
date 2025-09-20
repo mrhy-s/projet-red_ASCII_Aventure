@@ -82,7 +82,8 @@ func main() {
 	items.Bourse_de_cuir = items.InitBourse(bourse_gold)
 	if startScreen { // affichage de l'écran de démarrage (une seule fois)
 		startscreen.StartScreen()
-		menus.Menu()
+		menus.NewMap()
+		menus.MenuMap()
 		startScreen = false
 	}
 }
