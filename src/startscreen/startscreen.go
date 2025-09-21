@@ -2,6 +2,7 @@ package startscreen
 
 import (
 	"ASCII_Aventure/couleurs"
+	"ASCII_Aventure/inputcontrol"
 	"bufio"
 	"fmt"
 	"os"
@@ -289,6 +290,7 @@ func StartScreen() {
 	fmt.Printf("%*s%s%s%s%s\n", espacesAGauche, "", couleurs.Blue, couleurs.Bold, messageFinal, couleurs.Reset)
 	fmt.Print("\033[?25h") // remonter le curseur
 	var input string
+	inputcontrol.ClearInputBuffer()
 	input = readInput()
 	for input != "" {
 		input = readInput()

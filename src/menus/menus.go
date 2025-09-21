@@ -116,5 +116,5 @@ func Menu() {
 func MenuMap() {
 	startscreen.ClearScreen()
 	characters.IsDead()
-	Map()
+	ExplorationAffichage(TourG)
 }
